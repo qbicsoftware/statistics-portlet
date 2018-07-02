@@ -26,6 +26,11 @@ before_install: unset _JAVA_OPTIONS
 # speed up builds by telling Travis that we don't need any special "installation"
 install: true
 
+# check if we need to add a license file for Vaadin charts
+before_script: if [ "$VAADIN_CHARTS_LICENSE_CODE" != "" ]; then
+                  echo "$VAADIN_CHARTS_LICENSE_CODE" > ~/.vaadin.charts.developer.license;
+               fi;
+
 # as agreed in our SOP, build everything (don't deploy, just try to 'mvn install' locally, which covers all phases)
 script: mvn --quiet --activate-profiles !development-build,!release-build --settings .travis.settings.xml clean cobertura:cobertura install
 # upload code coverage report, generate maven site (javadocs, documentation, static code analysis, etc.)
@@ -66,3 +71,11 @@ notifications:
     # edit the following section if you want to get slack notifications
     rooms:
       - secure: "***"
+
+#
+# credentials
+env:
+  global:
+    - secure: "mbl/Z7aVff7lJrrzsBhE9yCjpMGxT6Sg7DRfDYCzItXWHX9NMfnnLXn/bOgha685MZpW4FBFeQLEDQ5gamz82fSd0VA68CLgmOUZkef5IIcMlMRe2N50t051Su75JQAUW08TREW66juIa92iXSp0Lx8ccy8gMt1gwCfG7nS7ch46noVQY/R7Z9oSTJSNKqILVHlfeG4IPPCIB/IxjsuTinVRXx7B4iehhvmQNpNDiCG2D355PItrvjsUOluQ/SfgJ8wtUtFVs5HGntfZkCAHSUEtcWLupxMVgGswrO5K/LfXkbZxNejCMFSsJjTC1ZfXQFNSVZA3Ehmor0J1SSGw4DaPPHvCvpUJrhuZaf6ApmeeXSFeEYXPwrirmvEWXDJuMjGUbJcd8/+XA9FFj9dgySDCbLzfhJ6tEdN5Wqt89wEwW1T9GoJSUeAckoFHvw/hCJ4SJVC1aYs4q4BEE22jw3Cohk297gnEtSsobAYfFF5pq5PTtq9p6XSXX8noVLRs15LdwUQG6JBhIDFSWUjiaD9QMGW4vvHQYRwJ1WDjxZyYziqCj1Ic1itwmXmgVZb8MlfBS1LQ5hVF51IW5EcnqYM9nGopljYfx9vf3MsFJEX1cSEKT4U2aYXhK7IwS3WnT4bKdtRzKXueu647M++jGSLFMOWWvO7MWTaCR3juT0c="
+    - secure: "Mhhv+Di6fAnGM5+/zqIPcAaKc1v0b1cBZmH8R9Rn6BOq0w+ap45FhlxSPYJXPJQ4O1Ukqs02Z9JtLy6kYGIv4/miD++Cjjpxq1TeF/uYTj4lgqUE4GnTHkWAsSigkqLT/BiOM+p02d9fuOOB6OnYukYl8V/qaLlcO1QWsSu9BBUXQU5V6l9zFykGAEwNdIw/6xIe1IttChO8SSGuHEaje8oIihUhoqgalqzChZBAOwcMdttON19oSEP0UKgXLRrmy15G+x2UY2y552/brT5X7VxIBTr0Sp4Om0yQD/jPCFxejb1wenc3NmOGhi34rJkvAGIeHGkC5UMiCgX25oaQ0gIEU/yk0rmWOSksaonDLloR/OgPuGMxcJwMD0SZ+HEwFklAmLdJG5GNaJfaDYQF1P0oMgVsx6rXXW/PhN1I4VHp/RgFnzvf6bbuUMuJlJ7BxcUSjjCknVJPOzbzPWYr2Pc53ltOg1gNnoAB+px89NKZTDIZH6aNOBMIJc49b9dQNBL64kCP3CAXYs45V1z8OodTTgd8mRQpRyA2DV8WmcTvGK4pyZuWZuwMO46AdWaspmOCfMZxdk/2k6HBpQ6LCEb6heBVop1fCaMHEYZhAUhJ4kim5mBGqucAqrsOqm7JAKQOMB/rHQWiBEQ3gxqZyjRGKFISdlLyWrk3ZN2PulY="
+    - secure: "GFYwz2nsq+mPHHIlu4T6S93VBabZtfbV5WqF1Uw/tGISpQymFgflXUmsEanzVjukLfZgb0g0tDVmhKZrN6rsC5S9vT+TMiKo1juSlNXLqeCER0rkLoYKpxfR1X8Cn4PTnyF6IRmDIUWQxGEk2pRGMxEV0Vpfd+Fu8II+pdeY55DKPeSGfWSiYa087kPQWMUi85VKB6ZxMH/Hc+QwYySKGoX2yFgwjrOz4ABbKA/oXiKga3KLMP6igK+CmYAqLkyjpLFzbjRYc5jH2jUPv+Ff3g8TjcdmQdAPkLih0KIoxf1z2IwZ+QE7Ej9NZvwjwYJM2zClmS7Po6Y0HcaWFsI0Zhe3sGYNI8HvPS4yxNVxCTKNuL2uhg9z7BgzZdR9jKNaPdwuA7MOJtlOY17A0dfwTppkEABWpC0PHp43nct7/aO/vYDcavuVebdRxEaDiuVVUJmeKtzhaeAn5CWR2k9+A1e9Ikmwp/t6BZcYsBKna4eTpAq0O+D5SIGYF7nyCiogP2dopzsJj5xlWeSNoyKHTwAeMIgOMxFKHqoR9c+5uYy+HQxfA8ZF6+RtSmFuZzmaKj1hJS93j2W743gG6uercl+t1uugz7dsk47He0vbXa3gGZd8t2fnVUUVhUVhWb+qBruB2hKuXOVTv46h1QmCbc56UlndFora0ryZ7J4b2Vc="
