@@ -1,0 +1,4 @@
+
+[submodule "src/main/java/submodule"]
+	path = src/main/java/submodule
+	url = https://github.com/qbicsoftware/statistics-plugin
