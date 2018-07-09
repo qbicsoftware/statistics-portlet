@@ -69,36 +69,10 @@
 			<version>1.0.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>life.qbic</groupId>
+			<artifactId>statistics-plugin</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 	</dependencies>
-
-	<build>
-		<plugins>
-            <!--plugin to deal with git submodules -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.6.0</version>
-                <inherited>false</inherited> <!-- only execute these in the parent -->
-                <executions>
-                    <execution>
-                        <id>git submodule update</id>
-                        <phase>initialize</phase>
-                        <configuration>
-                            <executable>git</executable>
-                            <arguments>
-                                <argument>submodule</argument>
-                                <argument>update</argument>
-                                <argument>--init</argument>
-                                <argument>--recursive</argument>
-                                <argument>--remote</argument>
-                            </arguments>
-                        </configuration>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-		</plugins>
-	</build>
 </project>
