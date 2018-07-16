@@ -4,6 +4,7 @@ import com.vaadin.addon.charts.Chart;
 import com.vaadin.addon.charts.PointClickListener;
 import com.vaadin.addon.charts.model.*;
 import com.vaadin.addon.charts.model.style.SolidColor;
+import com.vaadin.addon.charts.model.style.Style;
 import life.qbic.portal.model.view.charts.PieChartModel;
 import life.qbic.portal.presenter.MainPresenter;
 import life.qbic.portal.presenter.tabs.ATabPresenter;
@@ -45,13 +46,13 @@ public class WorkflowUsagePresenter extends ATabPresenter<PieChartModel, PieView
     public void addChartSettings() {
 
         PlotOptionsPie plot = new PlotOptionsPie();
-        plot.setCursor(Cursor.POINTER);
+        //plot.setCursor(Cursor.POINTER);
 
         plot.setDataLabels(new DataLabels(true));
-        plot.getDataLabels().setColor(SolidColor.ALICEBLUE);
+        plot.getDataLabels().setFormatter("'<span style=\"color:CornflowerBlue;text-decoration:underline\">' + this.point.name + '</span>'");
 
         Tooltip tooltip = new Tooltip();
-        tooltip.setFormatter("this.point.name + ': <b>'+ this.y + '</b> times executed <br> Click to show available workflows'");
+        tooltip.setFormatter("this.point.name + ': <b>'+ this.y + '</b> times executed <br>Click to show available workflows'");
 
         Legend legend = new Legend();
         legend.setEnabled(false);
@@ -59,6 +60,8 @@ public class WorkflowUsagePresenter extends ATabPresenter<PieChartModel, PieView
         super.setModel(new PieChartModel(super.getView().getConfiguration(), workflowUsageConfig.getSettings().getTitle(),
                 workflowUsageConfig.getSettings().getSubtitle(), tooltip, legend, plot));
         logger.info("Settings were added to " + this.getClass() + " with chart title: " + super.getView().getConfiguration().getTitle().getText());
+
+
     }
 
     @Override

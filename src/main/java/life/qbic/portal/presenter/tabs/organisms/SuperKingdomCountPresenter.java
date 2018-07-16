@@ -4,6 +4,8 @@ package life.qbic.portal.presenter.tabs.organisms;
 import com.vaadin.addon.charts.Chart;
 import com.vaadin.addon.charts.model.*;
 import com.vaadin.addon.charts.PointClickListener;
+import com.vaadin.addon.charts.model.style.SolidColor;
+import com.vaadin.addon.charts.model.style.Style;
 import life.qbic.portal.model.view.charts.PieChartModel;
 import life.qbic.portal.presenter.MainPresenter;
 import life.qbic.portal.presenter.tabs.ATabPresenter;
@@ -48,6 +50,17 @@ public class SuperKingdomCountPresenter extends ATabPresenter<PieChartModel, Pie
 
         plot.setDataLabels(new DataLabels(true));
 
+        //Labels that point to a pie piece that can be clicked will be cornflower blue (Other Eukaryota/Bacteria/...)
+        plot.getDataLabels().setFormatter("function() { " +
+                "var text = this.point.name; " +
+                "var category = text.split(' ')[0]; " +
+                "if (category == 'Other' && text.split(' ').length > 2) " +
+                "{ " +
+                "       text = '<span style=\"color:CornflowerBlue;text-decoration:underline\">' + text + '</span>'; " +
+                "}" +
+                "return text; " +
+                "}" );
+
         Tooltip tooltip = new Tooltip();
         tooltip.setFormatter("this.point.name + ': <b>'+ this.y + '</b> Samples'");
         Legend legend = new Legend();
@@ -57,7 +70,6 @@ public class SuperKingdomCountPresenter extends ATabPresenter<PieChartModel, Pie
                 null, tooltip, legend, plot));
 
         logger.info("Settings were added to a chart of "+ this.getClass() +" with chart titel: " + this.getView().getConfiguration().getTitle().getText());
-
 
     }
 
