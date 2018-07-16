@@ -40,17 +40,6 @@ public class TabView extends VerticalLayout {
         addComponent(title);
         setComponentAlignment(title, Alignment.MIDDLE_CENTER);
 
-        //setSizeFull();
-
-        //panel.setSizeFull();
-
-        //drawingContainer.setWidthUndefined();
-
-//        setSizeFull();
-//        addComponent(panel);
-//        setExpandRatio(panel, 1f);
-//        setComponentAlignment(panel, Alignment.MIDDLE_CENTER);
-
     }
 
     public Button getReturnButton() {

@@ -46,7 +46,6 @@ public class WorkflowTypePresenter extends ATabPresenter<GridModel, GridView> {
 
         }
 
-        System.out.println(subType);
         final String s = subType;
         getMainPresenter().getMainConfig().getCharts().keySet().forEach(n -> {
             if (n.contains(ChartNames.Available_Workflows_.toString()) && n.contains(s)) {

@@ -38,10 +38,6 @@ public class PieChartModel extends AChartModel<DataSeries> {
         configuration.setSeries(dataSeries);
     }
 
-    public void addDonutPieData(DataSeriesItem... item){
-
-    }
-
     public void clearData(){
         series.clear();
     }
