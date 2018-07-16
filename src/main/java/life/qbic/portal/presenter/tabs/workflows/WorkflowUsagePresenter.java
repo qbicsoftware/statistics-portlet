@@ -46,7 +46,6 @@ public class WorkflowUsagePresenter extends ATabPresenter<PieChartModel, PieView
     public void addChartSettings() {
 
         PlotOptionsPie plot = new PlotOptionsPie();
-        //plot.setCursor(Cursor.POINTER);
 
         plot.setDataLabels(new DataLabels(true));
         plot.getDataLabels().setFormatter("'<span style=\"color:CornflowerBlue;text-decoration:underline\">' + this.point.name + '</span>'");

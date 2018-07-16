@@ -6,6 +6,8 @@ import com.vaadin.addon.charts.model.*;
 import com.vaadin.addon.charts.PointClickListener;
 import com.vaadin.addon.charts.model.style.SolidColor;
 import com.vaadin.addon.charts.model.style.Style;
+import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Label;
 import life.qbic.portal.model.view.charts.PieChartModel;
 import life.qbic.portal.presenter.MainPresenter;
 import life.qbic.portal.presenter.tabs.ATabPresenter;
@@ -136,6 +138,12 @@ public class SuperKingdomCountPresenter extends ATabPresenter<PieChartModel, Pie
         //Set new tab
         super.setTabView(tabView);
         super.getTabView().addMainComponent();
+
+        Label label = new Label(String.format("<font size = '2' color='grey'> " +
+                "If a species's ratio exceeds 25<span>&#37;</span> in its respective domain," +
+                " it is displayed and visualized with the domains. " ) , ContentMode.HTML);
+
+        super.getTabView().addComponent(label);
         super.getMainPresenter().getMainView().addTabView(super.getTabView(), title);
 
         logger.info("Tab was added in " + this.getClass() + " for " +  this.getView().getConfiguration().getTitle().getText() );
