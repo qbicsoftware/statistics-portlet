@@ -34,6 +34,7 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
         super(mainPresenter, new PieView());
 
         this.kingdom = kingdom;
+
         extractData();
         addChartSettings();
         addChartData();
@@ -80,10 +81,36 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
         outerPieOptions.setInnerSize("237px");
         outerPieOptions.setSize("318px");
         outerPieOptions.setDataLabels(new DataLabels());
-        outerPieOptions.getDataLabels().setFormatter("function() {var text = ''; for (i = 0; i < 2; i++) {" +
-                " text += ' ' + this.point.name.split(' ')[i] } for (i = 2; i < this.point.name.split(' ').length-1; i++) {"+
-                " text += ' ' + this.point.name.split(' ')[i].italics() + ' ' } for (i = this.point.name.split(' ').length-1; i <  this.point.name.split(' ').length; i++) {" +
-                " text += ' ' + this.point.name.split(' ')[i] } return text;}");
+        outerPieOptions.getDataLabels().setFormatter("function() {" +
+                "var text = ''; " +
+                "for (i = 0; i < 2; i++) {" +
+                " text += ' ' + this.point.name.split(' ')[i] " +
+                "} " +
+                "for (i = 2; i < this.point.name.split(' ').length-1; i++) {"+
+                " text += ' ' + this.point.name.split(' ')[i].italics() + ' ' " +
+                "} " +
+                "for (i = this.point.name.split(' ').length-1; i <  this.point.name.split(' ').length; i++) {" +
+                " text += ' ' + this.point.name.split(' ')[i] " +
+                "}" +
+                "let wordsArr = text.split(' ')," +
+                "wordsLen = wordsArr.length," +
+                "finalMsg = ''," +
+                "linesArr = ['']," +
+                "currLine = 0;" +
+                "for(let i=0; i< wordsLen; i++){" +
+                     "if(linesArr[currLine].length + wordsArr[i].length > 30){" +
+                        "currLine +=1;" +
+                        "linesArr[currLine] = wordsArr[i] + ' ';" +
+                    "} else {" +
+                        "linesArr[currLine] += wordsArr[i] + ' ';" +
+                    "}" +
+                "}" +
+                "let linesLen = linesArr.length;" +
+                "for(let i=0; i<linesLen; i++){" +
+                    "finalMsg += linesArr[i] + '<br>';" +
+                "}" +
+                "return finalMsg.trim();" +
+                "}");
         outerPieOptions.setAnimation(false);
 
         Tooltip tooltip = new Tooltip();

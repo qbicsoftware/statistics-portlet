@@ -2,6 +2,7 @@ package life.qbic.portal.view;
 
 
 
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
@@ -20,7 +21,7 @@ public class TabView extends VerticalLayout {
 
     private static final Logger logger = LogManager.getLogger(TabView.class);
 
-    private final Button returnButton = new Button("Return");
+    private final Button returnButton = new Button(FontAwesome.ANGLE_DOUBLE_LEFT);
     private final AView mainView;
     private final AModel mainModel;
     private final Label title;
@@ -34,11 +35,14 @@ public class TabView extends VerticalLayout {
         title.addStyleName(ValoTheme.LABEL_COLORED);
         title.addStyleName(ValoTheme.LABEL_HUGE);
         title.addStyleName(ValoTheme.LABEL_H1);
-        title.setWidth(100.0f, Unit.PERCENTAGE);
+        title.setWidth(null);
         setMargin(true);
 
         addComponent(title);
         setComponentAlignment(title, Alignment.MIDDLE_CENTER);
+
+        returnButton.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
+        returnButton.addStyleName(ValoTheme.BUTTON_BORDERLESS_COLORED);
 
     }
 
@@ -72,9 +76,9 @@ public class TabView extends VerticalLayout {
             ((AChartView)view).draw((AChartModel) model);
         }
 
-        addComponents(title, view.getComponent(), returnButton);
-        setComponentAlignment(title, Alignment.MIDDLE_CENTER);
-        setComponentAlignment(returnButton, Alignment.TOP_RIGHT);
+        addComponents(returnButton,title, view.getComponent());
+        setComponentAlignment(title, Alignment.TOP_CENTER);
+        setComponentAlignment(returnButton, Alignment.TOP_LEFT);
 
         logger.info("Sub-component and return button was added to tab.");
 
