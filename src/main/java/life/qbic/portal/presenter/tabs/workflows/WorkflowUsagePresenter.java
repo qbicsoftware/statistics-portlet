@@ -76,9 +76,13 @@ public class WorkflowUsagePresenter extends ATabPresenter<PieChartModel, PieView
                 String label = (String) workflowUsageConfig.getSettings().getxCategories().get(i);
 
                 if(CommonAbbr.getList().contains(label)){
+                    System.out.println(label);
                     label = CommonAbbr.valueOf(label).toString();
+                    System.out.println(label);
                 }else if(Translator.getList().contains(label)){
+                    System.out.println(label);
                     label = Translator.valueOf(label).getTranslation();
+                    System.out.println(label);
                 }else{
                     label = LabelFormatter.generateCamelCase(label);
                 }
@@ -102,8 +106,8 @@ public class WorkflowUsagePresenter extends ATabPresenter<PieChartModel, PieView
             logger.info("Chart of " + this.getClass() + " with chart title: " + super.getView().getConfiguration().getTitle().getText() + " was clicked at " + super.getModel().getDataName(event));
 
             String title =  ChartNames.Available_Workflows_.toString().replace("_", " ").trim();
-            String subtitle = super.getModel().getDataName(event);
-
+            String subtitle = Translator.getTranslation(super.getModel().getDataName(event));
+            System.out.println(super.getModel().getDataName(event));
             ATabPresenter wfPresenter = new WorkflowTypePresenter(getMainPresenter(), super.getModel().getDataName(event), title, subtitle);
 
             wfPresenter.addChart(super.getTabView(), title);

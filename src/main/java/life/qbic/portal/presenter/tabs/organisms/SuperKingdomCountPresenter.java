@@ -134,7 +134,6 @@ public class SuperKingdomCountPresenter extends ATabPresenter<PieChartModel, Pie
     public void addChart(TabView tabView, String title){
         //Set new tab
         super.setTabView(tabView);
-        //kingdomConfig.getSettings().getTitle()
         super.getTabView().addMainComponent();
 
         Label label = new Label("<font size = '2' color='grey'> " +
