@@ -4,8 +4,6 @@ package life.qbic.portal.presenter.tabs.organisms;
 import com.vaadin.addon.charts.Chart;
 import com.vaadin.addon.charts.model.*;
 import com.vaadin.addon.charts.PointClickListener;
-import com.vaadin.addon.charts.model.style.SolidColor;
-import com.vaadin.addon.charts.model.style.Style;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Label;
 import life.qbic.portal.model.view.charts.PieChartModel;
@@ -62,16 +60,15 @@ public class SuperKingdomCountPresenter extends ATabPresenter<PieChartModel, Pie
                 "}" +
                 "return text; " +
                 "}" );
-
         Tooltip tooltip = new Tooltip();
         tooltip.setFormatter("this.point.name + ': <b>'+ this.y + '</b> Samples'");
         Legend legend = new Legend();
         legend.setEnabled(false);
 
-        this.setModel(new PieChartModel(this.getView().getConfiguration(), kingdomConfig.getSettings().getTitle(),
-                null, tooltip, legend, plot));
+        this.setModel(new PieChartModel(this.getView().getConfiguration(), this.kingdomConfig.getSettings().getTitle(),
+                this.kingdomConfig.getSettings().getSubtitle(), tooltip, legend, plot));
 
-        logger.info("Settings were added to a chart of "+ this.getClass() +" with chart titel: " + this.getView().getConfiguration().getTitle().getText());
+        logger.info("Settings were added to a chart of "+ this.getClass() +" with chart title: " + this.getView().getConfiguration().getTitle().getText());
 
     }
 
@@ -79,8 +76,8 @@ public class SuperKingdomCountPresenter extends ATabPresenter<PieChartModel, Pie
     public void addChartData() {
 
         //This is necessary to get from Object to required String arrays
-        Object[] objectArray = kingdomConfig.getData().keySet().toArray(new Object[kingdomConfig.getData().keySet().size()]);
-        String[] keySet = Arrays.asList(objectArray).toArray(new String[objectArray.length]);
+        Object[] objectArray = kingdomConfig.getData().keySet().toArray(new Object[0]);
+        @SuppressWarnings("SuspiciousToArrayCall") String[] keySet = Arrays.asList(objectArray).toArray(new String[objectArray.length]);
 
         List<DataSorter> dataSorters = new ArrayList<>();
 
@@ -102,7 +99,7 @@ public class SuperKingdomCountPresenter extends ATabPresenter<PieChartModel, Pie
         //Add data
         dataSorters.forEach(d -> this.getModel().addData(new DataSeriesItem(d.getName(), d.getCount())));
 
-        logger.info("Data was added to a chart of  " + this.getClass() + "  with chart titel: " + this.getView().getConfiguration().getTitle().getText());
+        logger.info("Data was added to a chart of  " + this.getClass() + "  with chart title: " + this.getView().getConfiguration().getTitle().getText());
 
     }
 
@@ -110,7 +107,7 @@ public class SuperKingdomCountPresenter extends ATabPresenter<PieChartModel, Pie
     private void addChartListener(){
         ((Chart)getView().getComponent()).addPointClickListener((PointClickListener) event -> {
 
-            logger.info("Chart of "+ this.getClass() +" with chart titel: " +
+            logger.info("Chart of "+ this.getClass() +" with chart title: " +
                     this.getView().getConfiguration().getTitle().getText() +
                     " was clicked at " + this.getModel().getDataName(event));
 
@@ -137,11 +134,12 @@ public class SuperKingdomCountPresenter extends ATabPresenter<PieChartModel, Pie
     public void addChart(TabView tabView, String title){
         //Set new tab
         super.setTabView(tabView);
+        //kingdomConfig.getSettings().getTitle()
         super.getTabView().addMainComponent();
 
-        Label label = new Label(String.format("<font size = '2' color='grey'> " +
+        Label label = new Label("<font size = '2' color='grey'> " +
                 "If a species's ratio exceeds 25<span>&#37;</span> in its respective domain," +
-                " it is displayed and visualized with the domains. " ) , ContentMode.HTML);
+                " it is displayed and visualized on domain level. ", ContentMode.HTML);
 
         super.getTabView().addComponent(label);
         super.getMainPresenter().getMainView().addTabView(super.getTabView(), title);

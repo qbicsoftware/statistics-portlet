@@ -13,10 +13,10 @@ import java.util.Random;
 public final class Colors {
 
     private static final Color[] solidColors = new ValoLightTheme().getColors();
-    private static Random rand = new Random(0);
+    private static final Random rand = new Random(0);
 
 
-    public static SolidColor getRandomOphaque(Color c) {
+    public static SolidColor getRandomOpaque(Color c) {
 
 
         String cStr = c.toString().substring(1);

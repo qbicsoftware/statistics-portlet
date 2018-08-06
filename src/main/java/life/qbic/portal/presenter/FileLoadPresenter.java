@@ -20,7 +20,7 @@ import java.io.FileInputStream;
  * @author fhanssen
  */
 
-public class FileLoadPresenter {
+class FileLoadPresenter {
 
     private static final Logger logger = LogManager.getLogger(FileLoadPresenter.class);
 

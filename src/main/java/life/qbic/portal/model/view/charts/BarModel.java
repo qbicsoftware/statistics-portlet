@@ -32,11 +32,11 @@ public class BarModel extends AChartModel<ListSeries>{
 
     }
 
-    public void addXCategorie(String... cat){
+    public void addXCategories(String... cat){
         xAxis.setCategories(cat);
     }
 
-    public void setyMin(int yMin){
+    public void setYMin(int yMin){
         yAxis.setMin(yMin);
     }
 

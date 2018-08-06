@@ -29,17 +29,22 @@ public class GridModel implements AModel<AComponent> {
 
     }
 
+
+
     public List<AComponent> getData() {
         return data;
     }
 
+    @Override
     public String getTitle() {
         return title;
     }
 
-    public String getSubtitle() {
+    @Override
+    public String getSubTitle() {
         return subtitle;
     }
+
 
     @Override
     public void addData(AComponent... dataItem) {

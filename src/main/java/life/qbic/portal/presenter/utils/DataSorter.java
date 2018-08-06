@@ -18,6 +18,7 @@ public class DataSorter implements Comparable<DataSorter> {
         return count;
     }
 
+    @SuppressWarnings("NullableProblems")
     public int compareTo(DataSorter o){
         return this.count.compareTo(o.count);
     }

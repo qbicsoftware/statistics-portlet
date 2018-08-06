@@ -3,8 +3,6 @@ package life.qbic.portal.presenter.tabs.workflows;
 import com.vaadin.addon.charts.Chart;
 import com.vaadin.addon.charts.PointClickListener;
 import com.vaadin.addon.charts.model.*;
-import com.vaadin.addon.charts.model.style.SolidColor;
-import com.vaadin.addon.charts.model.style.Style;
 import life.qbic.portal.model.view.charts.PieChartModel;
 import life.qbic.portal.presenter.MainPresenter;
 import life.qbic.portal.presenter.tabs.ATabPresenter;
@@ -67,8 +65,8 @@ public class WorkflowUsagePresenter extends ATabPresenter<PieChartModel, PieView
     public void addChartData() {
 
         //This is necessary to get from Object to required String arrays
-        Object[] objectArray = workflowUsageConfig.getData().keySet().toArray(new Object[workflowUsageConfig.getData().keySet().size()]);
-        String[] keySet = Arrays.asList(objectArray).toArray(new String[objectArray.length]);
+        Object[] objectArray = workflowUsageConfig.getData().keySet().toArray(new Object[0]);
+        @SuppressWarnings("SuspiciousToArrayCall") String[] keySet = Arrays.asList(objectArray).toArray(new String[objectArray.length]);
 
         List<DataSorter> dataSorters = new ArrayList<>();
 
@@ -95,20 +93,19 @@ public class WorkflowUsagePresenter extends ATabPresenter<PieChartModel, PieView
         //Add data
         dataSorters.forEach(d -> this.getModel().addData(new DataSeriesItem(d.getName(), d.getCount())));
 
-        logger.info("Data was added to a chart of " + this.getClass() + " with chart titel: " + workflowUsageConfig.getSettings().getTitle());
+        logger.info("Data was added to a chart of " + this.getClass() + " with chart title: " + workflowUsageConfig.getSettings().getTitle());
 
     }
 
     private void addChartListener() {
         ((Chart) super.getView().getComponent()).addPointClickListener((PointClickListener) event -> {
-            logger.info("Chart of " + this.getClass() + " with chart titel: " + super.getView().getConfiguration().getTitle().getText() + " was clicked at " + super.getModel().getDataName(event));
-
-            ATabPresenter wfPresenter = new WorkflowTypePresenter(getMainPresenter(), super.getModel().getDataName(event));
+            logger.info("Chart of " + this.getClass() + " with chart title: " + super.getView().getConfiguration().getTitle().getText() + " was clicked at " + super.getModel().getDataName(event));
 
             String title =  ChartNames.Available_Workflows_.toString().replace("_", " ").trim();
-            System.out.println(super.getModel().getDataName(event));
-            title = title.concat(" for ")
-                    .concat(super.getModel().getDataName(event)).concat(" Analysis");
+            String subtitle = super.getModel().getDataName(event);
+
+            ATabPresenter wfPresenter = new WorkflowTypePresenter(getMainPresenter(), super.getModel().getDataName(event), title, subtitle);
+
             wfPresenter.addChart(super.getTabView(), title);
 
         });
@@ -121,7 +118,6 @@ public class WorkflowUsagePresenter extends ATabPresenter<PieChartModel, PieView
         super.setTabView(tabView);
         super.getTabView().addMainComponent();
         super.getMainPresenter().getMainView().addTabView(super.getTabView(), title);
-
         logger.info("Tab was added in " + this.getClass() + " for " + super.getView().getConfiguration().getTitle().getText());
 
 

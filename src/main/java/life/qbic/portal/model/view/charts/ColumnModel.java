@@ -16,7 +16,7 @@ public class ColumnModel extends AChartModel<ListSeries>{
     private final XAxis xAxis;
     private final YAxis yAxis;
 
-    public ColumnModel(Configuration configuration, String title, String subtitle,
+    public ColumnModel(Configuration configuration,String title, String subtitle,
                        Tooltip tooltip, Legend legend, AxisTitle xAxisTitle, AxisTitle yAxisTitle, PlotOptionsColumn options){
 
         super(configuration, title, subtitle, tooltip, legend,options);
@@ -31,11 +31,11 @@ public class ColumnModel extends AChartModel<ListSeries>{
 
     }
 
-    public void addXCategorie(String... cat){
+    public void addXCategories(String... cat){
         xAxis.setCategories(cat);
     }
 
-    public void setyMin(int yMin){
+    public void setYMin(int yMin){
         yAxis.setMin(yMin);
     }
 

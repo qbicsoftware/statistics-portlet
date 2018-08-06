@@ -21,16 +21,22 @@ public class WorkflowTypePresenter extends ATabPresenter<GridModel, GridView> {
 
     private final String workflowType;
     private final List<String> subTypes;
-    private final List<AvailableWorkflowsPresenter> availableWorkflowsPresenters;
+    private final List<AvailableWorkflowPresenter> availableWorkflowPresenters;
+
+    private final String title;
+    private final String subtitle;
 
     private final Accordion accordion = new Accordion();
 
-    public WorkflowTypePresenter(MainPresenter mainPresenter, String workflowType) {
+    public WorkflowTypePresenter(MainPresenter mainPresenter, String workflowType, String title, String subtitle) {
         super(mainPresenter, new GridView(1, 2, true, true));
+
+        this.title = title;
+        this.subtitle = subtitle;
 
         this.workflowType = workflowType;
         this.subTypes = new ArrayList<>();
-        this.availableWorkflowsPresenters = new ArrayList<>();
+        this.availableWorkflowPresenters = new ArrayList<>();
 
         extractData();
         addChartSettings();
@@ -53,13 +59,11 @@ public class WorkflowTypePresenter extends ATabPresenter<GridModel, GridView> {
             }
         });
 
-        System.out.println(subTypes);
-
     }
 
     @Override
     public void addChartSettings() {
-        super.setModel(new GridModel("title", "subtitle"));
+        super.setModel(new GridModel(title, subtitle));
         logger.info("Settings were added to " + this.getClass() + " with chart title: " + super.getModel().getTitle());
 
     }
@@ -67,8 +71,8 @@ public class WorkflowTypePresenter extends ATabPresenter<GridModel, GridView> {
     @Override
     public void addChartData() {
         subTypes.forEach(s -> {
-            AvailableWorkflowsPresenter ap = new AvailableWorkflowsPresenter(getMainPresenter(), s);
-            availableWorkflowsPresenters.add(ap);
+            AvailableWorkflowPresenter ap = new AvailableWorkflowPresenter(getMainPresenter(), s);
+            availableWorkflowPresenters.add(ap);
         });
         logger.info("Data was added to a chart of " + this.getClass());
 
@@ -77,14 +81,13 @@ public class WorkflowTypePresenter extends ATabPresenter<GridModel, GridView> {
     @Override
     public void addChart(TabView tabView, String title) {
 
-        for (AvailableWorkflowsPresenter a : availableWorkflowsPresenters) {
+        for (AvailableWorkflowPresenter a : availableWorkflowPresenters) {
             a.addChart(tabView, "");
             setGridItemLayout(a.getView(), a.getChartName());
         }
 
         super.getView().addGridComponents(accordion);
         tabView.addSubComponent(super.getModel(), super.getView());
-        tabView.setTitle(title);
         this.accordion.setSelectedTab(this.accordion.getComponentCount()-1);
 
         addReturnButtonListener(tabView);
@@ -94,9 +97,11 @@ public class WorkflowTypePresenter extends ATabPresenter<GridModel, GridView> {
     private void setGridItemLayout(GridView view, String chartName) {
         final VerticalLayout layout = new VerticalLayout(view.getComponent());
         String title = chartName.split("_")[chartName.split("_").length - 1];
+
         if (!Translator.getTranslation(title).isEmpty()) {
             title = Translator.getTranslation(title);
         }
+
         accordion.addTab(layout, title);
 
     }

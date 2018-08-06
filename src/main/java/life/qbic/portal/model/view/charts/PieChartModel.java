@@ -16,7 +16,7 @@ public class PieChartModel extends AChartModel<DataSeries> {
     private final DataSeries series;
 
     public PieChartModel(Configuration configuration, String title, String subtitle, Tooltip tooltip, Legend legend, PlotOptionsPie options) {
-        super(configuration, title, subtitle, tooltip, legend,options);
+        super(configuration, title,  subtitle,  tooltip, legend,options);
 
         series = new DataSeries();
         super.configuration.setSeries(series);
@@ -31,7 +31,7 @@ public class PieChartModel extends AChartModel<DataSeries> {
     }
 
     public void addData(DataSeriesItem... item){
-        Arrays.stream(item).forEach(i -> series.add(i));
+        Arrays.stream(item).forEach(series::add);
     }
 
     public void addDonutPieData(DataSeries... dataSeries){

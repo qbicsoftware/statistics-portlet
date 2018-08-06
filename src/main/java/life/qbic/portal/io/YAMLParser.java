@@ -5,7 +5,7 @@ import org.yaml.snakeyaml.Yaml;
 import submodule.data.MainConfig;
 
 import java.io.FileInputStream;
-import java.io.IOException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 /**
@@ -18,7 +18,7 @@ public final class YAMLParser {
     private final static Logger logger = LogManager.getLogger(YAMLParser.class);
 
 
-    public static MainConfig parseConfig(String inputFile) throws IOException{
+    public static MainConfig parseConfig(String inputFile) {
 
         logger.info("Parse file " + inputFile + "...");
 

@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Logger;
  */
 public abstract class ATabPresenter<T, V> {
 
-    public static final Logger logger = LogManager.getLogger(ATabPresenter.class);
+    protected static final Logger logger = LogManager.getLogger(ATabPresenter.class);
 
     private final V view;
     private final MainPresenter mainPresenter;
@@ -49,7 +49,7 @@ public abstract class ATabPresenter<T, V> {
         return tabView;
     }
 
-    public void addReturnButtonListener(TabView tabView){
+    protected void addReturnButtonListener(TabView tabView){
         tabView.getReturnButton().addClickListener(clickEvent -> {
             logger.info("Return button was pressed");
             tabView.addMainComponent();

@@ -39,9 +39,8 @@ public class StatisticsPortlet extends QBiCPortletUI {
             logger.info("You are currently in a local testing mode. No Liferay Portlet context found.");
         }
 
-        layout.setMargin(true);
+        layout.setMargin(false);
         setContent(layout);
-
         layout.addComponent(tabSheet);
 
         try {

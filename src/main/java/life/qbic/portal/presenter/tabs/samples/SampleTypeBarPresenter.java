@@ -7,6 +7,7 @@ import life.qbic.portal.model.view.charts.BarModel;
 import life.qbic.portal.presenter.MainPresenter;
 import life.qbic.portal.presenter.tabs.ATabPresenter;
 import life.qbic.portal.presenter.utils.LabelFormatter;
+import life.qbic.portal.presenter.utils.Sorter;
 import life.qbic.portal.view.TabView;
 import life.qbic.portal.view.tabs.charts.BarView;
 import submodule.data.ChartConfig;
@@ -51,21 +52,24 @@ public class SampleTypeBarPresenter extends ATabPresenter<BarModel, BarView> {
         legend.setBackgroundColor(new SolidColor("#FFFFFF"));
 
 
-        super.setModel(new BarModel(super.getView().getConfiguration(), sampleConfig.getSettings().getTitle(),
-                null, tooltip, legend, new AxisTitle(sampleConfig.getSettings().getxAxisTitle()),
+        super.setModel(new BarModel(super.getView().getConfiguration(),sampleConfig.getSettings().getTitle(),
+                sampleConfig.getSettings().getSubtitle(), tooltip, legend,
+                new AxisTitle(sampleConfig.getSettings().getxAxisTitle()),
                 new AxisTitle(sampleConfig.getSettings().getyAxisTitle()),
                 plot));
 
         super.getModel().setXAxisType(AxisType.CATEGORY);
-        logger.info("Settings were added to a chart of "+ this.getClass() +" with chart titel: " + super.getView().getConfiguration().getTitle().getText());
+        logger.info("Settings were added to a chart of "+ this.getClass() +" with chart title: " + super.getView().getConfiguration().getTitle().getText());
 
     }
 
+    @SuppressWarnings("SuspiciousMethodCalls")
     @Override
     public void addChartData() {
         //This is necessary to get from Object to required String arrays
-        Object[] objectArray = sampleConfig.getData().keySet().toArray(new Object[sampleConfig.getData().keySet().size()]);
-        String[] keySet = Arrays.asList(objectArray).toArray(new String[objectArray.length]);
+        Object[] objectArray = sampleConfig.getData().keySet().toArray(new Object[0]);
+        //noinspection SuspiciousToArrayCall
+        @SuppressWarnings("SuspiciousToArrayCall") String[] keySet = Arrays.asList(objectArray).toArray(new String[objectArray.length]);
 
 
         //Get order of sample type counts
@@ -74,7 +78,7 @@ public class SampleTypeBarPresenter extends ATabPresenter<BarModel, BarView> {
             for (int i = 0; i < sampleConfig.getData().get(aKeySet).size(); i++) {
 
                 Object[] omicsCounts = ((Map)sampleConfig.getData().get(aKeySet).get(i)).keySet().toArray(
-                        new Object[((Map)sampleConfig.getData().get(aKeySet).get(i)).keySet().size()]);
+                        new Object[0]);
 
                 for(Object o : omicsCounts){
                     int counter = 0;
@@ -87,7 +91,7 @@ public class SampleTypeBarPresenter extends ATabPresenter<BarModel, BarView> {
             }
         }
 
-        List<String> insertOrder = getInsertOrder(sampleTypeTotalCount);
+        List<String> insertOrder = Sorter.getInsertOrder(sampleTypeTotalCount);
 
         for (String aKeySet : keySet) {
             for (int i = 0; i < sampleConfig.getData().get(aKeySet).size(); i++) {
@@ -124,19 +128,8 @@ public class SampleTypeBarPresenter extends ATabPresenter<BarModel, BarView> {
             }
         }
 
-        logger.info("Data was added to a chart of " + this.getClass() + " with chart titel: " + super.getView().getConfiguration().getTitle().getText());
+        logger.info("Data was added to a chart of " + this.getClass() + " with chart title: " + super.getView().getConfiguration().getTitle().getText());
 
-    }
-
-    private <K, V extends Comparable<? super V>> List<K> getInsertOrder(Map<K, V> map) {
-        List<Map.Entry<K, V>> list = new ArrayList<>(map.entrySet());
-        list.sort(Map.Entry.comparingByValue());
-
-        List<K> sortedKeys = new ArrayList<>();
-        for(Map.Entry<K,V> entry :list){
-            sortedKeys.add(entry.getKey());
-        }
-        return sortedKeys;
     }
 
     @Override
@@ -145,7 +138,6 @@ public class SampleTypeBarPresenter extends ATabPresenter<BarModel, BarView> {
         super.setTabView(tabView);
         super.getTabView().addMainComponent();
         super.getMainPresenter().getMainView().addTabView(super.getTabView(), title);
-
         logger.info("Tab was added in " + this.getClass() + " for " +  super.getView().getConfiguration().getTitle().getText() );
     }
 }

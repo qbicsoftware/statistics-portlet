@@ -18,7 +18,7 @@ public class LineModel extends AChartModel<ListSeries> {
     private final XAxis xAxis;
     private final YAxis yAxis;
 
-    public LineModel(Configuration configuration, String title, String subtitle,
+    public LineModel(Configuration configuration,String title, String subtitle,
                      Tooltip tooltip, Legend legend, AxisTitle xAxisTitle, AxisTitle yAxisTitle, PlotOptionsLine options){
 
         super(configuration, title, subtitle, tooltip, legend, options);
@@ -35,11 +35,11 @@ public class LineModel extends AChartModel<ListSeries> {
 
     }
 
-    public void addXCategorie(String... cat){
+    public void addXCategories(String... cat){
         xAxis.setCategories(cat);
     }
 
-    public void setyMin(int yMin){
+    public void setYMin(int yMin){
         yAxis.setMin(yMin);
     }
 

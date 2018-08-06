@@ -8,4 +8,8 @@ public interface AModel<T> {
 
     void addData(T... dataItem);
 
+    String getTitle();
+
+    String getSubTitle();
+
 }

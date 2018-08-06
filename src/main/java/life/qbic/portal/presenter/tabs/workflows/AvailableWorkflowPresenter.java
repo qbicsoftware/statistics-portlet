@@ -18,13 +18,13 @@ import java.util.Arrays;
 /**
  * @author fhanssen
  */
-public class AvailableWorkflowsPresenter extends ATabPresenter<GridModel, GridView> {
+public class AvailableWorkflowPresenter extends ATabPresenter<GridModel, GridView> {
 
     private final String chartName;
     private ChartConfig chartConfig;
 
-    public AvailableWorkflowsPresenter(MainPresenter mainPresenter,
-                                       String chartName){
+    public AvailableWorkflowPresenter(MainPresenter mainPresenter,
+                                      String chartName){
         super(mainPresenter, new GridView(2,0,true, true));
 
         this.chartName = chartName;
@@ -42,7 +42,7 @@ public class AvailableWorkflowsPresenter extends ATabPresenter<GridModel, GridVi
 
     @Override
     public void addChartSettings() {
-        super.setModel(new GridModel("title", "subtitle"));
+        super.setModel(new GridModel(chartConfig.getSettings().getTitle(), chartConfig.getSettings().getSubtitle()));
         super.getView().getComponent().setStyleName("workflow");
 
         logger.info("Settings were added to " + this.getClass() + " with chart title: " + super.getModel().getTitle());
@@ -52,8 +52,9 @@ public class AvailableWorkflowsPresenter extends ATabPresenter<GridModel, GridVi
     public void addChartData() {
 
         //This is necessary to get from Object to required String arrays
-        Object[] objectArray = chartConfig.getData().keySet().toArray(new Object[chartConfig.getData().keySet().size()]);
-        String[] keySet = Arrays.asList(objectArray).toArray(new String[objectArray.length]);
+        Object[] objectArray = chartConfig.getData().keySet().toArray(new Object[0]);
+        //noinspection SuspiciousToArrayCall
+        @SuppressWarnings("SuspiciousToArrayCall") String[] keySet = Arrays.asList(objectArray).toArray(new String[objectArray.length]);
 
 
         //Actually adding of data
@@ -66,7 +67,7 @@ public class AvailableWorkflowsPresenter extends ATabPresenter<GridModel, GridVi
             }
         }
 
-        logger.info("Data was added to a chart of " + this.getClass() + " with chart titel: " + chartConfig.getSettings().getTitle());
+        logger.info("Data was added to a chart of " + this.getClass() + " with chart title: " + chartConfig.getSettings().getTitle());
 
 
     }
@@ -101,8 +102,12 @@ public class AvailableWorkflowsPresenter extends ATabPresenter<GridModel, GridVi
         horizontalLayout.setComponentAlignment(star, Alignment.TOP_RIGHT);
         horizontalLayout.setComponentAlignment(link, Alignment.TOP_RIGHT);
 
-        VerticalLayout verticalLayout = new VerticalLayout(horizontalLayout, new Label(labels.getDescription(), ContentMode.TEXT));
+        Label label = new Label(labels.getDescription(), ContentMode.HTML);
+        VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setWidth(100, Sizeable.Unit.PERCENTAGE);
+        verticalLayout.setSpacing(false);
+        verticalLayout.addComponent(horizontalLayout);
+        verticalLayout.addComponent(label);
         verticalLayout.setMargin(true);
 
         panel.setContent(verticalLayout);

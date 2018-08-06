@@ -3,6 +3,8 @@ package life.qbic.portal.presenter.tabs.organisms;
 
 import com.vaadin.addon.charts.model.*;
 import com.vaadin.addon.charts.model.style.SolidColor;
+import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Label;
 import life.qbic.portal.model.view.charts.PieChartModel;
 import life.qbic.portal.presenter.MainPresenter;
 import life.qbic.portal.presenter.tabs.ATabPresenter;
@@ -50,13 +52,15 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
     private Map<String, List<String>> generateGenusToSpeciesMap(ChartConfig speciesGenusConfig){
         Map<String, List<String>> result = new HashMap<>();
 
-        Object[] objectArray = speciesGenusConfig.getData().keySet().toArray(new Object[speciesGenusConfig.getData().keySet().size()]);
-        String[] keySet = Arrays.asList(objectArray).toArray(new String[objectArray.length]);
+        Object[] objectArray = speciesGenusConfig.getData().keySet().toArray(new Object[0]);
+        @SuppressWarnings("SuspiciousToArrayCall") String[] keySet = Arrays.asList(objectArray).toArray(new String[objectArray.length]);
 
         for (String aKeySet : keySet) {
             for (int i = 0; i < speciesGenusConfig.getData().get(aKeySet).size(); i++) {
                 List<String> list = new ArrayList<>();
+                //noinspection SuspiciousMethodCalls
                 if(result.containsKey(speciesGenusConfig.getData().get(aKeySet).get(i))) {
+                    //noinspection SuspiciousMethodCalls
                     list = result.get(speciesGenusConfig.getData().get(aKeySet).get(i));
                 }
                 list.add((String) speciesGenusConfig.getSettings().getxCategories().get(i));
@@ -81,6 +85,10 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
         outerPieOptions.setInnerSize("237px");
         outerPieOptions.setSize("318px");
         outerPieOptions.setDataLabels(new DataLabels());
+
+        //This formats the labels for the outer pie. Unfortunately line breaks cannot be inserted in the label
+        //itself, but have to be specified using javascript. Every 30 characters a line break is inserted, if a
+        // gap exists in the word. Additionally, the subspec are written in italic.
         outerPieOptions.getDataLabels().setFormatter("function() {" +
                 "var text = ''; " +
                 "for (i = 0; i < 2; i++) {" +
@@ -98,7 +106,7 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
                 "linesArr = ['']," +
                 "currLine = 0;" +
                 "for(let i=0; i< wordsLen; i++){" +
-                     "if(linesArr[currLine].length + wordsArr[i].length > 30){" +
+                     "if(linesArr[currLine].length + wordsArr[i].length > 50){" + //50 chars is the longest line we allow right now
                         "currLine +=1;" +
                         "linesArr[currLine] = wordsArr[i] + ' ';" +
                     "} else {" +
@@ -119,9 +127,9 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
         this.getView().getConfiguration().addyAxis(new YAxis());
 
         this.setModel(new PieChartModel(this.getView().getConfiguration(), genusConfig.getSettings().getTitle(),
-                null, tooltip, null, new PlotOptionsPie()));
+                genusConfig.getSettings().getSubtitle(), tooltip, null, new PlotOptionsPie()));
 
-        logger.info("Settings were added to a chart of "+ this.getClass() + " with chart titel: " + this.getView().getConfiguration().getTitle().getText());
+        logger.info("Settings were added to a chart of "+ this.getClass() + " with chart title: " + this.getView().getConfiguration().getTitle().getText());
     }
 
     @Override
@@ -131,7 +139,7 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
         DataSeries innerSeries = new DataSeries("Samples");
         innerSeries.setPlotOptions(innerPieOptions);
 
-        Object[] genusData =  this.genusConfig.getData().keySet().toArray(new Object[ this.genusConfig.getData().keySet().size()]);
+        Object[] genusData =  this.genusConfig.getData().keySet().toArray(new Object[0]);
 
         List<DataSorter> dataSorters = new ArrayList<>();
         for (Object dataCategory : genusData) {
@@ -156,7 +164,7 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
         DataSeries outerSeries = new DataSeries("Samples");
         outerSeries.setPlotOptions(outerPieOptions);
 
-        Object[] speciesData = speciesConfig.getData().keySet().toArray(new Object[speciesConfig.getData().keySet().size()]);
+        Object[] speciesData = speciesConfig.getData().keySet().toArray(new Object[0]);
 
         DataSeriesItem[] outerItems = new DataSeriesItem[0];
         //Actually adding of data
@@ -169,13 +177,13 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
                 //Add outer Series sorted
                 for(String s : genusSpeciesMap.get(innerNames[i])) {
                     dataSorterList.add(new DataSorter(LabelFormatter.firstUpperRestLowerCase(s)
-                            .concat(" [")
-                            .concat(getSpeciesPercentage(s, (String)dataCategory))
+                            .concat(" ").concat("[")
+                            .concat(getSpeciesPercentage(s))
                             .concat("%]"),  getSpeciesCount(s, (String)dataCategory)));
                 }
                 Collections.sort(dataSorterList);
                 for(DataSorter d : dataSorterList){
-                    outerItems[counter] = new DataSeriesItem(d.getName(), d.getCount(), Colors.getRandomOphaque(Colors.getSolidColors()[i % Colors.getSolidColors().length]));
+                    outerItems[counter] = new DataSeriesItem(d.getName(), d.getCount(), Colors.getRandomOpaque(Colors.getSolidColors()[i % Colors.getSolidColors().length]));
                     counter++;
                 }
             }
@@ -185,7 +193,7 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
 
         this.getModel().addDonutPieData(innerSeries, outerSeries);
 
-        logger.info("Data was added to a chart of " + this.getClass() +" with chart titel: " + this.getView().getConfiguration().getTitle().getText());
+        logger.info("Data was added to a chart of " + this.getClass() +" with chart title: " + this.getView().getConfiguration().getTitle().getText());
 
     }
 
@@ -200,7 +208,7 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
         return value;
     }
 
-    private String getSpeciesPercentage(String species, String dataKey){
+    private String getSpeciesPercentage(String species){
         String percentage = "";
         for(int j = 0; j < speciesConfig.getSettings().getxCategories().size(); j++){
             if(speciesConfig.getSettings().getxCategories().get(j).equals(species)){
@@ -215,7 +223,10 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
     public void addChart(TabView tabView, String title){
 
         //Add to existing tab
+        Label label = new Label("<font size = '2' color='grey'> " +
+                "The percentage indicates the ratio in the remaining domain subset.", ContentMode.HTML);
         tabView.addSubComponent(this.getModel(), this.getView());
+        tabView.addComponent(label);
         addReturnButtonListener(tabView);
 
         logger.info("View was added in " + this.getClass() + " for " +  this.getView().getConfiguration().getTitle().getText() );

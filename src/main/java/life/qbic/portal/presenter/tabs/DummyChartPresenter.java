@@ -10,6 +10,8 @@ import life.qbic.portal.view.tabs.charts.PieView;
 
 public class DummyChartPresenter extends ATabPresenter<PieChartModel, PieView> {
 
+    private final String mainTitle = "Dummy Chart";
+    private final String subTitle = " ";
     public DummyChartPresenter(MainPresenter mainPresenter){
         super(mainPresenter, new PieView());
 
@@ -35,10 +37,10 @@ public class DummyChartPresenter extends ATabPresenter<PieChartModel, PieView> {
         Legend legend = new Legend();
         legend.setEnabled(false);
 
-        this.setModel(new PieChartModel(this.getView().getConfiguration(), "Dummy Chart",
-                null, tooltip, legend, plot));
+        this.setModel(new PieChartModel(this.getView().getConfiguration(), mainTitle, subTitle, tooltip,
+                legend, plot));
 
-        logger.info("Settings were added to a chart of "+ this.getClass() +" with chart titel: " + this.getView().getConfiguration().getTitle().getText());
+        logger.info("Settings were added to a chart of "+ this.getClass() +" with chart title: " + this.getView().getConfiguration().getTitle().getText());
 
     }
 
@@ -48,10 +50,7 @@ public class DummyChartPresenter extends ATabPresenter<PieChartModel, PieView> {
         for (int i = 0; i < 5; i++) {
             this.getModel().addData(new DataSeries(new DataSeriesItem("Genomes".concat(String.valueOf(i)), i)));
         }
-
-
-        logger.info("Data was added to a chart of  " + this.getClass() + "  with chart titel: " + this.getView().getConfiguration().getTitle().getText());
-
+        logger.info("Data was added to a chart of  " + this.getClass() + "  with chart title: " + this.getView().getConfiguration().getTitle().getText());
     }
 
     @Override
