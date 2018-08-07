@@ -5,6 +5,7 @@ import com.vaadin.addon.charts.model.*;
 import com.vaadin.addon.charts.model.style.SolidColor;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Label;
+import life.qbic.portal.exceptions.DataNotFoundException;
 import life.qbic.portal.model.view.charts.PieChartModel;
 import life.qbic.portal.presenter.MainPresenter;
 import life.qbic.portal.presenter.tabs.ATabPresenter;
@@ -31,22 +32,30 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
     private final String kingdom;
 
     public GenusSpeciesCountPresenter(MainPresenter mainPresenter,
-                                      String kingdom) {
+                                      String kingdom){
 
         super(mainPresenter, new PieView());
 
         this.kingdom = kingdom;
-
-        extractData();
-        addChartSettings();
-        addChartData();
     }
 
     @Override
-    public void extractData(){
-        speciesConfig = super.getMainPresenter().getMainConfig().getCharts().get(kingdom.concat("_Species"));
-        genusConfig = super.getMainPresenter().getMainConfig().getCharts().get(kingdom.concat("_Genus"));
-        genusSpeciesMap = generateGenusToSpeciesMap(super.getMainPresenter().getMainConfig().getCharts().get(ChartNames.Species_Genus.toString()));
+    public void setUp() throws DataNotFoundException, NullPointerException{
+        try {
+            extractData();
+            addChartSettings();
+            addChartData();
+        }catch(DataNotFoundException | NullPointerException e){
+            throw e;
+        }
+
+    }
+
+    @Override
+    public void extractData() throws DataNotFoundException, NullPointerException{
+        speciesConfig = super.getChartConfig(kingdom.concat("_Species"));
+        genusConfig = super.getChartConfig(kingdom.concat("_Genus"));
+        genusSpeciesMap = generateGenusToSpeciesMap(super.getChartConfig(ChartNames.Species_Genus.toString()));
     }
 
     private Map<String, List<String>> generateGenusToSpeciesMap(ChartConfig speciesGenusConfig){

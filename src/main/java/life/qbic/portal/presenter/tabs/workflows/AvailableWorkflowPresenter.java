@@ -6,6 +6,7 @@ import com.vaadin.server.Sizeable;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
+import life.qbic.portal.exceptions.DataNotFoundException;
 import life.qbic.portal.model.components.GitHubLabels;
 import life.qbic.portal.model.view.GridModel;
 import life.qbic.portal.presenter.MainPresenter;
@@ -28,16 +29,24 @@ public class AvailableWorkflowPresenter extends ATabPresenter<GridModel, GridVie
         super(mainPresenter, new GridView(2,0,true, true));
 
         this.chartName = chartName;
-        extractData();
 
-        addChartSettings();
-        addChartData();
     }
 
     @Override
-    public void extractData(){
-        chartConfig = super.getMainPresenter().getMainConfig().getCharts()
-                .get(chartName);
+    public void setUp() throws DataNotFoundException, NullPointerException{
+        try {
+            extractData();
+            addChartSettings();
+            addChartData();
+        }catch(DataNotFoundException | NullPointerException e){
+            throw e;
+        }
+
+    }
+
+    @Override
+    public void extractData() throws DataNotFoundException, NullPointerException {
+        chartConfig = super.getChartConfig(chartName);
     }
 
     @Override
@@ -49,7 +58,7 @@ public class AvailableWorkflowPresenter extends ATabPresenter<GridModel, GridVie
     }
 
     @Override
-    public void addChartData() {
+    public void addChartData(){
 
         //This is necessary to get from Object to required String arrays
         Object[] objectArray = chartConfig.getData().keySet().toArray(new Object[0]);

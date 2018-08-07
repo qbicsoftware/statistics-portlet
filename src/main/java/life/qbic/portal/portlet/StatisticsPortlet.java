@@ -48,6 +48,7 @@ public class StatisticsPortlet extends QBiCPortletUI {
 
         }catch(Exception e){
             logger.error("Portlet failed due to: " + e.toString());
+            e.printStackTrace();
         }
 
         return layout;

@@ -1,10 +1,12 @@
 package life.qbic.portal.presenter.tabs;
 
 
+import life.qbic.portal.exceptions.DataNotFoundException;
 import life.qbic.portal.presenter.MainPresenter;
 import life.qbic.portal.view.TabView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import submodule.data.ChartConfig;
 
 /**
  * @author fhanssen
@@ -57,11 +59,25 @@ public abstract class ATabPresenter<T, V> {
         });
     }
 
-    abstract public void extractData();
+    protected ChartConfig getChartConfig(String name) throws DataNotFoundException, NullPointerException{
+
+        if(mainPresenter.getMainConfig() == null || mainPresenter.getMainConfig().getCharts() == null){
+            throw new NullPointerException("No charts exist.");
+        }
+
+        if(!mainPresenter.getMainConfig().getCharts().containsKey(name)){
+            throw  new DataNotFoundException("Data for " + name + " was not found.");
+        }
+        return mainPresenter.getMainConfig().getCharts().get(name);
+    }
+
+    abstract public void setUp() throws DataNotFoundException;
+
+    abstract public void extractData()throws DataNotFoundException;
 
     abstract public void addChartSettings();
 
-    abstract public void addChartData();
+    abstract public void addChartData() throws DataNotFoundException ;
 
     abstract public void addChart(TabView tabView, String title);
 

@@ -14,11 +14,14 @@ public class DummyChartPresenter extends ATabPresenter<PieChartModel, PieView> {
     private final String subTitle = " ";
     public DummyChartPresenter(MainPresenter mainPresenter){
         super(mainPresenter, new PieView());
+    }
 
+
+    @Override
+    public void setUp(){
         addChartSettings();
         addChartData();
     }
-
     @Override
     public void extractData(){
 

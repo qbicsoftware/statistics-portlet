@@ -3,6 +3,8 @@ package life.qbic.portal.presenter.tabs.workflows;
 
 import com.vaadin.ui.Accordion;
 import com.vaadin.ui.VerticalLayout;
+import life.qbic.portal.Styles;
+import life.qbic.portal.exceptions.DataNotFoundException;
 import life.qbic.portal.model.view.GridModel;
 import life.qbic.portal.presenter.MainPresenter;
 import life.qbic.portal.presenter.tabs.ATabPresenter;
@@ -38,14 +40,22 @@ public class WorkflowTypePresenter extends ATabPresenter<GridModel, GridView> {
         this.subTypes = new ArrayList<>();
         this.availableWorkflowPresenters = new ArrayList<>();
 
-        extractData();
-        addChartSettings();
-        addChartData();
+    }
+
+    @Override
+    public void setUp() throws DataNotFoundException, NullPointerException{
+        try {
+            extractData();
+            addChartSettings();
+            addChartData();
+        }catch(DataNotFoundException | NullPointerException e){
+            throw e;
+        }
 
     }
 
     @Override
-    public void extractData() {
+    public void extractData() throws DataNotFoundException, NullPointerException{
         String subType = Translator.getOriginal(workflowType);
         if (subType.isEmpty()) {
             subType = workflowType;
@@ -53,15 +63,15 @@ public class WorkflowTypePresenter extends ATabPresenter<GridModel, GridView> {
         }
 
         final String s = subType;
-        System.out.println(subType);
         getMainPresenter().getMainConfig().getCharts().keySet().forEach(n -> {
             if (n.contains(ChartNames.Available_Workflows_.toString()) && (n.contains(s) || n.contains(workflowType))) {
                 subTypes.add(n);
-                System.out.println("Found: " + n);
             }
-            System.out.println("Not found: " + n);
-
         });
+
+        if(subTypes.size() == 0){
+            throw new DataNotFoundException("No data on available workflows could be retrieved: " + workflowType);
+        }
 
     }
 
@@ -73,11 +83,19 @@ public class WorkflowTypePresenter extends ATabPresenter<GridModel, GridView> {
     }
 
     @Override
-    public void addChartData() {
-        subTypes.forEach(s -> {
-            AvailableWorkflowPresenter ap = new AvailableWorkflowPresenter(getMainPresenter(), s);
-            availableWorkflowPresenters.add(ap);
-        });
+    public void addChartData(){
+        for(String s : subTypes){
+            try {
+                AvailableWorkflowPresenter ap = new AvailableWorkflowPresenter(getMainPresenter(), s);
+                ap.setUp();
+                availableWorkflowPresenters.add(ap);
+            }catch(DataNotFoundException e){
+                logger.error("Subchart could not be added", e);
+                Styles.notification("Data not found.","Chart cannot be displayed", Styles.NotificationType.ERROR);
+
+            }
+
+        }
         logger.info("Data was added to a chart of " + this.getClass());
 
     }
@@ -92,7 +110,7 @@ public class WorkflowTypePresenter extends ATabPresenter<GridModel, GridView> {
 
         super.getView().addGridComponents(accordion);
         tabView.addSubComponent(super.getModel(), super.getView());
-        this.accordion.setSelectedTab(this.accordion.getComponentCount()-1);
+        this.accordion.setSelectedTab(this.accordion.getComponentCount() - 1);
 
         addReturnButtonListener(tabView);
         logger.info("Tab was added in " + this.getClass() + " for " + super.getModel().getTitle());

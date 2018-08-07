@@ -1,6 +1,7 @@
 package life.qbic.portal.presenter.tabs.projects;
 
 import com.vaadin.addon.charts.model.*;
+import life.qbic.portal.exceptions.DataNotFoundException;
 import life.qbic.portal.model.view.charts.ColumnModel;
 import life.qbic.portal.presenter.MainPresenter;
 import life.qbic.portal.presenter.tabs.ATabPresenter;
@@ -28,16 +29,23 @@ public class ProjectTechColumnPresenter extends ATabPresenter<ColumnModel, Colum
     public ProjectTechColumnPresenter(MainPresenter mainPresenter){
         super(mainPresenter, new ColumnView());
 
-        extractData();
-
-        addChartSettings();
-        addChartData();
     }
 
     @Override
-    public void extractData(){
-        projectConfig = super.getMainPresenter().getMainConfig().getCharts()
-                .get(ChartNames.Projects_Technology.toString());
+    public void setUp() throws DataNotFoundException, NullPointerException{
+        try {
+            extractData();
+            addChartSettings();
+            addChartData();
+        }catch(DataNotFoundException | NullPointerException e){
+            throw e;
+        }
+
+    }
+
+    @Override
+    public void extractData() throws DataNotFoundException, NullPointerException {
+        projectConfig = super.getChartConfig(ChartNames.Projects_Technology.toString());
     }
 
     @Override
