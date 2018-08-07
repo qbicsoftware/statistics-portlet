@@ -74,7 +74,6 @@ public class TabView extends VerticalLayout {
 
         if(mainView instanceof AChartView) {
             ((AChartView) mainView).draw((AChartModel) mainModel);
-
         }
         graphPanel.setContent(mainView.getComponent());
 

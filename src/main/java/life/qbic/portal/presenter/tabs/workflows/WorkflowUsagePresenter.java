@@ -3,6 +3,8 @@ package life.qbic.portal.presenter.tabs.workflows;
 import com.vaadin.addon.charts.Chart;
 import com.vaadin.addon.charts.PointClickListener;
 import com.vaadin.addon.charts.model.*;
+import life.qbic.portal.Styles;
+import life.qbic.portal.exceptions.DataNotFoundException;
 import life.qbic.portal.model.view.charts.PieChartModel;
 import life.qbic.portal.presenter.MainPresenter;
 import life.qbic.portal.presenter.tabs.ATabPresenter;
@@ -24,20 +26,26 @@ public class WorkflowUsagePresenter extends ATabPresenter<PieChartModel, PieView
 
     private ChartConfig workflowUsageConfig;
 
-    public WorkflowUsagePresenter(MainPresenter mainPresenter) {
+    public WorkflowUsagePresenter(MainPresenter mainPresenter){
         super(mainPresenter, new PieView());
-
-        extractData();
-
-        addChartSettings();
-        addChartData();
-        addChartListener();
     }
 
     @Override
-    public void extractData() {
-        workflowUsageConfig = super.getMainPresenter().getMainConfig().getCharts()
-                .get(ChartNames.Workflow_Execution_Counts.toString());
+    public void setUp() throws DataNotFoundException, NullPointerException{
+        try {
+            extractData();
+            addChartSettings();
+            addChartData();
+            addChartListener();
+        }catch(DataNotFoundException | NullPointerException e){
+            throw e;
+        }
+
+    }
+
+    @Override
+    public void extractData() throws DataNotFoundException, NullPointerException {
+        workflowUsageConfig = super.getChartConfig(ChartNames.Workflow_Execution_Counts.toString());
     }
 
     @Override
@@ -76,13 +84,9 @@ public class WorkflowUsagePresenter extends ATabPresenter<PieChartModel, PieView
                 String label = (String) workflowUsageConfig.getSettings().getxCategories().get(i);
 
                 if(CommonAbbr.getList().contains(label)){
-                    System.out.println(label);
                     label = CommonAbbr.valueOf(label).toString();
-                    System.out.println(label);
                 }else if(Translator.getList().contains(label)){
-                    System.out.println(label);
                     label = Translator.valueOf(label).getTranslation();
-                    System.out.println(label);
                 }else{
                     label = LabelFormatter.generateCamelCase(label);
                 }
@@ -107,10 +111,16 @@ public class WorkflowUsagePresenter extends ATabPresenter<PieChartModel, PieView
 
             String title =  ChartNames.Available_Workflows_.toString().replace("_", " ").trim();
             String subtitle = Translator.getTranslation(super.getModel().getDataName(event));
-            System.out.println(super.getModel().getDataName(event));
-            ATabPresenter wfPresenter = new WorkflowTypePresenter(getMainPresenter(), super.getModel().getDataName(event), title, subtitle);
 
-            wfPresenter.addChart(super.getTabView(), title);
+            try {
+                ATabPresenter wfPresenter = new WorkflowTypePresenter(getMainPresenter(), super.getModel().getDataName(event), title, subtitle);
+                wfPresenter.setUp();
+                wfPresenter.addChart(super.getTabView(), title);
+            }catch(DataNotFoundException e){
+                logger.error("Subchart could not be created.", e);
+                Styles.notification("Data not found.","Chart cannot be displayed", Styles.NotificationType.ERROR);
+
+            }
 
         });
     }

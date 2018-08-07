@@ -3,6 +3,7 @@ package life.qbic.portal.presenter.tabs.samples;
 
 import com.vaadin.addon.charts.model.*;
 import com.vaadin.addon.charts.model.style.SolidColor;
+import life.qbic.portal.exceptions.DataNotFoundException;
 import life.qbic.portal.model.view.charts.BarModel;
 import life.qbic.portal.presenter.MainPresenter;
 import life.qbic.portal.presenter.tabs.ATabPresenter;
@@ -26,16 +27,23 @@ public class SampleTypeBarPresenter extends ATabPresenter<BarModel, BarView> {
 
     public SampleTypeBarPresenter(MainPresenter mainPresenter){
         super(mainPresenter, new BarView());
-
-        extractData();
-
-        addChartSettings();
-        addChartData();
     }
 
     @Override
-    public void extractData(){
-        sampleConfig = super.getMainPresenter().getMainConfig().getCharts().get(ChartNames.Sample_Types.toString());
+    public void setUp() throws DataNotFoundException, NullPointerException{
+        try {
+            extractData();
+            addChartSettings();
+            addChartData();
+        }catch(DataNotFoundException | NullPointerException e){
+            throw e;
+        }
+
+    }
+
+    @Override
+    public void extractData() throws DataNotFoundException, NullPointerException {
+        sampleConfig = super.getChartConfig(ChartNames.Sample_Types.toString());
     }
 
     @Override
