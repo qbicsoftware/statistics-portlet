@@ -469,3 +469,38 @@ charts:
       - 0.1
       - 2.6
       - 0.2
+  Project-Multiomics_Count:
+    data:
+      multiomics:
+      - ? !!set
+          Q_MICROARRAY_RUN: null
+          Q_NGS_SINGLE_SAMPLE_RUN: null
+        : 1
+    settings:
+      tabTitle: Projects
+      subtitle: null
+      title: Multiomics count
+      xAxisTitle: null
+      xCategories:
+      - Multiomics
+      yAxisTitle: null
+      yCategories: null
+  Projects_Technology:
+    data:
+      project counts:
+      - 10
+      - 1
+      - 59
+      - 1
+    settings:
+      tabTitle: Projects
+      subtitle: null
+      title: Project Counts with Measured Samples
+      xAxisTitle: null
+      xCategories:
+      - Q_MS_RUN
+      - Q_MICROARRAY_RUN
+      - Unknown
+      - Multi-omics
+      yAxisTitle: null
+      yCategories: null

@@ -6,6 +6,7 @@ import life.qbic.portal.model.view.AModel;
 import life.qbic.portal.portlet.StatisticsPortlet;
 import life.qbic.portal.presenter.tabs.ATabPresenter;
 import life.qbic.portal.presenter.tabs.organisms.SuperKingdomCountPresenter;
+import life.qbic.portal.presenter.tabs.projects.ProjectCountPresenter;
 import life.qbic.portal.presenter.tabs.samples.SampleTypeBarPresenter;
 import life.qbic.portal.presenter.tabs.workflows.WorkflowUsagePresenter;
 import life.qbic.portal.presenter.utils.CustomNotification;
@@ -35,7 +36,7 @@ public class MainPresenter {
 
     private final ATabPresenter superKingdomCountPresenter;
     private final ATabPresenter sampleTypePresenter;
-    //private final ATabPresenter projectPresenter;
+    private final ATabPresenter projectPresenter;
     private final ATabPresenter workflowUsagePresenter;
 
     private final List<ATabPresenter> tabPresenterList = new ArrayList<>();
@@ -46,14 +47,14 @@ public class MainPresenter {
 
         superKingdomCountPresenter = new SuperKingdomCountPresenter(this);
         sampleTypePresenter = new SampleTypeBarPresenter(this);
-        //projectPresenter = new ProjectTechColumnPresenter(this);
+        projectPresenter = new ProjectCountPresenter(this);
         workflowUsagePresenter = new WorkflowUsagePresenter(this);
 
         //This is necessary to allow try-loop to see wether no charts at all can be displayed and we have
         // to use the Dummy chart
         tabPresenterList.add(superKingdomCountPresenter);
         tabPresenterList.add(sampleTypePresenter);
-        //tabPresenterList.add(projectPresenter);
+        tabPresenterList.add(projectPresenter);
         tabPresenterList.add(workflowUsagePresenter);
 
         FileLoadPresenter fileLoadPresenter = new FileLoadPresenter(this);
