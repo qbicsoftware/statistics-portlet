@@ -61,7 +61,7 @@ public class SampleTypeBarPresenter extends ATabPresenter<BarModel, BarView> {
 
 
         super.setModel(new BarModel(super.getView().getConfiguration(),sampleConfig.getSettings().getTitle(),
-                sampleConfig.getSettings().getSubtitle(), tooltip, legend,
+                sampleConfig.getSettings().getSubtitle(), sampleConfig.getSettings().getTabTitle(), tooltip, legend,
                 new AxisTitle(sampleConfig.getSettings().getxAxisTitle()),
                 new AxisTitle(sampleConfig.getSettings().getyAxisTitle()),
                 plot));

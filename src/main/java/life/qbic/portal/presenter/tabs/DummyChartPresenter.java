@@ -40,7 +40,7 @@ public class DummyChartPresenter extends ATabPresenter<PieChartModel, PieView> {
         Legend legend = new Legend();
         legend.setEnabled(false);
 
-        this.setModel(new PieChartModel(this.getView().getConfiguration(), mainTitle, subTitle, tooltip,
+        this.setModel(new PieChartModel(this.getView().getConfiguration(), mainTitle, subTitle, mainTitle, tooltip,
                 legend, plot));
 
         logger.info("Settings were added to a chart of "+ this.getClass() +" with chart title: " + this.getView().getConfiguration().getTitle().getText());

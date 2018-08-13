@@ -15,8 +15,9 @@ public class PieChartModel extends AChartModel<DataSeries> {
 
     private final DataSeries series;
 
-    public PieChartModel(Configuration configuration, String title, String subtitle, Tooltip tooltip, Legend legend, PlotOptionsPie options) {
-        super(configuration, title,  subtitle,  tooltip, legend,options);
+    public PieChartModel(Configuration configuration, String title, String subtitle, String tabTitle,
+                         Tooltip tooltip, Legend legend, PlotOptionsPie options) {
+        super(configuration, title,  subtitle, tabTitle, tooltip, legend,options);
 
         series = new DataSeries();
         super.configuration.setSeries(series);

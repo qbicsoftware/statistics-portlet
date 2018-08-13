@@ -21,12 +21,15 @@ public abstract class AChartModel<T extends AbstractSeries> implements AModel<T>
     final Configuration configuration;
     private final String title;
     private final String subtitle;
+    private final String tabtitle;
 
-    AChartModel(Configuration configuration, String title, String subtitle,
+
+    AChartModel(Configuration configuration, String title, String subtitle, String tabTitle,
                 Tooltip tooltip, Legend legend, AbstractPlotOptions plotOptions){
 
         this.title = title;
         this.subtitle = subtitle;
+        this.tabtitle = tabTitle;
 
         this.configuration = configuration;
         this.configuration.setTooltip(tooltip);
@@ -43,12 +46,19 @@ public abstract class AChartModel<T extends AbstractSeries> implements AModel<T>
     @Override
     abstract public void addData(T... item);
 
+    @Override
     public String getTitle(){
         return title;
     }
 
+    @Override
     public String getSubTitle(){
         return subtitle;
+    }
+
+    @Override
+    public String getTabTitle(){
+        return tabtitle;
     }
 
     //TODO 2: If your chart TYPE does not exists yet, extend this class

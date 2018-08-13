@@ -62,7 +62,7 @@ public class ProjectTechColumnPresenter extends ATabPresenter<ColumnModel, Colum
 
 
         super.setModel(new ColumnModel(super.getView().getConfiguration(), projectConfig.getSettings().getTitle(),
-                projectConfig.getSettings().getSubtitle(),tooltip, legend, new AxisTitle(projectConfig.getSettings().getxAxisTitle()),
+                projectConfig.getSettings().getSubtitle(), projectConfig.getSettings().getTabTitle(),tooltip, legend, new AxisTitle(projectConfig.getSettings().getxAxisTitle()),
                 new AxisTitle(projectConfig.getSettings().getyAxisTitle()), plot));
 
         super.getModel().setXAxisType(AxisType.CATEGORY);

@@ -27,14 +27,16 @@ public class WorkflowTypePresenter extends ATabPresenter<GridModel, GridView> {
 
     private final String title;
     private final String subtitle;
+    private final String tabTitle;
 
     private final Accordion accordion = new Accordion();
 
-    public WorkflowTypePresenter(MainPresenter mainPresenter, String workflowType, String title, String subtitle) {
+    public WorkflowTypePresenter(MainPresenter mainPresenter, String workflowType, String title, String subtitle, String tabTitle) {
         super(mainPresenter, new GridView(1, 2, true, true));
 
         this.title = title;
         this.subtitle = subtitle;
+        this.tabTitle = tabTitle;
 
         this.workflowType = workflowType;
         this.subTypes = new ArrayList<>();
@@ -77,7 +79,7 @@ public class WorkflowTypePresenter extends ATabPresenter<GridModel, GridView> {
 
     @Override
     public void addChartSettings() {
-        super.setModel(new GridModel(title, subtitle));
+        super.setModel(new GridModel(title, subtitle, tabTitle));
         logger.info("Settings were added to " + this.getClass() + " with chart title: " + super.getModel().getTitle());
 
     }

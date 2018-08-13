@@ -100,7 +100,7 @@ public class MainPresenter {
             try{
                 presenter.setUp();
                 presenter.addChart(new TabView((AView) presenter.getView(),
-                        (AModel) presenter.getModel()), "Test");
+                        (AModel) presenter.getModel()), ((AModel) presenter.getModel()).getTabTitle());
 
             }catch(DataNotFoundException e){
                 logger.error("Mainchart could not be set up.", e);

@@ -7,6 +7,7 @@ charts:
       - 3
       - 2
     settings:
+      tabTitle: Organisms
       subtitle: null
       title: Sample Count Bacteria
       xAxisTitle: null
@@ -24,6 +25,7 @@ charts:
       stargazers_count:
       - 1.0
     settings:
+      tabTitle: Workflow
       subtitle: null
       title: Available Workflows MA_RNA
       xAxisTitle: null
@@ -44,6 +46,7 @@ charts:
       - 88
     settings:
       subtitle: null
+      tabTitle: Organisms
       title: Sample Count by Domain
       xAxisTitle: null
       xCategories:
@@ -94,6 +97,7 @@ charts:
       - Saccharomyces
       - null
     settings:
+      tabTitle: Organisms
       subtitle: null
       title: ''
       xAxisTitle: null
@@ -140,6 +144,7 @@ charts:
       - 0.0
       - 0.0
     settings:
+      tabTitle: Workflow
       subtitle: null
       title: Available Workflows NGS_RNA
       xAxisTitle: null
@@ -180,6 +185,7 @@ charts:
       - 0.0
       - 0.0
     settings:
+      tabTitle: Workflow
       subtitle: null
       title: Available Workflows NGS_DNA
       xAxisTitle: null
@@ -230,6 +236,7 @@ charts:
       - 3
       - 32
     settings:
+      tabTitle: Organisms
       subtitle: null
       title: Sample Count Eukaryota
       xAxisTitle: null
@@ -274,6 +281,7 @@ charts:
       - 6.0
       - 2.0
     settings:
+      tabTitle: Workflow
       subtitle: null
       title: Available Workflows MS_PX
       xAxisTitle: null
@@ -289,6 +297,7 @@ charts:
       stargazers_count:
       - 1.0
     settings:
+      tabTitle: Workflow
       subtitle: null
       title: Available Workflows OTHER
       xAxisTitle: null
@@ -304,6 +313,7 @@ charts:
       - 222
       - 747
     settings:
+      tabTitle: Workflow
       subtitle: null
       title: Workflow Execution Counts
       xAxisTitle: null
@@ -339,6 +349,7 @@ charts:
         DNA: 890
       - RNA: 1
     settings:
+      tabTitle: Samples
       subtitle: null
       title: Sample Type Counts
       xAxisTitle: null
@@ -357,6 +368,7 @@ charts:
       - 3
       - 2
     settings:
+      tabTitle: Organisms
       subtitle: null
       title: ''
       xAxisTitle: null
@@ -376,6 +388,7 @@ charts:
       - 0.0
       - 0.0
     settings:
+      tabTitle: Workflow
       subtitle: null
       title: Available Workflows MS_LX
       xAxisTitle: null
@@ -411,6 +424,7 @@ charts:
       - 34
       - 2
     settings:
+      tabTitle: Organisms
       subtitle: null
       title: ''
       xAxisTitle: null

@@ -74,7 +74,7 @@ public class SuperKingdomCountPresenter extends ATabPresenter<PieChartModel, Pie
         legend.setEnabled(false);
 
         this.setModel(new PieChartModel(this.getView().getConfiguration(), this.kingdomConfig.getSettings().getTitle(),
-                this.kingdomConfig.getSettings().getSubtitle(), tooltip, legend, plot));
+                this.kingdomConfig.getSettings().getSubtitle(), this.kingdomConfig.getSettings().getTabTitle(), tooltip, legend, plot));
 
         logger.info("Settings were added to a chart of " + this.getClass() + " with chart title: " + this.getView().getConfiguration().getTitle().getText());
 

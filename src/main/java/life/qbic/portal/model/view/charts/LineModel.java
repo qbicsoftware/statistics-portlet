@@ -18,10 +18,10 @@ public class LineModel extends AChartModel<ListSeries> {
     private final XAxis xAxis;
     private final YAxis yAxis;
 
-    public LineModel(Configuration configuration,String title, String subtitle,
+    public LineModel(Configuration configuration,String title, String subtitle, String tabTitle,
                      Tooltip tooltip, Legend legend, AxisTitle xAxisTitle, AxisTitle yAxisTitle, PlotOptionsLine options){
 
-        super(configuration, title, subtitle, tooltip, legend, options);
+        super(configuration, title, subtitle, tabTitle, tooltip, legend, options);
 
         series = new ArrayList<>();
         super.configuration.setSeries(series);

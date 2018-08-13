@@ -20,10 +20,12 @@ public class GridModel implements AModel<AComponent> {
     private final List<AComponent> data = new ArrayList<>();
     private final String title;
     private final String subtitle;
+    private final String tabTitle;
 
-    public GridModel(String title, String subtitle){
+    public GridModel(String title, String subtitle, String tabTitle){
         this.title = title;
         this.subtitle = subtitle;
+        this.tabTitle = tabTitle;
 
         logger.info("New grid model for " + title + " was successfully created");
 
@@ -45,6 +47,10 @@ public class GridModel implements AModel<AComponent> {
         return subtitle;
     }
 
+    @Override
+    public String getTabTitle(){
+        return tabTitle;
+    }
 
     @Override
     public void addData(AComponent... dataItem) {

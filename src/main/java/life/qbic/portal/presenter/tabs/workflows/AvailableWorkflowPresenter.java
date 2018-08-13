@@ -51,7 +51,7 @@ public class AvailableWorkflowPresenter extends ATabPresenter<GridModel, GridVie
 
     @Override
     public void addChartSettings() {
-        super.setModel(new GridModel(chartConfig.getSettings().getTitle(), chartConfig.getSettings().getSubtitle()));
+        super.setModel(new GridModel(chartConfig.getSettings().getTitle(), chartConfig.getSettings().getSubtitle(), chartConfig.getSettings().getTabTitle()));
         super.getView().getComponent().setStyleName("workflow");
 
         logger.info("Settings were added to " + this.getClass() + " with chart title: " + super.getModel().getTitle());
