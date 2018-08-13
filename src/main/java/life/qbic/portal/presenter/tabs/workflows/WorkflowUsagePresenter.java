@@ -63,7 +63,7 @@ public class WorkflowUsagePresenter extends ATabPresenter<PieChartModel, PieView
         legend.setEnabled(false);
 
         super.setModel(new PieChartModel(super.getView().getConfiguration(), workflowUsageConfig.getSettings().getTitle(),
-                workflowUsageConfig.getSettings().getSubtitle(), tooltip, legend, plot));
+                workflowUsageConfig.getSettings().getSubtitle(),workflowUsageConfig.getSettings().getTabTitle(), tooltip, legend, plot));
         logger.info("Settings were added to " + this.getClass() + " with chart title: " + super.getView().getConfiguration().getTitle().getText());
 
 
@@ -113,7 +113,7 @@ public class WorkflowUsagePresenter extends ATabPresenter<PieChartModel, PieView
             String subtitle = Translator.getTranslation(super.getModel().getDataName(event));
 
             try {
-                ATabPresenter wfPresenter = new WorkflowTypePresenter(getMainPresenter(), super.getModel().getDataName(event), title, subtitle);
+                ATabPresenter wfPresenter = new WorkflowTypePresenter(getMainPresenter(), super.getModel().getDataName(event), title, subtitle, "");
                 wfPresenter.setUp();
                 wfPresenter.addChart(super.getTabView(), title);
             }catch(DataNotFoundException e){

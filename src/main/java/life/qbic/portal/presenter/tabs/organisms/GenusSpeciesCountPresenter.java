@@ -136,7 +136,7 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
         this.getView().getConfiguration().addyAxis(new YAxis());
 
         this.setModel(new PieChartModel(this.getView().getConfiguration(), genusConfig.getSettings().getTitle(),
-                genusConfig.getSettings().getSubtitle(), tooltip, null, new PlotOptionsPie()));
+                genusConfig.getSettings().getSubtitle(), genusConfig.getSettings().getSubtitle(), tooltip, null, new PlotOptionsPie()));
 
         logger.info("Settings were added to a chart of "+ this.getClass() + " with chart title: " + this.getView().getConfiguration().getTitle().getText());
     }
