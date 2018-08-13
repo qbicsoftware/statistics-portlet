@@ -480,8 +480,8 @@ charts:
         title: Multiomics count
         xAxisTitle: null
         xCategories:
-        - Q_MICROARRAY_RUN+Q_NGS_SINGLE_SAMPLE_RUN
-        - Q_MS_RUN+Q_NGS_SINGLE_SAMPLE_RUN
+        - Microarray + NGS
+        - Mass Spectometry + MA
         yAxisTitle: null
         yCategories: null
   Projects:
