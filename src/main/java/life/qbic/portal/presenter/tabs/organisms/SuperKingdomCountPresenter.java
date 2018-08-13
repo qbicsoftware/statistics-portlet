@@ -132,6 +132,7 @@ public class SuperKingdomCountPresenter extends ATabPresenter<PieChartModel, Pie
                 }
             }
 
+            //TODO check if I really get an error here
             //In case it is not Other
             if (Kingdoms.getList().contains(this.getModel().getDataName(event).split(" ")[0])) {
                 GenusSpeciesCountPresenter p =

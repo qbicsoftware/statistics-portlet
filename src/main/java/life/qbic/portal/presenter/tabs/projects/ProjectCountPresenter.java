@@ -1,15 +1,16 @@
 package life.qbic.portal.presenter.tabs.projects;
 
+import com.vaadin.addon.charts.Chart;
+import com.vaadin.addon.charts.PointClickListener;
 import com.vaadin.addon.charts.model.*;
+import life.qbic.portal.Styles;
 import life.qbic.portal.exceptions.DataNotFoundException;
-import life.qbic.portal.model.view.charts.ColumnModel;
 import life.qbic.portal.model.view.charts.PieChartModel;
 import life.qbic.portal.presenter.MainPresenter;
 import life.qbic.portal.presenter.tabs.ATabPresenter;
 import life.qbic.portal.presenter.utils.DataSorter;
 import life.qbic.portal.presenter.utils.LabelFormatter;
 import life.qbic.portal.view.TabView;
-import life.qbic.portal.view.tabs.charts.ColumnView;
 import life.qbic.portal.view.tabs.charts.PieView;
 import submodule.data.ChartConfig;
 import submodule.lexica.ChartNames;
@@ -24,12 +25,12 @@ import java.util.List;
 /**
  * @author fhanssen
  */
-public class ProjectCountPresenter extends ATabPresenter<PieChartModel, PieView> {//ColumnModel, ColumnView
+public class ProjectCountPresenter extends ATabPresenter<PieChartModel, PieView> {
 
     private ChartConfig projectConfig;
 
     public ProjectCountPresenter(MainPresenter mainPresenter){
-        super(mainPresenter, new PieView()); // new ColumnView() check with OM wether clumn or pie
+        super(mainPresenter, new PieView());
     }
 
     @Override
@@ -38,6 +39,7 @@ public class ProjectCountPresenter extends ATabPresenter<PieChartModel, PieView>
             extractData();
             addChartSettings();
             addChartData();
+            addChartListener();
         }catch(DataNotFoundException | NullPointerException e){
             throw e;
         }
@@ -46,19 +48,18 @@ public class ProjectCountPresenter extends ATabPresenter<PieChartModel, PieView>
 
     @Override
     public void extractData() throws DataNotFoundException, NullPointerException {
-        projectConfig = super.getChartConfig(ChartNames.Projects_Technology.toString());
+        projectConfig = super.getChartConfig(ChartNames.Projects.toString());
     }
 
     @Override
     public void addChartSettings() {
-        //PlotOptionsColumn plot = new PlotOptionsColumn();
 
         PlotOptionsPie plot = new PlotOptionsPie();
         plot.setDataLabels(new DataLabels(true));
         //Labels that point to a pie piece that can be clicked will be cornflower blue (Multi-omics)
         plot.getDataLabels().setFormatter("function() { " +
                 "var text = this.point.name; " +
-                "if (text == 'Multi Omics') " +
+                "if (text == 'Multi-omics') " +
                 "{ " +
                 "       text = '<span style=\"color:CornflowerBlue;text-decoration:underline\">' + text + '</span>'; " +
                 "}" +
@@ -71,11 +72,6 @@ public class ProjectCountPresenter extends ATabPresenter<PieChartModel, PieView>
         Legend legend = new Legend();
         legend.setEnabled(false);
 
-
-//        super.setModel(new ColumnModel(super.getView().getConfiguration(), projectConfig.getSettings().getTitle(),
-//                projectConfig.getSettings().getSubtitle(),tooltip, legend, new AxisTitle(projectConfig.getSettings().getxAxisTitle()),
-//                new AxisTitle(projectConfig.getSettings().getyAxisTitle()), plot))
-//        super.getModel().setXAxisType(AxisType.CATEGORY);
         super.setModel(new PieChartModel(super.getView().getConfiguration(), projectConfig.getSettings().getTitle(),
                 projectConfig.getSettings().getSubtitle(), projectConfig.getSettings().getTabTitle(), tooltip, legend, plot));
 
@@ -92,14 +88,13 @@ public class ProjectCountPresenter extends ATabPresenter<PieChartModel, PieView>
 
         List<DataSorter> dataSorterList = new ArrayList<>();
 
-        //DataSeries series = new DataSeries();
         for (String aKeySet : keySet) {
             for (int i = 0; i < projectConfig.getData().get(aKeySet).size(); i++) {
                 String label = (String) projectConfig.getSettings().getxCategories().get(i);
 
                 if(CommonAbbr.getList().contains(label)){
                     label = CommonAbbr.valueOf(label).toString();
-                }else if(Translator.getList().contains(label)){
+                }else if(Translator.getList().contains(label)) {
                     label = Translator.valueOf(label).getTranslation();
                 }else{
                     label = LabelFormatter.generateCamelCase(label);
@@ -110,11 +105,6 @@ public class ProjectCountPresenter extends ATabPresenter<PieChartModel, PieView>
             }
         }
         Collections.sort(dataSorterList);
-
-        //if use columnView
-        //dataSorterList.forEach(d -> series.add(new DataSeriesItem(d.getName(), d.getCount())));
-        //super.getModel().addData(series);
-
         dataSorterList.forEach(d -> this.getModel().addData(new DataSeriesItem(d.getName(), d.getCount())));
 
         logger.info("Data was added to a chart of " + this.getClass() + " with chart title: " + projectConfig.getSettings().getTitle());
@@ -122,6 +112,26 @@ public class ProjectCountPresenter extends ATabPresenter<PieChartModel, PieView>
 
     }
 
+    private void addChartListener() {
+        ((Chart) getView().getComponent()).addPointClickListener((PointClickListener) event -> {
+
+            logger.info("Chart of " + this.getClass() + " with chart title: " +
+                    this.getView().getConfiguration().getTitle().getText() +
+                    " was clicked at " + this.getModel().getDataName(event));
+
+            if (super.getModel().getDataName(event).equals(Translator.Multi_omics.getTranslation())) {
+                ATabPresenter p =
+                        new MultiOmicsCountPresenter(super.getMainPresenter());
+                try {
+                    p.setUp();
+                    p.addChart(this.getTabView(), "");
+                } catch (DataNotFoundException e) {
+                    logger.error("Subcharts could not be created. ", e);
+                    Styles.notification("Data not found.", "Chart cannot be displayed", Styles.NotificationType.ERROR);
+                }
+            }
+        });
+    }
 
     @Override
     public void addChart(TabView tabView, String title) {

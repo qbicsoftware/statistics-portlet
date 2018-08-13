@@ -358,7 +358,7 @@ charts:
       - Q_MICROARRAY_RUN
       - Unknown
       - Q_NGS_SINGLE_SAMPLE_RUN
-      - Multi-omics
+      - Multi_omics
       yAxisTitle: null
       yCategories: null
   Bacteria_Species:
@@ -469,23 +469,22 @@ charts:
       - 0.1
       - 2.6
       - 0.2
-  Project-Multiomics_Count:
-    data:
-      multiomics:
-      - ? !!set
-          Q_MICROARRAY_RUN: null
-          Q_NGS_SINGLE_SAMPLE_RUN: null
-        : 1
-    settings:
-      tabTitle: Projects
-      subtitle: null
-      title: Multiomics count
-      xAxisTitle: null
-      xCategories:
-      - Multiomics
-      yAxisTitle: null
-      yCategories: null
-  Projects_Technology:
+  Project_Multi_omics:
+      data:
+        multiomics:
+        - 1
+        - 10
+      settings:
+        subtitle: null
+        tabTitle: Projects
+        title: Multiomics count
+        xAxisTitle: null
+        xCategories:
+        - Q_MICROARRAY_RUN+Q_NGS_SINGLE_SAMPLE_RUN
+        - Q_MS_RUN+Q_NGS_SINGLE_SAMPLE_RUN
+        yAxisTitle: null
+        yCategories: null
+  Projects:
     data:
       project counts:
       - 10
@@ -501,6 +500,6 @@ charts:
       - Q_MS_RUN
       - Q_MICROARRAY_RUN
       - Unknown
-      - Multi-omics
+      - Multi_omics
       yAxisTitle: null
       yCategories: null
