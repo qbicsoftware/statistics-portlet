@@ -334,17 +334,6 @@ charts:
       - RNA: 57
         DNA: 94
         PROTEINS: 3
-      - PEPTIDES: 576
-        RNA: 2088
-        CELL_LYSATE: 88
-        PHOSPHOPEPTIDES: 42
-        DNA: 3396
-        SMALLMOLECULES: 1402
-        PHOSPHOPROTEINS: 125
-        PHOSPHOLIPIDS: 1
-        PROTEINS: 1343
-        CARBOHYDRATES: 158
-        LIPIDS: 76
       - RNA: 347
         DNA: 890
       - RNA: 1
@@ -356,7 +345,6 @@ charts:
       xCategories:
       - Q_MS_RUN
       - Q_MICROARRAY_RUN
-      - Unknown
       - Q_NGS_SINGLE_SAMPLE_RUN
       - Multi_omics
       yAxisTitle: null
@@ -486,20 +474,18 @@ charts:
         yCategories: null
   Projects:
     data:
-      project counts:
-      - 10
+      project:
+      - 11
       - 1
-      - 59
       - 1
     settings:
-      tabTitle: Projects
       subtitle: null
+      tabTitle: Projects
       title: Project Counts with Measured Samples
       xAxisTitle: null
       xCategories:
       - Q_MS_RUN
       - Q_MICROARRAY_RUN
-      - Unknown
       - Multi_omics
       yAxisTitle: null
       yCategories: null
