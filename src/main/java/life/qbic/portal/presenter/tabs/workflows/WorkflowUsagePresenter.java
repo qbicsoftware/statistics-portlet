@@ -44,12 +44,12 @@ public class WorkflowUsagePresenter extends ATabPresenter<PieChartModel, PieView
     }
 
     @Override
-    public void extractData() throws DataNotFoundException, NullPointerException {
+    protected void extractData() throws DataNotFoundException, NullPointerException {
         workflowUsageConfig = super.getChartConfig(ChartNames.Workflow_Execution_Counts.toString());
     }
 
     @Override
-    public void addChartSettings() {
+    protected void addChartSettings() {
 
         PlotOptionsPie plot = new PlotOptionsPie();
 
@@ -70,7 +70,7 @@ public class WorkflowUsagePresenter extends ATabPresenter<PieChartModel, PieView
     }
 
     @Override
-    public void addChartData() {
+    protected void addChartData() {
 
         //This is necessary to get from Object to required String arrays
         Object[] objectArray = workflowUsageConfig.getData().keySet().toArray(new Object[0]);
@@ -115,17 +115,8 @@ public class WorkflowUsagePresenter extends ATabPresenter<PieChartModel, PieView
 
             String title =  ChartNames.Available_Workflows_.toString().replace("_", " ").trim();
             String subtitle = Translator.getTranslation(super.getModel().getDataName(event));
-
-            try {
-                ATabPresenter wfPresenter = new WorkflowTypePresenter(getMainPresenter(), super.getModel().getDataName(event), title, subtitle, "");
-                wfPresenter.setUp();
-                wfPresenter.addChart(super.getTabView(), title);
-            }catch(DataNotFoundException e){
-                logger.error("Subchart could not be created.", e);
-                Styles.notification("Data not found.","Chart cannot be displayed", Styles.NotificationType.ERROR);
-
-            }
-
+            ATabPresenter wfPresenter = new WorkflowTypePresenter(getMainPresenter(), super.getModel().getDataName(event), title, subtitle, "");
+            addSubchart(wfPresenter);
         });
     }
 

@@ -1,6 +1,7 @@
 package life.qbic.portal.presenter.tabs;
 
 
+import life.qbic.portal.Styles;
 import life.qbic.portal.exceptions.DataNotFoundException;
 import life.qbic.portal.presenter.MainPresenter;
 import life.qbic.portal.view.TabView;
@@ -59,6 +60,16 @@ public abstract class ATabPresenter<T, V> {
         });
     }
 
+    protected void addSubchart(ATabPresenter p) {
+        try {
+            p.setUp();
+            p.addChart(this.getTabView(), "");
+        } catch (DataNotFoundException e) {
+            logger.error("Subcharts could not be created. ", e);
+            Styles.notification("Data not found.", "Chart cannot be displayed", Styles.NotificationType.ERROR);
+        }
+    }
+
     protected ChartConfig getChartConfig(String name) throws DataNotFoundException, NullPointerException{
 
         if(mainPresenter.getMainConfig() == null || mainPresenter.getMainConfig().getCharts() == null){
@@ -73,11 +84,11 @@ public abstract class ATabPresenter<T, V> {
 
     abstract public void setUp() throws DataNotFoundException;
 
-    abstract public void extractData()throws DataNotFoundException;
+    abstract protected void extractData()throws DataNotFoundException;
 
-    abstract public void addChartSettings();
+    abstract protected void addChartSettings();
 
-    abstract public void addChartData() throws DataNotFoundException ;
+    abstract protected void addChartData() throws DataNotFoundException ;
 
     abstract public void addChart(TabView tabView, String title);
 

@@ -47,12 +47,12 @@ public class SuperKingdomCountPresenter extends ATabPresenter<PieChartModel, Pie
     }
 
     @Override
-    public void extractData() throws DataNotFoundException, NullPointerException{
+    protected void extractData() throws DataNotFoundException, NullPointerException{
         kingdomConfig = super.getChartConfig(ChartNames.SuperKingdom.toString());
     }
 
     @Override
-    public void addChartSettings() {
+    protected void addChartSettings() {
 
         PlotOptionsPie plot = new PlotOptionsPie();
 
@@ -81,7 +81,7 @@ public class SuperKingdomCountPresenter extends ATabPresenter<PieChartModel, Pie
     }
 
     @Override
-    public void addChartData() {
+    protected void addChartData() {
 
         //This is necessary to get from Object to required String arrays
         Object[] objectArray = kingdomConfig.getData().keySet().toArray(new Object[0]);
@@ -121,35 +121,23 @@ public class SuperKingdomCountPresenter extends ATabPresenter<PieChartModel, Pie
 
             //In case it is Other Bacteria etc.
             if (Kingdoms.getList().contains(this.getModel().getDataName(event).split(" ")[1])) {
-                GenusSpeciesCountPresenter p =
+                ATabPresenter p =
                         new GenusSpeciesCountPresenter(super.getMainPresenter(), this.getModel().getDataName(event).split(" ")[1]);
-                try {
-                    p.setUp();
-                    p.addChart(this.getTabView(), "");
-                } catch (DataNotFoundException e) {
-                    logger.error("Subcharts could not be created. ", e);
-                    Styles.notification("Data not found.","Chart cannot be displayed", Styles.NotificationType.ERROR);
-                }
+                addSubchart(p);
             }
 
             //TODO check if I really get an error here
             //In case it is not Other
             if (Kingdoms.getList().contains(this.getModel().getDataName(event).split(" ")[0])) {
-                GenusSpeciesCountPresenter p =
+                ATabPresenter p =
                         new GenusSpeciesCountPresenter(super.getMainPresenter(), this.getModel().getDataName(event).split(" ")[0]);
 
-                try {
-                    p.setUp();
-                    p.addChart(this.getTabView(), "");
-                } catch (DataNotFoundException e) {
-                    logger.error("Subcharts could not be created. ", e);
-                    Styles.notification("Data not found.","Chart cannot be displayed", Styles.NotificationType.ERROR);
-
-                }
+                addSubchart(p);
             }
 
         });
     }
+
 
     @Override
     public void addChart(TabView tabView, String title) {

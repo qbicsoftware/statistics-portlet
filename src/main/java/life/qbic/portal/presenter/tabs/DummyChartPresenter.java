@@ -22,14 +22,15 @@ public class DummyChartPresenter extends ATabPresenter<PieChartModel, PieView> {
         addChartSettings();
         addChartData();
     }
+
     @Override
-    public void extractData(){
+    protected void extractData(){
 
     }
 
 
     @Override
-    public void addChartSettings() {
+    protected void addChartSettings() {
         PlotOptionsPie plot = new PlotOptionsPie();
 
         plot.setDataLabels(new DataLabels(true));
@@ -48,7 +49,7 @@ public class DummyChartPresenter extends ATabPresenter<PieChartModel, PieView> {
     }
 
     @Override
-    public void addChartData() {
+    protected void addChartData() {
 
         for (int i = 0; i < 5; i++) {
             this.getModel().addData(new DataSeries(new DataSeriesItem("Genomes".concat(String.valueOf(i)), i)));

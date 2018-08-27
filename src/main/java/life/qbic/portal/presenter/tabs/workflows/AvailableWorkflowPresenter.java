@@ -45,12 +45,12 @@ public class AvailableWorkflowPresenter extends ATabPresenter<GridModel, GridVie
     }
 
     @Override
-    public void extractData() throws DataNotFoundException, NullPointerException {
+    protected void extractData() throws DataNotFoundException, NullPointerException {
         chartConfig = super.getChartConfig(chartName);
     }
 
     @Override
-    public void addChartSettings() {
+    protected void addChartSettings() {
         super.setModel(new GridModel(chartConfig.getSettings().getTitle(), chartConfig.getSettings().getSubtitle(), chartConfig.getSettings().getTabTitle()));
         super.getView().getComponent().setStyleName("workflow");
 
@@ -58,7 +58,7 @@ public class AvailableWorkflowPresenter extends ATabPresenter<GridModel, GridVie
     }
 
     @Override
-    public void addChartData(){
+    protected void addChartData(){
 
         //This is necessary to get from Object to required String arrays
         Object[] objectArray = chartConfig.getData().keySet().toArray(new Object[0]);
