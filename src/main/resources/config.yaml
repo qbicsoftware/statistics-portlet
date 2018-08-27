@@ -309,12 +309,12 @@ charts:
   Workflow_Execution_Counts:
     data:
       Counts:
-      - 11
-      - 222
-      - 747
+      - 8
+      - 78
+      - 143
     settings:
-      tabTitle: Workflow
       subtitle: null
+      tabTitle: Workflow
       title: Workflow Execution Counts
       xAxisTitle: null
       xCategories:
@@ -322,7 +322,10 @@ charts:
       - MS
       - NGS
       yAxisTitle: null
-      yCategories: null
+      yCategories:
+      - 3.5
+      - 34.1
+      - 62.4
   Sample_Types:
     data:
       Samples:

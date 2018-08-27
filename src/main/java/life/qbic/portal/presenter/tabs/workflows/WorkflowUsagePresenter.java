@@ -91,6 +91,10 @@ public class WorkflowUsagePresenter extends ATabPresenter<PieChartModel, PieView
                     label = LabelFormatter.generateCamelCase(label);
                 }
 
+                 label = label
+                        .concat(" [")
+                        .concat(String.valueOf(workflowUsageConfig.getSettings().getyCategories().get(i)))
+                        .concat("%]");
                 dataSorters.add(new DataSorter(label,
                         (int) workflowUsageConfig.getData().get(aKeySet).get(i)));
             }
