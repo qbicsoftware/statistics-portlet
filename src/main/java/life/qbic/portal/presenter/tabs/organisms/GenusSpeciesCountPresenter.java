@@ -52,7 +52,7 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
     }
 
     @Override
-    public void extractData() throws DataNotFoundException, NullPointerException{
+    protected void extractData() throws DataNotFoundException, NullPointerException{
         speciesConfig = super.getChartConfig(kingdom.concat("_Species"));
         genusConfig = super.getChartConfig(kingdom.concat("_Genus"));
         genusSpeciesMap = generateGenusToSpeciesMap(super.getChartConfig(ChartNames.Species_Genus.toString()));
@@ -81,7 +81,7 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
     }
 
     @Override
-    public void addChartSettings() {
+    protected void addChartSettings() {
         innerPieOptions = new PlotOptionsPie();
         innerPieOptions.setSize("237px");
         innerPieOptions.setDataLabels(new DataLabels());
@@ -142,7 +142,7 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
     }
 
     @Override
-    public void addChartData() {
+    protected void addChartData() {
 
         //Add data for Genus
         DataSeries innerSeries = new DataSeries("Samples");

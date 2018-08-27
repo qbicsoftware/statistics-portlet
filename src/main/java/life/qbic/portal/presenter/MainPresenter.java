@@ -52,6 +52,7 @@ public class MainPresenter {
 
         //This is necessary to allow try-loop to see wether no charts at all can be displayed and we have
         // to use the Dummy chart
+        //Careful: Order matters! Determines in which order tabs are displayed
         tabPresenterList.add(superKingdomCountPresenter);
         tabPresenterList.add(sampleTypePresenter);
         tabPresenterList.add(projectPresenter);
@@ -117,19 +118,7 @@ public class MainPresenter {
     }
 
     void addCharts() {
-
         clear();
-        //Careful: Order matters! Determines in which order tabs are displayed.
-//
-//        superKingdomCountPresenter.addChart(new TabView((AView) superKingdomCountPresenter.getView(),
-//                (AModel) superKingdomCountPresenter.getModel()), "Organisms");
-//        sampleTypePresenter.addChart(new TabView((AView) sampleTypePresenter.getView(),
-//                (AModel) sampleTypePresenter.getModel()), "Samples");
-//        //projectPresenter.addChart(new TabView((AView) projectPresenter.getView(),
-//        //        (AModel) projectPresenter.getModel()), "Projects");
-//        workflowUsagePresenter.addChart(new TabView((AView) workflowUsagePresenter.getView(),
-//                (AModel) workflowUsagePresenter.getModel()), "Workflow");
-
     }
 
 }

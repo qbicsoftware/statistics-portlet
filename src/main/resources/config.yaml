@@ -340,7 +340,7 @@ charts:
     settings:
       tabTitle: Samples
       subtitle: null
-      title: Sample Type Counts
+      title: Number of Already Measured Samples
       xAxisTitle: null
       xCategories:
       - Q_MS_RUN
