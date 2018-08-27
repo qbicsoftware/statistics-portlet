@@ -34,12 +34,12 @@ public class MultiOmicsCountPresenter extends ATabPresenter<ColumnModel, ColumnV
     }
 
     @Override
-    public void extractData() throws DataNotFoundException, NullPointerException {
+    protected void extractData() throws DataNotFoundException, NullPointerException {
         multiOmicsConfig = super.getChartConfig(ChartNames.Project_Multi_omics.toString());
     }
 
     @Override
-    public void addChartSettings() {
+    protected void addChartSettings() {
         PlotOptionsColumn plot = new PlotOptionsColumn();
         plot.setDataLabels(new DataLabels(true));
 
@@ -60,7 +60,7 @@ public class MultiOmicsCountPresenter extends ATabPresenter<ColumnModel, ColumnV
     }
 
     @Override
-    public void addChartData() {
+    protected void addChartData() {
 
         //This is necessary to get from Object to required String arrays
         Object[] objectArray = multiOmicsConfig.getData().keySet().toArray(new Object[0]);

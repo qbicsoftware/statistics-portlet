@@ -42,12 +42,12 @@ public class SampleTypeBarPresenter extends ATabPresenter<BarModel, BarView> {
     }
 
     @Override
-    public void extractData() throws DataNotFoundException, NullPointerException {
+    protected void extractData() throws DataNotFoundException, NullPointerException {
         sampleConfig = super.getChartConfig(ChartNames.Sample_Types.toString());
     }
 
     @Override
-    public void addChartSettings() {
+    protected void addChartSettings() {
         PlotOptionsBar plot = new PlotOptionsBar();
 
         plot.setStacking(Stacking.NORMAL);
@@ -73,7 +73,7 @@ public class SampleTypeBarPresenter extends ATabPresenter<BarModel, BarView> {
 
     @SuppressWarnings("SuspiciousMethodCalls")
     @Override
-    public void addChartData() {
+    protected void addChartData() {
         //This is necessary to get from Object to required String arrays
         Object[] objectArray = sampleConfig.getData().keySet().toArray(new Object[0]);
         //noinspection SuspiciousToArrayCall

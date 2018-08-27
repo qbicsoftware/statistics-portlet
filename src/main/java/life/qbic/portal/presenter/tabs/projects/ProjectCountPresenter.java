@@ -47,12 +47,12 @@ public class ProjectCountPresenter extends ATabPresenter<PieChartModel, PieView>
     }
 
     @Override
-    public void extractData() throws DataNotFoundException, NullPointerException {
+    protected void extractData() throws DataNotFoundException, NullPointerException {
         projectConfig = super.getChartConfig(ChartNames.Projects.toString());
     }
 
     @Override
-    public void addChartSettings() {
+    protected void addChartSettings() {
 
         PlotOptionsPie plot = new PlotOptionsPie();
         plot.setDataLabels(new DataLabels(true));
@@ -80,7 +80,7 @@ public class ProjectCountPresenter extends ATabPresenter<PieChartModel, PieView>
     }
 
     @Override
-    public void addChartData() {
+    protected void addChartData() {
 
         //This is necessary to get from Object to required String arrays
         Object[] objectArray = projectConfig.getData().keySet().toArray(new Object[0]);
@@ -122,13 +122,7 @@ public class ProjectCountPresenter extends ATabPresenter<PieChartModel, PieView>
             if (super.getModel().getDataName(event).equals(Translator.Multi_omics.getTranslation())) {
                 ATabPresenter p =
                         new MultiOmicsCountPresenter(super.getMainPresenter());
-                try {
-                    p.setUp();
-                    p.addChart(this.getTabView(), "");
-                } catch (DataNotFoundException e) {
-                    logger.error("Subcharts could not be created. ", e);
-                    Styles.notification("Data not found.", "Chart cannot be displayed", Styles.NotificationType.ERROR);
-                }
+               addSubchart(p);
             }
         });
     }

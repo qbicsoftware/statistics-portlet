@@ -31,7 +31,7 @@ public class WorkflowTypePresenter extends ATabPresenter<GridModel, GridView> {
 
     private final Accordion accordion = new Accordion();
 
-    public WorkflowTypePresenter(MainPresenter mainPresenter, String workflowType, String title, String subtitle, String tabTitle) {
+    WorkflowTypePresenter(MainPresenter mainPresenter, String workflowType, String title, String subtitle, String tabTitle) {
         super(mainPresenter, new GridView(1, 2, true, true));
 
         this.title = title;
@@ -57,7 +57,7 @@ public class WorkflowTypePresenter extends ATabPresenter<GridModel, GridView> {
     }
 
     @Override
-    public void extractData() throws DataNotFoundException, NullPointerException{
+    protected void extractData() throws DataNotFoundException, NullPointerException{
         String subType = Translator.getOriginal(workflowType);
         if (subType.isEmpty()) {
             subType = workflowType;
@@ -78,14 +78,14 @@ public class WorkflowTypePresenter extends ATabPresenter<GridModel, GridView> {
     }
 
     @Override
-    public void addChartSettings() {
+    protected void addChartSettings() {
         super.setModel(new GridModel(title, subtitle, tabTitle));
         logger.info("Settings were added to " + this.getClass() + " with chart title: " + super.getModel().getTitle());
 
     }
 
     @Override
-    public void addChartData(){
+    protected void addChartData(){
         for(String s : subTypes){
             try {
                 AvailableWorkflowPresenter ap = new AvailableWorkflowPresenter(getMainPresenter(), s);
