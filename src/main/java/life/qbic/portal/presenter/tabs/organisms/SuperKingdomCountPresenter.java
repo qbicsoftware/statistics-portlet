@@ -133,8 +133,7 @@ public class SuperKingdomCountPresenter extends ATabPresenter<PieChartModel, Pie
                 addSubchart(p);
             }
 
-            //TODO check if I really get an error here
-            //In case it is not Other
+            //In case it is not Other, but plain 'Viruses' etc.
             if (Kingdoms.getList().contains(this.getModel().getDataName(event).split(" ")[0])) {
                 ATabPresenter p =
                         new GenusSpeciesCountPresenter(super.getMainPresenter(), this.getModel().getDataName(event).split(" ")[0]);
