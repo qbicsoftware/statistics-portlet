@@ -236,8 +236,24 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
                 "The percentage indicates the ratio in the remaining domain subset.", ContentMode.HTML);
         tabView.addSubComponent(this.getModel(), this.getView());
         tabView.addComponent(label);
-        addReturnButtonListener(tabView);
+        this.addReturnButtonListener(tabView);
 
         logger.info("View was added in " + this.getClass() + " for " + this.getView().getConfiguration().getTitle().getText());
+    }
+
+    @Override
+    protected void addReturnButtonListener(TabView tabView) {
+
+        Label label = new Label("<font size = '2' color='grey'> " +
+                "If a species's ratio exceeds 25<span>&#37;</span> in its respective domain," +
+                " it is displayed and visualized on domain level. ", ContentMode.HTML);
+
+        System.out.println(label.getValue());
+        tabView.getReturnButton().addClickListener(clickEvent -> {
+            logger.info("Return button was pressed");
+            tabView.addMainComponent();
+            tabView.addComponent(label);
+
+        });
     }
 }

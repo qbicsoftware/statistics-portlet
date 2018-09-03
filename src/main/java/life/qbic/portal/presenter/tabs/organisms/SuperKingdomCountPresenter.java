@@ -40,6 +40,7 @@ public class SuperKingdomCountPresenter extends ATabPresenter<PieChartModel, Pie
             addChartSettings();
             addChartData();
             addChartListener();
+
         }catch(DataNotFoundException | NullPointerException e){
             throw e;
         }
@@ -156,10 +157,12 @@ public class SuperKingdomCountPresenter extends ATabPresenter<PieChartModel, Pie
                 " it is displayed and visualized on domain level. ", ContentMode.HTML);
 
         super.getTabView().addComponent(label);
+        System.out.println(label.getValue());
         super.getMainPresenter().getMainView().addTabView(super.getTabView(), title);
 
         logger.info("Tab was added in " + this.getClass() + " for " + this.getView().getConfiguration().getTitle().getText());
 
     }
+
 
 }
