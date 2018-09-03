@@ -186,7 +186,7 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
                 //Add outer Series sorted
                 for(String s : genusSpeciesMap.get(innerNames[i])) {
                     dataSorterList.add(new DataSorter(LabelFormatter.firstUpperRestLowerCase(s)
-                            .concat(" ").concat("[")
+                            .concat(" [")
                             .concat(getSpeciesPercentage(s))
                             .concat("%]"),  getSpeciesCount(s, (String)dataCategory)));
                 }

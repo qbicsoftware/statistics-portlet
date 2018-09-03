@@ -44,7 +44,10 @@ charts:
       - Q_MICROARRAY_RUN
       - Multi_omics
       yAxisTitle: null
-      yCategories: null
+      yCategories:
+      - 7.7
+      - 7.7
+      - 84.6
   Available_Workflows_MA_RNA:
     data:
       stargazers_count:

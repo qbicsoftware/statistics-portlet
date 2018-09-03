@@ -59,7 +59,7 @@ public class ProjectCountPresenter extends ATabPresenter<PieChartModel, PieView>
         //Labels that point to a pie piece that can be clicked will be cornflower blue (Multi-omics)
         plot.getDataLabels().setFormatter("function() { " +
                 "var text = this.point.name; " +
-                "if (text == 'Multi-omics') " +
+                "if (text.includes('Multi-omics')) " +
                 "{ " +
                 "       text = '<span style=\"color:CornflowerBlue;text-decoration:underline\">' + text + '</span>'; " +
                 "}" +
@@ -99,6 +99,11 @@ public class ProjectCountPresenter extends ATabPresenter<PieChartModel, PieView>
                 }else{
                     label = LabelFormatter.generateCamelCase(label);
                 }
+
+                label = label
+                        .concat(" [")
+                        .concat(String.valueOf(projectConfig.getSettings().getyCategories().get(i)))
+                        .concat("%]");
                 dataSorterList.add(new DataSorter(label,
                         (int)projectConfig.getData().get(aKeySet).get(i)));
 
