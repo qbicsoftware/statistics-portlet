@@ -62,7 +62,14 @@ public class SuperKingdomCountPresenter extends ATabPresenter<PieChartModel, Pie
         plot.getDataLabels().setFormatter("function() { " +
                 "var text = this.point.name; " +
                 "var category = text.split(' ')[0]; " +
-                "if (category == 'Other' && text.split(' ').length > 2) " +
+                "var kingdoms = ['Eukaryota', 'Bacteria', 'Viruses', 'Archae', 'Viroids'];" +
+                "var isKingdom = false;"+
+                "for(var i =0;i < kingdoms.length; i++){ "+
+                //Either 'Kingdoms' or 'Other Kingdom' is clickable and thus blue underlined
+                "   if(category.indexOf(kingdoms[i]) != -1 || (category == 'Other' && text.split(' ').length > 2) )"+
+                "       isKingdom = true;"+
+                "}"+
+                "if (isKingdom) " +
                 "{ " +
                 "       text = '<span style=\"color:CornflowerBlue;text-decoration:underline\">' + text + '</span>'; " +
                 "}" +
