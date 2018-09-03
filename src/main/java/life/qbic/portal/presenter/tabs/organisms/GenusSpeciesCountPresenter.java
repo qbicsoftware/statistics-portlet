@@ -32,7 +32,7 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
     private final String kingdom;
 
     public GenusSpeciesCountPresenter(MainPresenter mainPresenter,
-                                      String kingdom){
+                                      String kingdom) {
 
         super(mainPresenter, new PieView());
 
@@ -40,25 +40,25 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
     }
 
     @Override
-    public void setUp() throws DataNotFoundException, NullPointerException{
+    public void setUp() throws DataNotFoundException, NullPointerException {
         try {
             extractData();
             addChartSettings();
             addChartData();
-        }catch(DataNotFoundException | NullPointerException e){
+        } catch (DataNotFoundException | NullPointerException e) {
             throw e;
         }
 
     }
 
     @Override
-    protected void extractData() throws DataNotFoundException, NullPointerException{
+    protected void extractData() throws DataNotFoundException, NullPointerException {
         speciesConfig = super.getChartConfig(kingdom.concat("_Species"));
         genusConfig = super.getChartConfig(kingdom.concat("_Genus"));
         genusSpeciesMap = generateGenusToSpeciesMap(super.getChartConfig(ChartNames.Species_Genus.toString()));
     }
 
-    private Map<String, List<String>> generateGenusToSpeciesMap(ChartConfig speciesGenusConfig){
+    private Map<String, List<String>> generateGenusToSpeciesMap(ChartConfig speciesGenusConfig) {
         Map<String, List<String>> result = new HashMap<>();
 
         Object[] objectArray = speciesGenusConfig.getData().keySet().toArray(new Object[0]);
@@ -68,12 +68,12 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
             for (int i = 0; i < speciesGenusConfig.getData().get(aKeySet).size(); i++) {
                 List<String> list = new ArrayList<>();
                 //noinspection SuspiciousMethodCalls
-                if(result.containsKey(speciesGenusConfig.getData().get(aKeySet).get(i))) {
+                if (result.containsKey(speciesGenusConfig.getData().get(aKeySet).get(i))) {
                     //noinspection SuspiciousMethodCalls
                     list = result.get(speciesGenusConfig.getData().get(aKeySet).get(i));
                 }
                 list.add((String) speciesGenusConfig.getSettings().getxCategories().get(i));
-                result.put((String)speciesGenusConfig.getData().get(aKeySet).get(i), list);
+                result.put((String) speciesGenusConfig.getData().get(aKeySet).get(i), list);
             }
         }
 
@@ -86,7 +86,7 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
         innerPieOptions.setSize("237px");
         innerPieOptions.setDataLabels(new DataLabels());
         innerPieOptions.getDataLabels().setFormatter("this.percentage >  10 ? this.point.name : null");
-        innerPieOptions.getDataLabels().setColor(new SolidColor(255,255,255));
+        innerPieOptions.getDataLabels().setColor(new SolidColor(255, 255, 255));
         innerPieOptions.getDataLabels().setDistance(-30);
         innerPieOptions.setAnimation(false);
 
@@ -103,7 +103,7 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
                 "for (i = 0; i < 2; i++) {" +
                 " text += ' ' + this.point.name.split(' ')[i] " +
                 "} " +
-                "for (i = 2; i < this.point.name.split(' ').length-1; i++) {"+
+                "for (i = 2; i < this.point.name.split(' ').length-1; i++) {" +
                 " text += ' ' + this.point.name.split(' ')[i].italics() + ' ' " +
                 "} " +
                 "for (i = this.point.name.split(' ').length-1; i <  this.point.name.split(' ').length; i++) {" +
@@ -115,16 +115,16 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
                 "linesArr = ['']," +
                 "currLine = 0;" +
                 "for(let i=0; i< wordsLen; i++){" +
-                     "if(linesArr[currLine].length + wordsArr[i].length > 50){" + //50 chars is the longest line we allow right now
-                        "currLine +=1;" +
-                        "linesArr[currLine] = wordsArr[i] + ' ';" +
-                    "} else {" +
-                        "linesArr[currLine] += wordsArr[i] + ' ';" +
-                    "}" +
+                "if(linesArr[currLine].length + wordsArr[i].length > 50){" + //50 chars is the longest line we allow right now
+                "currLine +=1;" +
+                "linesArr[currLine] = wordsArr[i] + ' ';" +
+                "} else {" +
+                "linesArr[currLine] += wordsArr[i] + ' ';" +
+                "}" +
                 "}" +
                 "let linesLen = linesArr.length;" +
                 "for(let i=0; i<linesLen; i++){" +
-                    "finalMsg += linesArr[i] + '<br>';" +
+                "finalMsg += linesArr[i] + '<br>';" +
                 "}" +
                 "return finalMsg.trim();" +
                 "}");
@@ -138,7 +138,7 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
         this.setModel(new PieChartModel(this.getView().getConfiguration(), genusConfig.getSettings().getTitle(),
                 genusConfig.getSettings().getSubtitle(), genusConfig.getSettings().getSubtitle(), tooltip, null, new PlotOptionsPie()));
 
-        logger.info("Settings were added to a chart of "+ this.getClass() + " with chart title: " + this.getView().getConfiguration().getTitle().getText());
+        logger.info("Settings were added to a chart of " + this.getClass() + " with chart title: " + this.getView().getConfiguration().getTitle().getText());
     }
 
     @Override
@@ -148,26 +148,26 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
         DataSeries innerSeries = new DataSeries("Samples");
         innerSeries.setPlotOptions(innerPieOptions);
 
-        Object[] genusData =  this.genusConfig.getData().keySet().toArray(new Object[0]);
+        Object[] genusData = this.genusConfig.getData().keySet().toArray(new Object[0]);
 
         List<DataSorter> dataSorters = new ArrayList<>();
         for (Object dataCategory : genusData) {
-            for (int i = 0; i <  this.genusConfig.getData().get(dataCategory).size(); i++) {
-                dataSorters.add(new DataSorter(LabelFormatter.firstUpperRestLowerCase((String)  this.genusConfig.getSettings().getxCategories().get(i)),
-                        (int)this.genusConfig.getData().get(dataCategory).get(i)));
+            for (int i = 0; i < this.genusConfig.getData().get(dataCategory).size(); i++) {
+                dataSorters.add(new DataSorter(LabelFormatter.firstUpperRestLowerCase((String) this.genusConfig.getSettings().getxCategories().get(i)),
+                        (int) this.genusConfig.getData().get(dataCategory).get(i)));
             }
         }
 
         Collections.sort(dataSorters);
 
         //Necessary to get colors right
-        Number[] innerValues = new Number[ dataSorters.size()];
+        Number[] innerValues = new Number[dataSorters.size()];
         String[] innerNames = new String[dataSorters.size()];
-        for(int i = 0; i < dataSorters.size(); i++){
+        for (int i = 0; i < dataSorters.size(); i++) {
             innerNames[i] = dataSorters.get(i).getName();
             innerValues[i] = dataSorters.get(i).getCount();
         }
-        innerSeries.setData(innerNames, innerValues, Arrays.copyOf(Colors.getSolidColors(),  dataSorters.size()));
+        innerSeries.setData(innerNames, innerValues, Arrays.copyOf(Colors.getSolidColors(), dataSorters.size()));
 
         //Add data for Species
         DataSeries outerSeries = new DataSeries("Samples");
@@ -184,14 +184,14 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
                 List<DataSorter> dataSorterList = new ArrayList<>();
 
                 //Add outer Series sorted
-                for(String s : genusSpeciesMap.get(innerNames[i])) {
+                for (String s : genusSpeciesMap.get(innerNames[i])) {
                     dataSorterList.add(new DataSorter(LabelFormatter.firstUpperRestLowerCase(s)
                             .concat(" [")
                             .concat(getSpeciesPercentage(s))
-                            .concat("%]"),  getSpeciesCount(s, (String)dataCategory)));
+                            .concat("%]"), getSpeciesCount(s, (String) dataCategory)));
                 }
                 Collections.sort(dataSorterList);
-                for(DataSorter d : dataSorterList){
+                for (DataSorter d : dataSorterList) {
                     outerItems[counter] = new DataSeriesItem(d.getName(), d.getCount(), Colors.getRandomOpaque(Colors.getSolidColors()[i % Colors.getSolidColors().length]));
                     counter++;
                 }
@@ -202,14 +202,14 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
 
         this.getModel().addDonutPieData(innerSeries, outerSeries);
 
-        logger.info("Data was added to a chart of " + this.getClass() +" with chart title: " + this.getView().getConfiguration().getTitle().getText());
+        logger.info("Data was added to a chart of " + this.getClass() + " with chart title: " + this.getView().getConfiguration().getTitle().getText());
 
     }
 
-    private int getSpeciesCount(String species, String dataKey){
+    private int getSpeciesCount(String species, String dataKey) {
         int value = 0;
-        for(int j = 0; j < speciesConfig.getSettings().getxCategories().size(); j++){
-            if(speciesConfig.getSettings().getxCategories().get(j).equals(species)){
+        for (int j = 0; j < speciesConfig.getSettings().getxCategories().size(); j++) {
+            if (speciesConfig.getSettings().getxCategories().get(j).equals(species)) {
                 value = (int) speciesConfig.getData().get(dataKey).get(j);
                 break;
             }
@@ -217,10 +217,10 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
         return value;
     }
 
-    private String getSpeciesPercentage(String species){
+    private String getSpeciesPercentage(String species) {
         String percentage = "";
-        for(int j = 0; j < speciesConfig.getSettings().getxCategories().size(); j++){
-            if(speciesConfig.getSettings().getxCategories().get(j).equals(species)){
+        for (int j = 0; j < speciesConfig.getSettings().getxCategories().size(); j++) {
+            if (speciesConfig.getSettings().getxCategories().get(j).equals(species)) {
                 percentage = String.valueOf(speciesConfig.getSettings().getyCategories().get(j));
                 break;
             }
@@ -229,7 +229,7 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
     }
 
     @Override
-    public void addChart(TabView tabView, String title){
+    public void addChart(TabView tabView, String title) {
 
         //Add to existing tab
         Label label = new Label("<font size = '2' color='grey'> " +
@@ -238,6 +238,6 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
         tabView.addComponent(label);
         addReturnButtonListener(tabView);
 
-        logger.info("View was added in " + this.getClass() + " for " +  this.getView().getConfiguration().getTitle().getText() );
+        logger.info("View was added in " + this.getClass() + " for " + this.getView().getConfiguration().getTitle().getText());
     }
 }

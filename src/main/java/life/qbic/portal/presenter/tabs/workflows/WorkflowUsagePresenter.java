@@ -114,7 +114,7 @@ public class WorkflowUsagePresenter extends ATabPresenter<PieChartModel, PieView
             logger.info("Chart of " + this.getClass() + " with chart title: " + super.getView().getConfiguration().getTitle().getText() + " was clicked at " + super.getModel().getDataName(event));
 
             String title =  ChartNames.Available_Workflows_.toString().replace("_", " ").trim();
-            String chartName = super.getModel().getDataName(event).replaceFirst("\\[[0-9]+.[0-9]+\\%\\]", "").trim();
+            String chartName = super.getModel().getDataName(event).replaceFirst("\\[[0-9]+.[0-9]+\\%\\]", "").trim(); //remove percentage from name: NGS [3.6%] -> NGS
             try {
                 ATabPresenter wfPresenter = new WorkflowTypePresenter(getMainPresenter(), chartName, title.concat(" for ").concat(chartName).concat(" Data Analysis"), "", "");
                 addSubchart(wfPresenter);

@@ -26,7 +26,7 @@ public class AvailableWorkflowPresenter extends ATabPresenter<GridModel, GridVie
 
     public AvailableWorkflowPresenter(MainPresenter mainPresenter,
                                       String chartName){
-        super(mainPresenter, new GridView(2,0,true, true));
+        super(mainPresenter, new GridView(3,0,true, true));
 
         this.chartName = chartName;
 
@@ -98,7 +98,6 @@ public class AvailableWorkflowPresenter extends ATabPresenter<GridModel, GridVie
         Panel panel = new Panel(labels.getTitle());
         panel.setHeight(100.0f, Sizeable.Unit.PERCENTAGE);
         panel.setStyleName(ValoTheme.PANEL_SCROLL_INDICATOR);
-        panel.addStyleName("workflow"); //TODO check if this works, or if it has to added to the vertical layout
 
         Label star = new Label(FontAwesome.STAR_O.getHtml() + " " + labels.getCount(), ContentMode.HTML);
 
