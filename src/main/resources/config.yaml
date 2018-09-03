@@ -3,30 +3,55 @@ charts:
   Bacteria_Genus:
     data:
       Bacteria:
-      - 6
-      - 3
-      - 2
+      - 1
     settings:
-      tabTitle: Organisms
       subtitle: null
-      title: Sample Count Bacteria
+      tabTitle: Organisms
+      title: Sample Count OtherBacteria
       xAxisTitle: null
       xCategories:
-      - Salmonella
-      - Escherichia
-      - Caulobacter
+      - Bacillus
       yAxisTitle: null
       yCategories:
-      - 54.5
-      - 27.3
-      - 18.2
+      - 100.0
+  Viruses_Genus:
+    data:
+      Viruses:
+      - 3
+    settings:
+      subtitle: null
+      tabTitle: Organisms
+      title: Sample Count OtherViruses
+      xAxisTitle: null
+      xCategories:
+      - Alphapapillomavirus
+      yAxisTitle: null
+      yCategories:
+      - 100.0
+  Projects:
+    data:
+      project:
+      - 11
+      - 1
+      - 1
+    settings:
+      subtitle: null
+      tabTitle: Projects
+      title: Project Counts with Measured Samples
+      xAxisTitle: null
+      xCategories:
+      - Q_MS_RUN
+      - Q_MICROARRAY_RUN
+      - Multi_omics
+      yAxisTitle: null
+      yCategories: null
   Available_Workflows_MA_RNA:
     data:
       stargazers_count:
       - 1.0
     settings:
-      tabTitle: Workflow
       subtitle: null
+      tabTitle: Workflow
       title: Available Workflows MA_RNA
       xAxisTitle: null
       xCategories:
@@ -34,16 +59,30 @@ charts:
       yAxisTitle: null
       yCategories:
       - Microarray QC workflow mainly using the R package oligo
+  Project_Multi_omics:
+    data:
+      multiomics:
+      - 1
+    settings:
+      subtitle: null
+      tabTitle: Projects
+      title: Multiomics count
+      xAxisTitle: null
+      xCategories:
+      - Microarray + NGS
+      yAxisTitle: null
+      yCategories: null
   SuperKingdom:
     data:
       SuperKingdom:
-      - 22
-      - 11
-      - 1321
       - 8
-      - 11
-      - 3399
-      - 88
+      - 1
+      - 6
+      - 313
+      - 3
+      - 112
+      - 9
+      - 3
     settings:
       subtitle: null
       tabTitle: Organisms
@@ -52,82 +91,186 @@ charts:
       xCategories:
       - unclassified sequences
       - Other Bacteria
+      - Amycolatopsis japonica
       - Other Eukaryota
-      - Pseudomonas aeruginosa strain PAO1
-      - Pseudomonas aeruginosa
+      - Viruses
       - Homo sapiens
+      - Caulobacter crescentus CB15
       - Other
       yAxisTitle: null
       yCategories:
-      - 0.5
-      - 0.2
-      - 27.2
-      - 0.2
-      - 0.2
-      - 69.9
       - 1.8
-  Species_Genus:
+      - 0.2
+      - 1.3
+      - 68.8
+      - 0.7
+      - 24.6
+      - 2.0
+      - 0.7
+  Viruses_Species:
     data:
-      Species_Genus:
-      - Apis
-      - Mus
-      - Cavia
-      - Rosa
-      - Escherichia
-      - Rattus
-      - Asparagus
-      - Arabidopsis
-      - Corylus
-      - Corylus
-      - Pseudomonas
-      - Lolium
-      - null
-      - Capra
-      - Solanum
-      - Corylus
-      - Solanum
-      - Homo
-      - Bos
-      - Caulobacter
-      - Galleria
-      - Caenorhabditis
-      - Salmonella
-      - Pseudomonas
-      - Nicotiana
-      - Saccharomyces
-      - null
+      Viruses:
+      - 3
     settings:
-      tabTitle: Organisms
       subtitle: null
+      tabTitle: Organisms
       title: ''
       xAxisTitle: null
       xCategories:
-      - ' Apis mellifera mellifera'
-      - Mus musculus
-      - Cavia aperea
-      - Rosa wichurana
-      - Escherichia coli
-      - Rattus norvegicus
+      - Human papillomavirus type 16
+      yAxisTitle: null
+      yCategories:
+      - 100.0
+  Species_Genus:
+    data:
+      Species_Genus:
+      - Salpiglossis
+      - Vinca
+      - Amphilophus
+      - Brassica
+      - Lavandula
+      - Helichrysum
+      - Sanicula
+      - Nicotiana
+      - Asparagus
+      - Arabidopsis
+      - Canis
+      - Achillea
+      - Salvia
+      - Schizosaccharomyces
+      - Melissa
+      - Macrostomum
+      - Descurainia
+      - Astrantia
+      - Foeniculum
+      - Isatis
+      - Amycolatopsis
+      - Erysimum
+      - Allium
+      - Homo
+      - Bupleurum
+      - Caulobacter
+      - Bos
+      - Alphapapillomavirus
+      - Ajuga
+      - Caenorhabditis
+      - Calendula
+      - Matthiola
+      - Apis
+      - Phlomis
+      - Saccharomyces
+      - Physalis
+      - Iberis
+      - Mus
+      - Bacillus
+      - Petunia
+      - Nicotiana
+      - Echinacea
+      - Tagetes
+      - Danio
+      - Bupleurum
+      - Nicotiana
+      - Eupatorium
+      - Athamanta
+      - Teucrium
+      - Leonurus
+      - Levisticum
+      - Ambrosia
+      - null
+      - Bunias
+      - Mentha
+      - Capra
+      - Erysimum
+      - Seseli
+      - Stachys
+      - Petroselinum
+      - Ocimum
+      - Carduus
+      - Capsicum
+      - Centaurea
+      - Physalis
+      - Carum
+      - Aurinia
+      - Artemisia
+      - Brassica
+      - Artemisia
+      - null
+    settings:
+      subtitle: null
+      tabTitle: Organisms
+      title: ''
+      xAxisTitle: null
+      xCategories:
+      - Salpiglossis sinuata
+      - Vinca major
+      - Amphilophus (nicaraguan)
+      - Brassica oleracea var. oleracea
+      - Lavandula canariensis
+      - Helichrysum arenarium
+      - Sanicula odorata
+      - Nicotiana longiflora
       - Asparagus officinalis
       - Arabidopsis thaliana
-      - Corylus maxima
-      - Corylus avellana
-      - Pseudomonas aeruginosa
-      - Lolium perenne
-      - Unidentified
-      - Capra hircus
-      - Solanum tuberosum
-      - Corylus spp.
-      - Solanum lycopersicum
+      - Canis lupus familiaris
+      - Achillea millefolium
+      - Salvia officinalis
+      - Schizosaccharomyces pombe
+      - Melissa officinalis
+      - Macrostomum lignano
+      - Descurainia millefolia
+      - Astrantia major
+      - Foeniculum vulgare
+      - Isatis tinctoria
+      - Amycolatopsis japonica
+      - Erysimum scoparium
+      - Allium ampeloprasum
       - Homo sapiens
-      - Bos taurus
+      - Bupleurum falcatum
       - Caulobacter crescentus CB15
-      - Galleria mellonella
+      - Bos taurus
+      - Human papillomavirus type 16
+      - Ajuga reptans
       - Caenorhabditis elegans
-      - Salmonella enterica subsp. enterica serovar Typhimurium str. SL1344
-      - Pseudomonas aeruginosa strain PAO1
-      - Nicothiana benthamiana
+      - Calendula officinalis
+      - Matthiola incana
+      - Apis mellifera mellifera
+      - Phlomis viscosa
       - Saccharomyces cerevisiae
+      - Physalis alkekengi
+      - Iberis sempervirens
+      - Mus musculus
+      - Bacillus cereus strain ATCC 10987
+      - Petunia axillaris
+      - Nicotiana rustica
+      - Echinacea purpurea
+      - Tagetes erecta
+      - Danio rerio
+      - Bupleurum canescens var. handiense
+      - Nicotiana tabacum
+      - Eupatorium cannabinum
+      - Athamanta cretensis
+      - Teucrium chamaedrys
+      - Leonurus cardiaca
+      - Levisticum officinale
+      - Ambrosia artemisiifolia
+      - Unidentified
+      - Bunias orientalis
+      - Mentha x piperita
+      - Capra hircus
+      - Erysimum cheiri
+      - Seseli libanotis
+      - Stachys byzantina
+      - Petroselinum crispum
+      - Ocimum basilicum
+      - Carduus defloratus
+      - Capsicum frutescens
+      - Centaurea montana
+      - Physalis peruviana
+      - Carum carvi
+      - Aurinia saxatilis
+      - Artemisia absinthium
+      - Brassica napus
+      - Artemisia abrotanum
       - Other
       yAxisTitle: null
       yCategories: null
@@ -144,8 +287,8 @@ charts:
       - 0.0
       - 0.0
     settings:
-      tabTitle: Workflow
       subtitle: null
+      tabTitle: Workflow
       title: Available Workflows NGS_RNA
       xAxisTitle: null
       xCategories:
@@ -185,8 +328,8 @@ charts:
       - 0.0
       - 0.0
     settings:
-      tabTitle: Workflow
       subtitle: null
+      tabTitle: Workflow
       title: Available Workflows NGS_DNA
       xAxisTitle: null
       xCategories:
@@ -219,70 +362,193 @@ charts:
   Eukaryota_Genus:
     data:
       Eukaryota:
-      - 34
-      - 16
-      - 237
-      - 153
-      - 14
-      - 1
-      - 13
-      - 587
-      - 2
-      - 1
-      - 12
-      - 15
-      - 1
-      - 200
       - 3
-      - 32
+      - 1
+      - 3
+      - 2
+      - 3
+      - 18
+      - 4
+      - 3
+      - 3
+      - 3
+      - 3
+      - 3
+      - 9
+      - 3
+      - 5
+      - 3
+      - 2
+      - 15
+      - 51
+      - 1
+      - 3
+      - 2
+      - 22
+      - 3
+      - 3
+      - 1
+      - 3
+      - 3
+      - 3
+      - 3
+      - 3
+      - 3
+      - 3
+      - 6
+      - 5
+      - 5
+      - 3
+      - 3
+      - 3
+      - 2
+      - 6
+      - 3
+      - 16
+      - 23
+      - 3
+      - 6
+      - 3
+      - 3
+      - 2
+      - 6
+      - 3
+      - 3
+      - 3
+      - 5
+      - 3
+      - 3
+      - 2
     settings:
-      tabTitle: Organisms
       subtitle: null
-      title: Sample Count Eukaryota
+      tabTitle: Organisms
+      title: Sample Count OtherEukaryota
       xAxisTitle: null
       xCategories:
+      - Foeniculum
+      - Macrostomum
+      - Astrantia
+      - Canis
+      - Aurinia
+      - Saccharomyces
+      - Melissa
+      - Carum
+      - Petunia
+      - Eupatorium
+      - Carduus
+      - Athamanta
       - Nicotiana
-      - Galleria
-      - Arabidopsis
+      - Stachys
+      - Physalis
+      - Seseli
       - Apis
       - Bos
-      - Lolium
-      - Asparagus
       - Mus
-      - Saccharomyces
-      - Rosa
-      - Cavia
-      - Rattus
-      - Caenorhabditis
-      - Solanum
+      - Allium
+      - Lavandula
+      - Amphilophus
+      - Danio
+      - Echinacea
+      - Salvia
       - Capra
-      - Corylus
+      - Centaurea
+      - Ocimum
+      - Helichrysum
+      - Descurainia
+      - Levisticum
+      - Phlomis
+      - Petroselinum
+      - Bupleurum
+      - Erysimum
+      - Caenorhabditis
+      - Matthiola
+      - Salpiglossis
+      - Mentha
+      - Schizosaccharomyces
+      - Ajuga
+      - Bunias
+      - Arabidopsis
+      - Asparagus
+      - Teucrium
+      - Artemisia
+      - Leonurus
+      - Calendula
+      - Ambrosia
+      - Brassica
+      - Isatis
+      - Vinca
+      - Iberis
+      - Achillea
+      - Sanicula
+      - Tagetes
+      - Capsicum
       yAxisTitle: null
       yCategories:
-      - 2.6
-      - 1.2
-      - 17.9
-      - 11.6
-      - 1.1
-      - 0.1
       - 1.0
-      - 44.4
-      - 0.2
-      - 0.1
-      - 0.9
-      - 1.1
-      - 0.1
-      - 15.1
-      - 0.2
-      - 2.4
+      - 0.3
+      - 1.0
+      - 0.6
+      - 1.0
+      - 5.8
+      - 1.3
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.0
+      - 2.9
+      - 1.0
+      - 1.6
+      - 1.0
+      - 0.6
+      - 4.8
+      - 16.3
+      - 0.3
+      - 1.0
+      - 0.6
+      - 7.0
+      - 1.0
+      - 1.0
+      - 0.3
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.9
+      - 1.6
+      - 1.6
+      - 1.0
+      - 1.0
+      - 1.0
+      - 0.6
+      - 1.9
+      - 1.0
+      - 5.1
+      - 7.3
+      - 1.0
+      - 1.9
+      - 1.0
+      - 1.0
+      - 0.6
+      - 1.9
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.6
+      - 1.0
+      - 1.0
+      - 0.6
   Available_Workflows_MS_PX:
     data:
       stargazers_count:
       - 6.0
       - 2.0
     settings:
-      tabTitle: Workflow
       subtitle: null
+      tabTitle: Workflow
       title: Available Workflows MS_PX
       xAxisTitle: null
       xCategories:
@@ -297,8 +563,8 @@ charts:
       stargazers_count:
       - 1.0
     settings:
-      tabTitle: Workflow
       subtitle: null
+      tabTitle: Workflow
       title: Available Workflows OTHER
       xAxisTitle: null
       xCategories:
@@ -329,49 +595,37 @@ charts:
   Sample_Types:
     data:
       Samples:
-      - PEPTIDES: 107
+      - PEPTIDES: 39
         DNA: 1
-        SMALLMOLECULES: 127
-        PHOSPHOPROTEINS: 30
-        PROTEINS: 293
-      - RNA: 57
-        DNA: 94
+        PROTEINS: 13
+      - RNA: 17
         PROTEINS: 3
-      - RNA: 347
-        DNA: 890
       - RNA: 1
     settings:
-      tabTitle: Samples
       subtitle: null
+      tabTitle: Samples
       title: Number of Already Measured Samples
       xAxisTitle: null
       xCategories:
       - Q_MS_RUN
       - Q_MICROARRAY_RUN
-      - Q_NGS_SINGLE_SAMPLE_RUN
-      - Multi_omics
+      - Multi-omics
       yAxisTitle: null
       yCategories: null
   Bacteria_Species:
     data:
       Bacteria:
-      - 6
-      - 3
-      - 2
+      - 1
     settings:
-      tabTitle: Organisms
       subtitle: null
+      tabTitle: Organisms
       title: ''
       xAxisTitle: null
       xCategories:
-      - Salmonella enterica subsp. enterica serovar Typhimurium str. SL1344
-      - Escherichia coli
-      - Caulobacter crescentus CB15
+      - Bacillus cereus strain ATCC 10987
       yAxisTitle: null
       yCategories:
-      - 54.5
-      - 27.3
-      - 18.2
+      - 100.0
   Available_Workflows_MS_LX:
     data:
       stargazers_count:
@@ -379,8 +633,8 @@ charts:
       - 0.0
       - 0.0
     settings:
-      tabTitle: Workflow
       subtitle: null
+      tabTitle: Workflow
       title: Available Workflows MS_LX
       xAxisTitle: null
       xCategories:
@@ -395,100 +649,203 @@ charts:
   Eukaryota_Species:
     data:
       Eukaryota:
-      - 153
       - 3
-      - 587
-      - 12
-      - 1
-      - 10
-      - 15
-      - 190
-      - 15
-      - 14
+      - 3
+      - 2
+      - 3
+      - 3
+      - 3
+      - 3
+      - 3
+      - 23
       - 16
-      - 13
-      - 237
-      - 1
       - 2
+      - 5
+      - 3
+      - 2
+      - 4
+      - 1
+      - 3
+      - 3
+      - 3
+      - 3
+      - 2
+      - 1
+      - 3
       - 15
-      - 1
-      - 34
+      - 6
+      - 5
+      - 3
+      - 3
       - 2
+      - 3
+      - 18
+      - 2
+      - 3
+      - 51
+      - 3
+      - 3
+      - 3
+      - 3
+      - 22
+      - 3
+      - 3
+      - 3
+      - 3
+      - 3
+      - 3
+      - 3
+      - 2
+      - 3
+      - 3
+      - 1
+      - 3
+      - 3
+      - 3
+      - 3
+      - 3
+      - 3
+      - 2
+      - 3
+      - 3
+      - 3
+      - 3
+      - 3
+      - 3
+      - 3
     settings:
-      tabTitle: Organisms
       subtitle: null
+      tabTitle: Organisms
       title: ''
       xAxisTitle: null
       xCategories:
-      - ' Apis mellifera mellifera'
-      - Capra hircus
-      - Mus musculus
-      - Cavia aperea
-      - Rosa wichurana
-      - Solanum tuberosum
-      - Corylus spp.
-      - Solanum lycopersicum
-      - Rattus norvegicus
-      - Bos taurus
-      - Galleria mellonella
+      - Salpiglossis sinuata
+      - Vinca major
+      - Amphilophus (nicaraguan)
+      - Brassica oleracea var. oleracea
+      - Lavandula canariensis
+      - Helichrysum arenarium
+      - Sanicula odorata
+      - Nicotiana longiflora
       - Asparagus officinalis
       - Arabidopsis thaliana
+      - Canis lupus familiaris
+      - Achillea millefolium
+      - Salvia officinalis
+      - Schizosaccharomyces pombe
+      - Melissa officinalis
+      - Macrostomum lignano
+      - Descurainia millefolia
+      - Astrantia major
+      - Foeniculum vulgare
+      - Isatis tinctoria
+      - Erysimum scoparium
+      - Allium ampeloprasum
+      - Bupleurum falcatum
+      - Bos taurus
+      - Ajuga reptans
       - Caenorhabditis elegans
-      - Corylus maxima
-      - Corylus avellana
-      - Lolium perenne
-      - Nicothiana benthamiana
+      - Calendula officinalis
+      - Matthiola incana
+      - Apis mellifera mellifera
+      - Phlomis viscosa
       - Saccharomyces cerevisiae
+      - Physalis alkekengi
+      - Iberis sempervirens
+      - Mus musculus
+      - Petunia axillaris
+      - Nicotiana rustica
+      - Echinacea purpurea
+      - Tagetes erecta
+      - Danio rerio
+      - Bupleurum canescens var. handiense
+      - Nicotiana tabacum
+      - Eupatorium cannabinum
+      - Athamanta cretensis
+      - Teucrium chamaedrys
+      - Leonurus cardiaca
+      - Levisticum officinale
+      - Ambrosia artemisiifolia
+      - Bunias orientalis
+      - Mentha x piperita
+      - Capra hircus
+      - Erysimum cheiri
+      - Seseli libanotis
+      - Stachys byzantina
+      - Petroselinum crispum
+      - Ocimum basilicum
+      - Carduus defloratus
+      - Capsicum frutescens
+      - Centaurea montana
+      - Physalis peruviana
+      - Carum carvi
+      - Aurinia saxatilis
+      - Artemisia absinthium
+      - Brassica napus
+      - Artemisia abrotanum
       yAxisTitle: null
       yCategories:
-      - 11.6
-      - 0.2
-      - 44.4
-      - 0.9
-      - 0.1
-      - 0.8
-      - 1.1
-      - 14.4
-      - 1.1
-      - 1.1
-      - 1.2
       - 1.0
-      - 17.9
-      - 0.1
-      - 0.2
-      - 1.1
-      - 0.1
-      - 2.6
-      - 0.2
-  Project_Multi_omics:
-      data:
-        multiomics:
-        - 1
-        - 10
-      settings:
-        subtitle: null
-        tabTitle: Projects
-        title: Multiomics count
-        xAxisTitle: null
-        xCategories:
-        - Microarray + NGS
-        - Mass Spectometry + MA
-        yAxisTitle: null
-        yCategories: null
-  Projects:
-    data:
-      project:
-      - 11
-      - 1
-      - 1
-    settings:
-      subtitle: null
-      tabTitle: Projects
-      title: Project Counts with Measured Samples
-      xAxisTitle: null
-      xCategories:
-      - Q_MS_RUN
-      - Q_MICROARRAY_RUN
-      - Multi_omics
-      yAxisTitle: null
-      yCategories: null
+      - 1.0
+      - 0.6
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.0
+      - 7.3
+      - 5.1
+      - 0.6
+      - 1.6
+      - 1.0
+      - 0.6
+      - 1.3
+      - 0.3
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.0
+      - 0.6
+      - 0.3
+      - 1.0
+      - 4.8
+      - 1.9
+      - 1.6
+      - 1.0
+      - 1.0
+      - 0.6
+      - 1.0
+      - 5.8
+      - 0.6
+      - 1.0
+      - 16.3
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.0
+      - 7.0
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.0
+      - 0.6
+      - 1.0
+      - 1.0
+      - 0.3
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.0
+      - 0.6
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.0

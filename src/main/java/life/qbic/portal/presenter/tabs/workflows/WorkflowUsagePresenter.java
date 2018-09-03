@@ -114,9 +114,13 @@ public class WorkflowUsagePresenter extends ATabPresenter<PieChartModel, PieView
             logger.info("Chart of " + this.getClass() + " with chart title: " + super.getView().getConfiguration().getTitle().getText() + " was clicked at " + super.getModel().getDataName(event));
 
             String title =  ChartNames.Available_Workflows_.toString().replace("_", " ").trim();
-            String subtitle = Translator.getTranslation(super.getModel().getDataName(event));
-            ATabPresenter wfPresenter = new WorkflowTypePresenter(getMainPresenter(), super.getModel().getDataName(event), title, subtitle, "");
-            addSubchart(wfPresenter);
+            String chartName = super.getModel().getDataName(event).replaceFirst("\\[[0-9]+.[0-9]+\\%\\]", "").trim();
+            try {
+                ATabPresenter wfPresenter = new WorkflowTypePresenter(getMainPresenter(), chartName, title.concat(" for ").concat(chartName).concat(" Data Analysis"), "", "");
+                addSubchart(wfPresenter);
+            }catch(Exception e){
+                logger.error(chartName.concat(" workflows could not be displayed."), e.getMessage());
+            }
         });
     }
 
