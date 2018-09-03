@@ -124,7 +124,7 @@ public class ProjectCountPresenter extends ATabPresenter<PieChartModel, PieView>
                     this.getView().getConfiguration().getTitle().getText() +
                     " was clicked at " + this.getModel().getDataName(event));
 
-            if (super.getModel().getDataName(event).equals(Translator.Multi_omics.getTranslation())) {
+            if (super.getModel().getDataName(event).contains(Translator.Multi_omics.getTranslation())) {
                 ATabPresenter p =
                         new MultiOmicsCountPresenter(super.getMainPresenter());
                addSubchart(p);
