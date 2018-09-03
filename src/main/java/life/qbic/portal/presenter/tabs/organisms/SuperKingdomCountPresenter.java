@@ -153,11 +153,10 @@ public class SuperKingdomCountPresenter extends ATabPresenter<PieChartModel, Pie
         super.getTabView().addMainComponent();
 
         Label label = new Label("<font size = '2' color='grey'> " +
-                "If a species's ratio exceeds 25<span>&#37;</span> in its respective domain," +
+                "If a species's ratio exceeds 50<span>&#37;</span> in its respective domain," +
                 " it is displayed and visualized on domain level. ", ContentMode.HTML);
 
         super.getTabView().addComponent(label);
-        System.out.println(label.getValue());
         super.getMainPresenter().getMainView().addTabView(super.getTabView(), title);
 
         logger.info("Tab was added in " + this.getClass() + " for " + this.getView().getConfiguration().getTitle().getText());

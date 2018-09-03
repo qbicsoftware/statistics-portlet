@@ -245,10 +245,9 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
     protected void addReturnButtonListener(TabView tabView) {
 
         Label label = new Label("<font size = '2' color='grey'> " +
-                "If a species's ratio exceeds 25<span>&#37;</span> in its respective domain," +
+                "If a species's ratio exceeds 50<span>&#37;</span> in its respective domain," +
                 " it is displayed and visualized on domain level. ", ContentMode.HTML);
 
-        System.out.println(label.getValue());
         tabView.getReturnButton().addClickListener(clickEvent -> {
             logger.info("Return button was pressed");
             tabView.addMainComponent();

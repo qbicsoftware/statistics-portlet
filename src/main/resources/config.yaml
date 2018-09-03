@@ -5,7 +5,6 @@ charts:
       Bacteria:
       - 1
       - 6
-      - 9
     settings:
       subtitle: null
       tabTitle: Organisms
@@ -14,12 +13,10 @@ charts:
       xCategories:
       - Bacillus
       - Amycolatopsis
-      - Caulobacter
       yAxisTitle: null
       yCategories:
-      - 6.3
-      - 37.5
-      - 56.3
+      - 14.3
+      - 85.7
   Viruses_Genus:
     data:
       Viruses:
@@ -85,9 +82,10 @@ charts:
     data:
       SuperKingdom:
       - 8
+      - 7
       - 427
       - 3
-      - 16
+      - 9
       - 3
     settings:
       subtitle: null
@@ -96,16 +94,18 @@ charts:
       xAxisTitle: null
       xCategories:
       - unclassified sequences
+      - Other Bacteria
       - Eukaryota
       - Viruses
-      - Bacteria
+      - Caulobacter crescentus CB15
       - Other
       yAxisTitle: null
       yCategories:
       - 1.8
+      - 1.5
       - 93.4
       - 0.7
-      - 3.5
+      - 2.0
       - 0.7
   Viruses_Species:
     data:
@@ -601,7 +601,6 @@ charts:
       Bacteria:
       - 1
       - 6
-      - 9
     settings:
       subtitle: null
       tabTitle: Organisms
@@ -610,12 +609,10 @@ charts:
       xCategories:
       - Bacillus cereus strain ATCC 10987
       - Amycolatopsis japonica
-      - Caulobacter crescentus CB15
       yAxisTitle: null
       yCategories:
-      - 6.3
-      - 37.5
-      - 56.3
+      - 14.3
+      - 85.7
   Available_Workflows_MS_LX:
     data:
       stargazers_count:
