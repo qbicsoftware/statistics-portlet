@@ -29,17 +29,6 @@ public class SampleTypeBarPresenter extends ATabPresenter<BarModel, BarView> {
         super(mainPresenter, new BarView());
     }
 
-    @Override
-    public void setUp() throws DataNotFoundException, NullPointerException{
-        try {
-            extractData();
-            addChartSettings();
-            addChartData();
-        }catch(DataNotFoundException | NullPointerException e){
-            throw e;
-        }
-
-    }
 
     @Override
     protected void extractData() throws DataNotFoundException, NullPointerException {
@@ -71,7 +60,6 @@ public class SampleTypeBarPresenter extends ATabPresenter<BarModel, BarView> {
 
     }
 
-    @SuppressWarnings("SuspiciousMethodCalls")
     @Override
     protected void addChartData() {
         //This is necessary to get from Object to required String arrays
@@ -148,4 +136,7 @@ public class SampleTypeBarPresenter extends ATabPresenter<BarModel, BarView> {
         super.getMainPresenter().getMainView().addTabView(super.getTabView(), title);
         logger.info("Tab was added in " + this.getClass() + " for " +  super.getView().getConfiguration().getTitle().getText() );
     }
+
+    @Override
+    protected void addChartListener(){}
 }

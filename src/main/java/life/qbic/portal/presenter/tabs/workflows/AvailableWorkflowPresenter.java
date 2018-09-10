@@ -24,24 +24,9 @@ public class AvailableWorkflowPresenter extends ATabPresenter<GridModel, GridVie
     private final String chartName;
     private ChartConfig chartConfig;
 
-    public AvailableWorkflowPresenter(MainPresenter mainPresenter,
-                                      String chartName){
+    AvailableWorkflowPresenter(MainPresenter mainPresenter, String chartName){
         super(mainPresenter, new GridView(3,0,true, true));
-
         this.chartName = chartName;
-
-    }
-
-    @Override
-    public void setUp() throws DataNotFoundException, NullPointerException{
-        try {
-            extractData();
-            addChartSettings();
-            addChartData();
-        }catch(DataNotFoundException | NullPointerException e){
-            throw e;
-        }
-
     }
 
     @Override
@@ -125,4 +110,7 @@ public class AvailableWorkflowPresenter extends ATabPresenter<GridModel, GridVie
     String getChartName() {
         return chartName;
     }
+
+    @Override
+    protected void addChartListener(){}
 }

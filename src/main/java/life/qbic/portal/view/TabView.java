@@ -102,7 +102,7 @@ public class TabView extends VerticalLayout {
 
         if(view instanceof AChartView) {
             ((AChartView)view).draw((AChartModel) model);
-            //FIXME: Something is off with vaadin charts size (multiple open issues on GitHub.
+            //FIXME: Something is off with vaadin charts size (multiple open issues on GitHub).
             //FIXME: Using this work-around for now. The labels are not accounted for in the height measure,
             //FIXmE: so adding a padding manually.
             view.getComponent().setHeight(Double.toString(view.getComponent().getHeight() + 50.0f));

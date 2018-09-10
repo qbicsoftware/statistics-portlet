@@ -67,4 +67,7 @@ public class DummyChartPresenter extends ATabPresenter<PieChartModel, PieView> {
         logger.info("Tab was added in " + this.getClass() + " for " +  this.getView().getConfiguration().getTitle().getText() );
 
     }
+
+    @Override
+    protected void addChartListener(){}
 }

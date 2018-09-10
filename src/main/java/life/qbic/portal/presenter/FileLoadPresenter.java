@@ -3,11 +3,9 @@ package life.qbic.portal.presenter;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Upload;
 import life.qbic.portal.Styles;
-import life.qbic.portal.exceptions.DataNotFoundException;
 import life.qbic.portal.io.MyReceiver;
 import life.qbic.portal.io.YAMLParser;
 import life.qbic.portal.presenter.tabs.DummyChartPresenter;
-import life.qbic.portal.presenter.utils.CustomNotification;
 import life.qbic.portal.utils.PortalUtils;
 import life.qbic.portal.view.TabView;
 import org.apache.logging.log4j.LogManager;
@@ -17,7 +15,6 @@ import org.apache.logging.log4j.Logger;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.nio.file.FileAlreadyExistsException;
 
 
 /**

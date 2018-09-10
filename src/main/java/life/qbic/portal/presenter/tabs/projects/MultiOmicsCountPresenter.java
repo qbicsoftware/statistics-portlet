@@ -13,24 +13,15 @@ import submodule.lexica.ChartNames;
 
 import java.util.*;
 
+/**
+ * @author fhanssen
+ */
 public class MultiOmicsCountPresenter extends ATabPresenter<ColumnModel, ColumnView> {
 
     private ChartConfig multiOmicsConfig;
 
     MultiOmicsCountPresenter(MainPresenter mainPresenter) {
         super(mainPresenter, new ColumnView());
-    }
-
-    @Override
-    public void setUp() throws DataNotFoundException, NullPointerException{
-        try {
-            extractData();
-            addChartSettings();
-            addChartData();
-        }catch(DataNotFoundException | NullPointerException e){
-            throw e;
-        }
-
     }
 
     @Override
@@ -88,7 +79,6 @@ public class MultiOmicsCountPresenter extends ATabPresenter<ColumnModel, ColumnV
 
     }
 
-
     @Override
     public void addChart(TabView tabView, String title){
 
@@ -99,4 +89,6 @@ public class MultiOmicsCountPresenter extends ATabPresenter<ColumnModel, ColumnV
         logger.info("View was added in " + this.getClass() + " for " +  this.getView().getConfiguration().getTitle().getText() );
     }
 
+    @Override
+    protected void addChartListener(){}
 }

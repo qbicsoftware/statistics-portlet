@@ -3,7 +3,6 @@ package life.qbic.portal.presenter.tabs.workflows;
 import com.vaadin.addon.charts.Chart;
 import com.vaadin.addon.charts.PointClickListener;
 import com.vaadin.addon.charts.model.*;
-import life.qbic.portal.Styles;
 import life.qbic.portal.exceptions.DataNotFoundException;
 import life.qbic.portal.model.view.charts.PieChartModel;
 import life.qbic.portal.presenter.MainPresenter;
@@ -28,19 +27,6 @@ public class WorkflowUsagePresenter extends ATabPresenter<PieChartModel, PieView
 
     public WorkflowUsagePresenter(MainPresenter mainPresenter){
         super(mainPresenter, new PieView());
-    }
-
-    @Override
-    public void setUp() throws DataNotFoundException, NullPointerException{
-        try {
-            extractData();
-            addChartSettings();
-            addChartData();
-            addChartListener();
-        }catch(DataNotFoundException | NullPointerException e){
-            throw e;
-        }
-
     }
 
     @Override
@@ -109,7 +95,20 @@ public class WorkflowUsagePresenter extends ATabPresenter<PieChartModel, PieView
 
     }
 
-    private void addChartListener() {
+    @Override
+    public void addChart(TabView tabView, String title) {
+
+        //Set new tab
+        super.setTabView(tabView);
+        super.getTabView().addMainComponent();
+        super.getMainPresenter().getMainView().addTabView(super.getTabView(), title);
+        logger.info("Tab was added in " + this.getClass() + " for " + super.getView().getConfiguration().getTitle().getText());
+
+
+    }
+
+    @Override
+    protected void addChartListener() {
         ((Chart) super.getView().getComponent()).addPointClickListener((PointClickListener) event -> {
             logger.info("Chart of " + this.getClass() + " with chart title: " + super.getView().getConfiguration().getTitle().getText() + " was clicked at " + super.getModel().getDataName(event));
 
@@ -123,17 +122,4 @@ public class WorkflowUsagePresenter extends ATabPresenter<PieChartModel, PieView
             }
         });
     }
-
-    @Override
-    public void addChart(TabView tabView, String title) {
-
-        //Set new tab
-        super.setTabView(tabView);
-        super.getTabView().addMainComponent();
-        super.getMainPresenter().getMainView().addTabView(super.getTabView(), title);
-        logger.info("Tab was added in " + this.getClass() + " for " + super.getView().getConfiguration().getTitle().getText());
-
-
-    }
-
 }

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author fhanssen
+ */
 public final class Sorter {
 
     public static  <K, V extends Comparable<? super V>> List<K> getInsertOrder(Map<K, V> map) {

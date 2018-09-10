@@ -1,5 +1,9 @@
 package life.qbic.portal.exceptions;
 
+
+/**
+ * @author fhanssen
+ */
 public class DataNotFoundException extends Exception {
 
     public DataNotFoundException(String message) {

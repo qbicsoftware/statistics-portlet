@@ -6,7 +6,6 @@ import com.vaadin.addon.charts.model.*;
 import com.vaadin.addon.charts.PointClickListener;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Label;
-import life.qbic.portal.Styles;
 import life.qbic.portal.exceptions.DataNotFoundException;
 import life.qbic.portal.model.view.charts.PieChartModel;
 import life.qbic.portal.presenter.MainPresenter;
@@ -30,21 +29,6 @@ public class SuperKingdomCountPresenter extends ATabPresenter<PieChartModel, Pie
 
     public SuperKingdomCountPresenter(MainPresenter mainPresenter){
         super(mainPresenter, new PieView());
-
-    }
-
-    @Override
-    public void setUp() throws DataNotFoundException, NullPointerException{
-        try {
-            extractData();
-            addChartSettings();
-            addChartData();
-            addChartListener();
-
-        }catch(DataNotFoundException | NullPointerException e){
-            throw e;
-        }
-
     }
 
     @Override
@@ -119,8 +103,25 @@ public class SuperKingdomCountPresenter extends ATabPresenter<PieChartModel, Pie
 
     }
 
+    @Override
+    public void addChart(TabView tabView, String title) {
+        //Set new tab
+        super.setTabView(tabView);
+        super.getTabView().addMainComponent();
 
-    private void addChartListener() {
+        Label label = new Label("<font size = '2' color='grey'> " +
+                "If a species's ratio exceeds 50<span>&#37;</span> in its respective domain," +
+                " it is displayed and visualized on domain level. ", ContentMode.HTML);
+
+        super.getTabView().addComponent(label);
+        super.getMainPresenter().getMainView().addTabView(super.getTabView(), title);
+
+        logger.info("Tab was added in " + this.getClass() + " for " + this.getView().getConfiguration().getTitle().getText());
+
+    }
+
+    @Override
+    protected void addChartListener() {
         ((Chart) getView().getComponent()).addPointClickListener((PointClickListener) event -> {
 
             logger.info("Chart of " + this.getClass() + " with chart title: " +
@@ -144,24 +145,5 @@ public class SuperKingdomCountPresenter extends ATabPresenter<PieChartModel, Pie
 
         });
     }
-
-
-    @Override
-    public void addChart(TabView tabView, String title) {
-        //Set new tab
-        super.setTabView(tabView);
-        super.getTabView().addMainComponent();
-
-        Label label = new Label("<font size = '2' color='grey'> " +
-                "If a species's ratio exceeds 50<span>&#37;</span> in its respective domain," +
-                " it is displayed and visualized on domain level. ", ContentMode.HTML);
-
-        super.getTabView().addComponent(label);
-        super.getMainPresenter().getMainView().addTabView(super.getTabView(), title);
-
-        logger.info("Tab was added in " + this.getClass() + " for " + this.getView().getConfiguration().getTitle().getText());
-
-    }
-
 
 }

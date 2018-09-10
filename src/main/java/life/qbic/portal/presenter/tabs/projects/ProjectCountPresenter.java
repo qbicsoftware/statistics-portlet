@@ -3,7 +3,6 @@ package life.qbic.portal.presenter.tabs.projects;
 import com.vaadin.addon.charts.Chart;
 import com.vaadin.addon.charts.PointClickListener;
 import com.vaadin.addon.charts.model.*;
-import life.qbic.portal.Styles;
 import life.qbic.portal.exceptions.DataNotFoundException;
 import life.qbic.portal.model.view.charts.PieChartModel;
 import life.qbic.portal.presenter.MainPresenter;
@@ -31,19 +30,6 @@ public class ProjectCountPresenter extends ATabPresenter<PieChartModel, PieView>
 
     public ProjectCountPresenter(MainPresenter mainPresenter){
         super(mainPresenter, new PieView());
-    }
-
-    @Override
-    public void setUp() throws DataNotFoundException, NullPointerException{
-        try {
-            extractData();
-            addChartSettings();
-            addChartData();
-            addChartListener();
-        }catch(DataNotFoundException | NullPointerException e){
-            throw e;
-        }
-
     }
 
     @Override
@@ -117,7 +103,18 @@ public class ProjectCountPresenter extends ATabPresenter<PieChartModel, PieView>
 
     }
 
-    private void addChartListener() {
+    @Override
+    public void addChart(TabView tabView, String title) {
+        //Set new tab
+        super.setTabView(tabView);
+        super.getTabView().addMainComponent();
+        super.getMainPresenter().getMainView().addTabView(super.getTabView(), title);
+        logger.info("Tab was added in " + this.getClass() + " for " +  super.getView().getConfiguration().getTitle().getText() );
+
+    }
+
+    @Override
+    protected void addChartListener() {
         ((Chart) getView().getComponent()).addPointClickListener((PointClickListener) event -> {
 
             logger.info("Chart of " + this.getClass() + " with chart title: " +
@@ -127,19 +124,9 @@ public class ProjectCountPresenter extends ATabPresenter<PieChartModel, PieView>
             if (super.getModel().getDataName(event).contains(Translator.Multi_omics.getTranslation())) {
                 ATabPresenter p =
                         new MultiOmicsCountPresenter(super.getMainPresenter());
-               addSubchart(p);
+                addSubchart(p);
             }
         });
-    }
-
-    @Override
-    public void addChart(TabView tabView, String title) {
-        //Set new tab
-        super.setTabView(tabView);
-        super.getTabView().addMainComponent();
-        super.getMainPresenter().getMainView().addTabView(super.getTabView(), title);
-        logger.info("Tab was added in " + this.getClass() + " for " +  super.getView().getConfiguration().getTitle().getText() );
-
     }
 
 }

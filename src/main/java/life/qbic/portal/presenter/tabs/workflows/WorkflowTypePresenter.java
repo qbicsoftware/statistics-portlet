@@ -45,18 +45,6 @@ public class WorkflowTypePresenter extends ATabPresenter<GridModel, GridView> {
     }
 
     @Override
-    public void setUp() throws DataNotFoundException, NullPointerException{
-        try {
-            extractData();
-            addChartSettings();
-            addChartData();
-        }catch(DataNotFoundException | NullPointerException e){
-            throw e;
-        }
-
-    }
-
-    @Override
     protected void extractData() throws DataNotFoundException, NullPointerException{
         String subType = Translator.getOriginal(workflowType);
         if (subType.isEmpty()) {
@@ -129,4 +117,7 @@ public class WorkflowTypePresenter extends ATabPresenter<GridModel, GridView> {
         accordion.addTab(layout, title);
 
     }
+
+    @Override
+    protected void addChartListener(){}
 }

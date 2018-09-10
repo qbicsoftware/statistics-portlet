@@ -82,7 +82,16 @@ public abstract class ATabPresenter<T, V> {
         return mainPresenter.getMainConfig().getCharts().get(name);
     }
 
-    abstract public void setUp() throws DataNotFoundException;
+    public void setUp() throws DataNotFoundException{
+        try {
+            extractData();
+            addChartSettings();
+            addChartData();
+            addChartListener();
+        } catch (DataNotFoundException | NullPointerException e) {
+            throw e;
+        }
+    }
 
     abstract protected void extractData()throws DataNotFoundException;
 
@@ -92,5 +101,8 @@ public abstract class ATabPresenter<T, V> {
 
     abstract public void addChart(TabView tabView, String title);
 
-    //TODO 4: Extend this class in order to create a new presenter. As examples you can look at the SuperKingdomCountPresenter or GenusSpeciesCountPresenter
+    abstract protected void addChartListener();
+
+
+        //TODO 4: Extend this class in order to create a new presenter. As examples you can look at the SuperKingdomCountPresenter or GenusSpeciesCountPresenter
 }
