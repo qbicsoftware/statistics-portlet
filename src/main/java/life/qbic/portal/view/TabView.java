@@ -20,7 +20,7 @@ public class TabView extends VerticalLayout {
 
     private static final Logger logger = LogManager.getLogger(TabView.class);
 
-    private final Button returnButton = new Button(FontAwesome.ANGLE_DOUBLE_LEFT);
+    private final Button returnButton = new Button("Back", FontAwesome.ANGLE_DOUBLE_LEFT);
     private final AView mainView;
     private final AModel mainModel;
     private final Label title;
@@ -56,8 +56,9 @@ public class TabView extends VerticalLayout {
         setComponentAlignment(title, Alignment.MIDDLE_CENTER);
         setComponentAlignment(subtitle, Alignment.MIDDLE_CENTER);
 
-        returnButton.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
         returnButton.addStyleName(ValoTheme.BUTTON_BORDERLESS_COLORED);
+        returnButton.setWidth(10, Unit.PERCENTAGE);
+        returnButton.setHeight(10, Unit.PERCENTAGE);
 
         graphPanel.setWidth(100, Unit.PERCENTAGE);
         //this.mainView.getComponent().setHeight(String.valueOf(this.mainView.getComponent().getHeight() + 50.0));
