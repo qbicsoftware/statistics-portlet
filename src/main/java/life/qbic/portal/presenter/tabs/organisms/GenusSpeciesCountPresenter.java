@@ -30,9 +30,6 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
     private PlotOptionsPie innerPieOptions;
     private PlotOptionsPie outerPieOptions;
     private final String kingdom;
-    private final Label label = new Label("<font size = '2' color='grey'> " +
-            "If a species's ratio exceeds 50<span>&#37;</span> in its respective domain," +
-            " it is displayed and visualized on domain level. ", ContentMode.HTML);
 
 
     public GenusSpeciesCountPresenter(MainPresenter mainPresenter, String kingdom) {
@@ -222,7 +219,6 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
     public void addChart(TabView tabView, String title) {
 
         tabView.addSubComponent(this.getModel(), this.getView());
-        tabView.addComponent(label);
         this.addReturnButtonListener(tabView);
 
         logger.info("View was added in " + this.getClass() + " for " + this.getView().getConfiguration().getTitle().getText());
@@ -231,14 +227,4 @@ public class GenusSpeciesCountPresenter extends ATabPresenter<PieChartModel, Pie
     @Override
     protected void addChartListener(){}
 
-    @Override
-    protected void addReturnButtonListener(TabView tabView) {
-
-        tabView.getReturnButton().addClickListener(clickEvent -> {
-            logger.info("Return button was pressed");
-            tabView.addMainComponent();
-            tabView.addComponent(label);
-
-        });
-    }
 }

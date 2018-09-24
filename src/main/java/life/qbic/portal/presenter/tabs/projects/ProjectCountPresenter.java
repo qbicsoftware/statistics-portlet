@@ -42,6 +42,7 @@ public class ProjectCountPresenter extends ATabPresenter<PieChartModel, PieView>
 
         PlotOptionsPie plot = new PlotOptionsPie();
         plot.setDataLabels(new DataLabels(true));
+        plot.setShowInLegend(true);
         //Labels that point to a pie piece that can be clicked will be cornflower blue (Multi-omics)
         plot.getDataLabels().setFormatter("function() { " +
                 "var text = this.point.name; " +
@@ -56,7 +57,14 @@ public class ProjectCountPresenter extends ATabPresenter<PieChartModel, PieView>
         tooltip.setFormatter("this.point.name + ': <b>'+ this.y + '</b> Projects'");
 
         Legend legend = new Legend();
-        legend.setEnabled(false);
+        legend.setLabelFormatter("function() {" +
+                "var text = this.name.split('[')[0];" +
+                "text = text.substring(0, text.length - 1);" +
+                "return text + ': ' + this.y + ' Projects' "+
+                "}");
+        legend.setLayout(LayoutDirection.VERTICAL);
+        legend.setVerticalAlign(VerticalAlign.BOTTOM);
+        legend.setAlign(HorizontalAlign.RIGHT);
 
         super.setModel(new PieChartModel(super.getView().getConfiguration(), projectConfig.getSettings().getTitle(),
                 projectConfig.getSettings().getSubtitle(), projectConfig.getSettings().getTabTitle(), tooltip, legend, plot));

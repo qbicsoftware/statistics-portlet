@@ -68,6 +68,12 @@ public class SuperKingdomCountPresenter extends ATabPresenter<PieChartModel, Pie
         this.setModel(new PieChartModel(this.getView().getConfiguration(), this.kingdomConfig.getSettings().getTitle(),
                 this.kingdomConfig.getSettings().getSubtitle(), this.kingdomConfig.getSettings().getTabTitle(), tooltip, legend, plot));
 
+        Credits credits = new Credits("If a species's ratio exceeds 50% in its respective domain, it is displayed and visualized on domain level.");
+        credits.setPosition(new Position());
+        credits.getPosition().setHorizontalAlign(HorizontalAlign.LEFT);
+        credits.getPosition().setX(10);
+        super.getModel().getConfiguration().setCredits(credits);
+
         logger.info("Settings were added to a chart of " + this.getClass() + " with chart title: " + this.getView().getConfiguration().getTitle().getText());
 
     }
@@ -108,12 +114,6 @@ public class SuperKingdomCountPresenter extends ATabPresenter<PieChartModel, Pie
         //Set new tab
         super.setTabView(tabView);
         super.getTabView().addMainComponent();
-
-        Label label = new Label("<font size = '2' color='grey'> " +
-                "If a species's ratio exceeds 50<span>&#37;</span> in its respective domain," +
-                " it is displayed and visualized on domain level. ", ContentMode.HTML);
-
-        super.getTabView().addComponent(label);
         super.getMainPresenter().getMainView().addTabView(super.getTabView(), title);
 
         logger.info("Tab was added in " + this.getClass() + " for " + this.getView().getConfiguration().getTitle().getText());
