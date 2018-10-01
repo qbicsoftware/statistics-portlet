@@ -48,7 +48,7 @@ public class WorkflowUsagePresenter extends ATabPresenter<PieChartModel, PieView
         plot.getStates().setHover(hover);
 
         Tooltip tooltip = new Tooltip();
-        tooltip.setFormatter("this.point.name + ': <b>'+ this.y + '</b> times executed <br> Clock to show available workflows'");
+        tooltip.setFormatter("this.point.name + ': <b>'+ this.y + '</b> times executed <br> Click to show available workflows'");
 
         Legend legend = new Legend();
         legend.setLabelFormatter("function() {" +

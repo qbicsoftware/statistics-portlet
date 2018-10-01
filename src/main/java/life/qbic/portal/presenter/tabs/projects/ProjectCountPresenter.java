@@ -67,7 +67,7 @@ public class ProjectCountPresenter extends ATabPresenter<PieChartModel, PieView>
                 "var text = this.point.name + ': <b>'+ this.y + '</b> Projects'; " +
                 "if (text.includes('Multi-omics')) " +
                 "{ " +
-                "       text = text + '<br> Clock to show details' ; " +
+                "       text = text + '<br> Click to show details' ; " +
                 "}" +
                 "return text; " +
                 "}" );
