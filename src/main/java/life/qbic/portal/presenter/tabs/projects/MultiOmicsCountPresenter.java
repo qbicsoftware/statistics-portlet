@@ -35,7 +35,7 @@ public class MultiOmicsCountPresenter extends ATabPresenter<ColumnModel, ColumnV
         plot.setDataLabels(new DataLabels(true));
 
         Tooltip tooltip = new Tooltip();
-
+        tooltip.setFormatter("this.point.name + ': <b>'+ this.y + '</b> Projects, <br> Samples originate from multiple technologies.'");
         Legend legend = new Legend();
         legend.setEnabled(false);
 

@@ -61,7 +61,7 @@ public class SuperKingdomCountPresenter extends ATabPresenter<PieChartModel, Pie
                 "var isKingdom = false;"+
                 "for(var i =0;i < kingdoms.length; i++){ "+
                 //Either 'Kingdoms' or 'Other Kingdom' is clickable and thus blue underlined
-                "   if(category.indexOf(kingdoms[i]) != -1 || (category == 'Other' && text.split(' ').length > 2) )"+
+                "   if(category.indexOf(kingdoms[i]) != -1 || text.split(' ')[1].indexOf(kingdoms[i]) != -1)"+
                 "       isKingdom = true;"+
                 "}"+
                 "if (isKingdom) " +
@@ -70,8 +70,25 @@ public class SuperKingdomCountPresenter extends ATabPresenter<PieChartModel, Pie
                 "}" +
                 "return text; " +
                 "}");
+
         Tooltip tooltip = new Tooltip();
-        tooltip.setFormatter("this.point.name + ': <b>'+ this.y + '</b> Samples'");
+        tooltip.setFormatter(  "function() { " +
+                "var text = this.point.name  + ': <b>'+ this.y + '</b> Samples';" +
+                        "var category = text.split(' ')[0]; " +
+                        "var kingdoms = ['Eukaryota', 'Bacteria', 'Viruses', 'Archae', 'Viroids'];" +
+                        "var isKingdom = false;"+
+                        "for(var i =0;i < kingdoms.length; i++){ "+
+                       "   if(category.indexOf(kingdoms[i]) != -1 || text.split(' ')[1].indexOf(kingdoms[i]) != -1)"+
+                        "       isKingdom = true;"+
+                        "}"+
+                        "if (isKingdom) " +
+                        "{ " +
+                        "       text = text + '<br> Click to show species';" +
+                        "}" +
+                        "return text; " +
+                "}"
+        );
+
         Legend legend = new Legend();
         legend.setLabelFormatter("function() {" +
                 "var text = this.name.split('[')[0];" +

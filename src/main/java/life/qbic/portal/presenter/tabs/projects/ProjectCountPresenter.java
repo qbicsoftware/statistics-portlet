@@ -63,7 +63,14 @@ public class ProjectCountPresenter extends ATabPresenter<PieChartModel, PieView>
                 "}" );
 
         Tooltip tooltip = new Tooltip();
-        tooltip.setFormatter("this.point.name + ': <b>'+ this.y + '</b> Projects'");
+        tooltip.setFormatter("function() { " +
+                "var text = this.point.name + ': <b>'+ this.y + '</b> Projects'; " +
+                "if (text.includes('Multi-omics')) " +
+                "{ " +
+                "       text = text + '<br> Clock to show details' ; " +
+                "}" +
+                "return text; " +
+                "}" );
 
         Legend legend = new Legend();
         legend.setLabelFormatter("function() {" +
@@ -71,6 +78,7 @@ public class ProjectCountPresenter extends ATabPresenter<PieChartModel, PieView>
                 "text = text.substring(0, text.length - 1);" +
                 "return text + ': ' + this.y + ' Projects' "+
                 "}");
+
         legend.setLayout(LayoutDirection.VERTICAL);
         legend.setVerticalAlign(VerticalAlign.BOTTOM);
         legend.setAlign(HorizontalAlign.RIGHT);
