@@ -130,4 +130,5 @@ public class TabView extends VerticalLayout {
     private void setSubtitle(String subtitle){
         this.subtitle.setValue(subtitle);
     }
+
 }

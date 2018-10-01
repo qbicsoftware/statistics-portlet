@@ -1,6 +1,7 @@
 package life.qbic.portal.presenter.tabs.samples;
 
 
+import com.vaadin.addon.charts.Chart;
 import com.vaadin.addon.charts.model.*;
 import com.vaadin.addon.charts.model.style.SolidColor;
 import life.qbic.portal.exceptions.DataNotFoundException;
@@ -138,5 +139,9 @@ public class SampleTypeBarPresenter extends ATabPresenter<BarModel, BarView> {
     }
 
     @Override
-    protected void addChartListener(){}
+    protected void addChartListener(){
+        ((Chart) getView().getComponent()).addLegendItemClickListener(legendItemClickEvent -> {
+            //do nothing, overwrites normal function: hide/show clicked legend item in chart
+        });
+    }
 }

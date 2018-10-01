@@ -1,8 +1,12 @@
 package life.qbic.portal.presenter.tabs.projects;
 
 import com.vaadin.addon.charts.Chart;
+import com.vaadin.addon.charts.LegendItemClickEvent;
+import com.vaadin.addon.charts.LegendItemClickListener;
 import com.vaadin.addon.charts.PointClickListener;
 import com.vaadin.addon.charts.model.*;
+import com.vaadin.event.Action;
+import com.vaadin.ui.Component;
 import life.qbic.portal.exceptions.DataNotFoundException;
 import life.qbic.portal.model.view.charts.PieChartModel;
 import life.qbic.portal.presenter.MainPresenter;
@@ -134,6 +138,10 @@ public class ProjectCountPresenter extends ATabPresenter<PieChartModel, PieView>
                         new MultiOmicsCountPresenter(super.getMainPresenter());
                 addSubchart(p);
             }
+        });
+
+        ((Chart) getView().getComponent()).addLegendItemClickListener(legendItemClickEvent -> {
+            //do nothing, overwrites normal function: hide/show clicked legend item in chart
         });
     }
 
