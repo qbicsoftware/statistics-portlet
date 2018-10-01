@@ -42,6 +42,11 @@ public class SampleTypeBarPresenter extends ATabPresenter<BarModel, BarView> {
 
         plot.setStacking(Stacking.NORMAL);
 
+        Hover hover = new Hover();
+        hover.setEnabled(false);
+        plot.getStates().setHover(hover);
+
+
         Tooltip tooltip = new Tooltip();
         tooltip.setFormatter("this.series.name + ': <b>'+ this.y + '</b> Samples'");
 

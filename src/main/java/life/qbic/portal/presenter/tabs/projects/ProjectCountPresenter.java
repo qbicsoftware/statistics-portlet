@@ -47,6 +47,11 @@ public class ProjectCountPresenter extends ATabPresenter<PieChartModel, PieView>
         PlotOptionsPie plot = new PlotOptionsPie();
         plot.setDataLabels(new DataLabels(true));
         plot.setShowInLegend(true);
+
+        Hover hover = new Hover();
+        hover.setEnabled(true);
+        plot.getStates().setHover(hover);
+
         //Labels that point to a pie piece that can be clicked will be cornflower blue (Multi-omics)
         plot.getDataLabels().setFormatter("function() { " +
                 "var text = this.point.name; " +
@@ -108,7 +113,13 @@ public class ProjectCountPresenter extends ATabPresenter<PieChartModel, PieView>
             }
         }
         Collections.sort(dataSorterList);
-        dataSorterList.forEach(d -> this.getModel().addData(new DataSeriesItem(d.getName(), d.getCount())));
+        dataSorterList.forEach(d -> {
+            DataSeriesItem dataSeriesItem = new DataSeriesItem(d.getName(), d.getCount());
+            if(!d.getName().contains("Multi")){
+                dataSeriesItem.setSelected(true);
+            }
+            this.getModel().addData(dataSeriesItem);
+        });
 
         logger.info("Data was added to a chart of " + this.getClass() + " with chart title: " + projectConfig.getSettings().getTitle());
 
