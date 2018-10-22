@@ -2,8 +2,11 @@ package life.qbic.portal.presenter.tabs.organisms;
 
 
 import com.vaadin.addon.charts.Chart;
+import com.vaadin.addon.charts.PointSelectListener;
 import com.vaadin.addon.charts.model.*;
 import com.vaadin.addon.charts.PointClickListener;
+import com.vaadin.addon.charts.model.style.SolidColor;
+import com.vaadin.shared.ui.colorpicker.Color;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Label;
 import life.qbic.portal.exceptions.DataNotFoundException;
@@ -42,6 +45,13 @@ public class SuperKingdomCountPresenter extends ATabPresenter<PieChartModel, Pie
         PlotOptionsPie plot = new PlotOptionsPie();
 
         plot.setDataLabels(new DataLabels(true));
+        plot.setShowInLegend(true);
+        plot.setCursor(Cursor.POINTER);
+        plot.setEnableMouseTracking(true);
+
+        Hover hover = new Hover();
+        hover.setEnabled(true);
+        plot.getStates().setHover(hover);
 
         //Labels that point to a pie piece that can be clicked will be cornflower blue (Other Eukaryota/Bacteria/...)
         plot.getDataLabels().setFormatter("function() { " +
@@ -51,7 +61,7 @@ public class SuperKingdomCountPresenter extends ATabPresenter<PieChartModel, Pie
                 "var isKingdom = false;"+
                 "for(var i =0;i < kingdoms.length; i++){ "+
                 //Either 'Kingdoms' or 'Other Kingdom' is clickable and thus blue underlined
-                "   if(category.indexOf(kingdoms[i]) != -1 || (category == 'Other' && text.split(' ').length > 2) )"+
+                "   if(category.indexOf(kingdoms[i]) != -1 || text.split(' ')[1].indexOf(kingdoms[i]) != -1)"+
                 "       isKingdom = true;"+
                 "}"+
                 "if (isKingdom) " +
@@ -60,13 +70,44 @@ public class SuperKingdomCountPresenter extends ATabPresenter<PieChartModel, Pie
                 "}" +
                 "return text; " +
                 "}");
+
         Tooltip tooltip = new Tooltip();
-        tooltip.setFormatter("this.point.name + ': <b>'+ this.y + '</b> Samples'");
+        tooltip.setFormatter(  "function() { " +
+                "var text = this.point.name  + ': <b>'+ this.y + '</b> Samples';" +
+                        "var category = text.split(' ')[0]; " +
+                        "var kingdoms = ['Eukaryota', 'Bacteria', 'Viruses', 'Archae', 'Viroids'];" +
+                        "var isKingdom = false;"+
+                        "for(var i =0;i < kingdoms.length; i++){ "+
+                       "   if(category.indexOf(kingdoms[i]) != -1 || text.split(' ')[1].indexOf(kingdoms[i]) != -1)"+
+                        "       isKingdom = true;"+
+                        "}"+
+                        "if (isKingdom) " +
+                        "{ " +
+                        "       text = text + '<br> Click to show species';" +
+                        "}" +
+                        "return text; " +
+                "}"
+        );
+
         Legend legend = new Legend();
-        legend.setEnabled(false);
+        legend.setLabelFormatter("function() {" +
+                "var text = this.name.split('[')[0];" +
+                "text = text.substring(0, text.length - 1);" +
+                "return text + ': ' + this.y + ' Samples' "+
+                "}");
+
+        legend.setLayout(LayoutDirection.VERTICAL);
+        legend.setVerticalAlign(VerticalAlign.BOTTOM);
+        legend.setAlign(HorizontalAlign.RIGHT);
 
         this.setModel(new PieChartModel(this.getView().getConfiguration(), this.kingdomConfig.getSettings().getTitle(),
                 this.kingdomConfig.getSettings().getSubtitle(), this.kingdomConfig.getSettings().getTabTitle(), tooltip, legend, plot));
+
+        Credits credits = new Credits("If a species's ratio exceeds 50% in its respective domain, it is displayed and visualized on domain level.");
+        credits.setPosition(new Position());
+        credits.getPosition().setHorizontalAlign(HorizontalAlign.LEFT);
+        credits.getPosition().setX(10);
+        super.getModel().getConfiguration().setCredits(credits);
 
         logger.info("Settings were added to a chart of " + this.getClass() + " with chart title: " + this.getView().getConfiguration().getTitle().getText());
 
@@ -97,10 +138,25 @@ public class SuperKingdomCountPresenter extends ATabPresenter<PieChartModel, Pie
         Collections.sort(dataSorters);
 
         //Add data
-        dataSorters.forEach(d -> this.getModel().addData(new DataSeriesItem(d.getName(), d.getCount())));
+
+
+        dataSorters.forEach(d -> {
+            DataSeriesItem dataSeriesItem = new DataSeriesItem(d.getName(), d.getCount());
+            //Either 'Kingdoms' or 'Other Kingdom' is clickable and thus is selected on hover
+            if(!isKingdom(d.getName())) {
+                dataSeriesItem.setSelected(true);
+            }
+            this.getModel().addData(dataSeriesItem);
+        });
 
         logger.info("Data was added to a chart of  " + this.getClass() + "  with chart title: " + this.getView().getConfiguration().getTitle().getText());
 
+    }
+
+    private boolean isKingdom(String name){
+        //returns true if name is of format <kingdom> [x%] or Other <kingdom> [x%]
+        //else returns false
+        return Kingdoms.getList().contains(name.split(" ")[0]) || Kingdoms.getList().contains(name.split(" ")[1]);
     }
 
     @Override
@@ -108,12 +164,6 @@ public class SuperKingdomCountPresenter extends ATabPresenter<PieChartModel, Pie
         //Set new tab
         super.setTabView(tabView);
         super.getTabView().addMainComponent();
-
-        Label label = new Label("<font size = '2' color='grey'> " +
-                "If a species's ratio exceeds 50<span>&#37;</span> in its respective domain," +
-                " it is displayed and visualized on domain level. ", ContentMode.HTML);
-
-        super.getTabView().addComponent(label);
         super.getMainPresenter().getMainView().addTabView(super.getTabView(), title);
 
         logger.info("Tab was added in " + this.getClass() + " for " + this.getView().getConfiguration().getTitle().getText());
@@ -144,6 +194,13 @@ public class SuperKingdomCountPresenter extends ATabPresenter<PieChartModel, Pie
             }
 
         });
+
+        ((Chart) getView().getComponent()).addLegendItemClickListener(legendItemClickEvent -> {
+            //do nothing, overwrites normal function: hide/show clicked legend item in chart
+        });
+
+
+
     }
 
 }

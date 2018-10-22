@@ -41,12 +41,24 @@ public class WorkflowUsagePresenter extends ATabPresenter<PieChartModel, PieView
 
         plot.setDataLabels(new DataLabels(true));
         plot.getDataLabels().setFormatter("'<span style=\"color:CornflowerBlue;text-decoration:underline\">' + this.point.name + '</span>'");
+        plot.setShowInLegend(true);
+
+        Hover hover = new Hover();
+        hover.setEnabled(true);
+        plot.getStates().setHover(hover);
 
         Tooltip tooltip = new Tooltip();
-        tooltip.setFormatter("this.point.name + ': <b>'+ this.y + '</b> times executed <br>Click to show available workflows'");
+        tooltip.setFormatter("this.point.name + ': <b>'+ this.y + '</b> times executed <br> Click to show available workflows'");
 
         Legend legend = new Legend();
-        legend.setEnabled(false);
+        legend.setLabelFormatter("function() {" +
+                "var text = this.name.split('[')[0];" +
+                "text = text.substring(0, text.length - 1);" +
+                "return text + ': ' + this.y + ' Runs' "+
+                "}");
+        legend.setLayout(LayoutDirection.VERTICAL);
+        legend.setVerticalAlign(VerticalAlign.BOTTOM);
+        legend.setAlign(HorizontalAlign.RIGHT);
 
         super.setModel(new PieChartModel(super.getView().getConfiguration(), workflowUsageConfig.getSettings().getTitle(),
                 workflowUsageConfig.getSettings().getSubtitle(),workflowUsageConfig.getSettings().getTabTitle(), tooltip, legend, plot));
@@ -120,6 +132,10 @@ public class WorkflowUsagePresenter extends ATabPresenter<PieChartModel, PieView
             }catch(Exception e){
                 logger.error(chartName.concat(" workflows could not be displayed."), e.getMessage());
             }
+        });
+
+        ((Chart) getView().getComponent()).addLegendItemClickListener(legendItemClickEvent -> {
+            //do nothing, overwrites normal function: hide/show clicked legend item in chart
         });
     }
 }

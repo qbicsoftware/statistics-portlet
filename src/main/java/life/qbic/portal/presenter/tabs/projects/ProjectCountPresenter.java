@@ -1,8 +1,12 @@
 package life.qbic.portal.presenter.tabs.projects;
 
 import com.vaadin.addon.charts.Chart;
+import com.vaadin.addon.charts.LegendItemClickEvent;
+import com.vaadin.addon.charts.LegendItemClickListener;
 import com.vaadin.addon.charts.PointClickListener;
 import com.vaadin.addon.charts.model.*;
+import com.vaadin.event.Action;
+import com.vaadin.ui.Component;
 import life.qbic.portal.exceptions.DataNotFoundException;
 import life.qbic.portal.model.view.charts.PieChartModel;
 import life.qbic.portal.presenter.MainPresenter;
@@ -42,6 +46,12 @@ public class ProjectCountPresenter extends ATabPresenter<PieChartModel, PieView>
 
         PlotOptionsPie plot = new PlotOptionsPie();
         plot.setDataLabels(new DataLabels(true));
+        plot.setShowInLegend(true);
+
+        Hover hover = new Hover();
+        hover.setEnabled(true);
+        plot.getStates().setHover(hover);
+
         //Labels that point to a pie piece that can be clicked will be cornflower blue (Multi-omics)
         plot.getDataLabels().setFormatter("function() { " +
                 "var text = this.point.name; " +
@@ -53,10 +63,25 @@ public class ProjectCountPresenter extends ATabPresenter<PieChartModel, PieView>
                 "}" );
 
         Tooltip tooltip = new Tooltip();
-        tooltip.setFormatter("this.point.name + ': <b>'+ this.y + '</b> Projects'");
+        tooltip.setFormatter("function() { " +
+                "var text = this.point.name + ': <b>'+ this.y + '</b> Projects'; " +
+                "if (text.includes('Multi-omics')) " +
+                "{ " +
+                "       text = text + '<br> Click to show details' ; " +
+                "}" +
+                "return text; " +
+                "}" );
 
         Legend legend = new Legend();
-        legend.setEnabled(false);
+        legend.setLabelFormatter("function() {" +
+                "var text = this.name.split('[')[0];" +
+                "text = text.substring(0, text.length - 1);" +
+                "return text + ': ' + this.y + ' Projects' "+
+                "}");
+
+        legend.setLayout(LayoutDirection.VERTICAL);
+        legend.setVerticalAlign(VerticalAlign.BOTTOM);
+        legend.setAlign(HorizontalAlign.RIGHT);
 
         super.setModel(new PieChartModel(super.getView().getConfiguration(), projectConfig.getSettings().getTitle(),
                 projectConfig.getSettings().getSubtitle(), projectConfig.getSettings().getTabTitle(), tooltip, legend, plot));
@@ -96,7 +121,13 @@ public class ProjectCountPresenter extends ATabPresenter<PieChartModel, PieView>
             }
         }
         Collections.sort(dataSorterList);
-        dataSorterList.forEach(d -> this.getModel().addData(new DataSeriesItem(d.getName(), d.getCount())));
+        dataSorterList.forEach(d -> {
+            DataSeriesItem dataSeriesItem = new DataSeriesItem(d.getName(), d.getCount());
+            if(!d.getName().contains("Multi")){
+                dataSeriesItem.setSelected(true);
+            }
+            this.getModel().addData(dataSeriesItem);
+        });
 
         logger.info("Data was added to a chart of " + this.getClass() + " with chart title: " + projectConfig.getSettings().getTitle());
 
@@ -126,6 +157,10 @@ public class ProjectCountPresenter extends ATabPresenter<PieChartModel, PieView>
                         new MultiOmicsCountPresenter(super.getMainPresenter());
                 addSubchart(p);
             }
+        });
+
+        ((Chart) getView().getComponent()).addLegendItemClickListener(legendItemClickEvent -> {
+            //do nothing, overwrites normal function: hide/show clicked legend item in chart
         });
     }
 
