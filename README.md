@@ -30,8 +30,8 @@ Prereq: Your data already exists in the yaml config file. If not then please imp
 2. If you had to create a new model, you have to create a new plot type in the view.tabs.charts or  view.tabs
     package. Create it similar to the other classes in that sub-package by extending AView/AChartView.
     
-3. Create a new MyPlotPresenter, which implements the AChartPresenter interface, similar to the other
-    presenters in the presenter.charts package. 
+3. Create a new presenter class, which implements the ATabPresenter interface, similar to the other
+    presenters in the presenter.tabs package. 
     
     Example: SuperKingdomCountPresenter with the sub charts of GenusSpeciesCountPresenter
     
