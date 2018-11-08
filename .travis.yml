@@ -26,6 +26,11 @@ before_install: unset _JAVA_OPTIONS
 # speed up builds by telling Travis that we don't need any special "installation"
 install: true
 
+# check if we need to add a license file for Vaadin charts
+before_script: if [ "$VAADIN_CHARTS_LICENSE_CODE" != "" ]; then
+                  echo "$VAADIN_CHARTS_LICENSE_CODE" > ~/.vaadin.charts.developer.license;
+               fi;
+
 # as agreed in our SOP, build everything (don't deploy, just try to 'mvn install' locally, which covers all phases)
 script: mvn --quiet --activate-profiles !development-build,!release-build --settings .travis.settings.xml clean cobertura:cobertura install
 # upload code coverage report, generate maven site (javadocs, documentation, static code analysis, etc.)
@@ -52,7 +57,7 @@ deploy:
   script: mvn --quiet --activate-profiles !development-build,release-build --settings .travis.settings.xml deploy
   on:
     branch: master
-    tags: true
+    condition: '"$TRAVIS_EVENT_TYPE" = "push"'
 
 # change according to your needs, but we recommend to deactivate email notifications
 # for now, we configured Travis to send a notification to the #travis-ci channel 
@@ -66,3 +71,12 @@ notifications:
     # edit the following section if you want to get slack notifications
     rooms:
       - secure: "***"
+
+#
+# credentials
+env:
+  global:
+    - secure: "Blv9fXhjV4Kdx35SuuqF8sIbH0+az/zgS+CQ/fqqvhx3ue7FwTqYg8pL5uQm1yEZWRJLm76lM62xUZDULP0IpBsrGTW3ljBh32Ysr993ujC40Sf6rlvBHCW4czB7li9p0MhttrdWdo/5B9olbEHspFlo1VfJ+bMVk9MYySaFgwQebxAwIiDVSqQXxWrCZdpbuGlyZBkbKGvvUr7kzMorhOQ51B5fW4M/81jdqtAc6BsALkw7bl7CSFbvS2TIQ+sjBhd21t+cbJgtk8EgR6F7SSBQBkiJmRe8DX+qR5TzSQvzKl7a0j96by4EnsCbJEpOgP7mbwmYakkfBWzctZVWmZPxLKZC4m+/PEUcZyvrqDhhF3R6jkyRelRNgPsprQcz9/keTc19t5gMB4DObZ2sfWsMtezA/PH4zDM4puXR13WE3vHnqyF67if6bPORFMM4qWgEyzeHizveio7pY/wIGdKmMsddjDWDML/0DhF+hOSoQCQ2tpcoPrfgrRKe2JYuIX3g7QqhexCu6XDtHfhsYoqsjnGEBAhnLmqQ7JFXIvQ2Lz08sP7EY2Bf5/O5yoTpepF4T3tClx0bWoxPUh9HhprKrd0pyHF5XPUb1lc3dUeKIE+vCFAhwzVzTj1EFlEAfpo69Nv5ar074ODN3n4xi+WiNTnkmPBdL/Jr81aDwqU="  
+    - secure: "Okk4mM+4G2LVdJQ/7y4FplCGo4Ro7GIKxyGSmpjRxcQoblC/eaufu/qUuBa9s2WPbSdfmMhyYDTdMn/vuegL+47Pb0W5K01osbLvtVeO/tCOkZhPqpRZZMskNcbuM3xEfBIowp1rUiXhWCRjmxnvyI8HxOZp9Xzq9JohDplxe14tKYZq1lWHU4S1ZFkqPDNjPwdm2yLN+FJyrMXg/BAJWlTc9GTNnLKdEVndJvvc9ekhw3UWbC0C3xq+CBWbJVoVji3q0BP8i+KiweWgvRxuxka/Tmin6HyZY5G1VC6Km6RcJn42jkq9oVMMIK95lv3E/l+udxVZ2H5VcQivL3/qNOErZdzMHaSSrlmxaMCs1rnBQ77DfzBKx51GY/yx+MUYFY91ebWYx1CIW/HUUvHP/sDkJ4ZOUtH8Z65fftfIOU1t1Y1t/oLJTWDCRl+Ury5Y6FHwZJFR8hpNSq8xuPEZ3zJ9p2dQvK3mxJ2FShMJn/REr1vS7J745MMgB4U7sZZbf9fPQTGcAnmTXFKopd3MhGZgQ5it3pCdIrIa74UHq/wUtdG+7R+Jb+odKoisjIWJcgC4i5wvAr026pU0sXR1/IUMeFngXTatlUUEUEHHXXutRqG1B6sTMgkdtUVlT8zd58hWhEJJ7kPCIZBrt1MFn8qR4izNKh3BuZNuSAel88Y="
+    - secure: "YW1qTK02OZTHi5sKR7evwp7Fu+Icbo0tG6/gDHdJw8MI+bPUomYqMM5EJ1y/Boj5+ZVcSLDyAT4VHnyIRSy163jN9pAnZuqNEmZLdemJE4BadMb2Ae7k1VuvjZ7YbZJswcMC3i10ZGiBx2LTKR80vpv/+bE9GDesUtMo5TBaJBsXit2+J1HTkKHaSv8oGdtOy6nI3UAqKr12feDyLmiEPpyAButWQQc57jby1y2KtPxmooXcpiQCvglBM4FN2Z7IfTgoJSGFAc1MC2aSSX2gvyXqQdgxeUeYih1bSJBzOs9ACIpn624RorkQWmie3BI3qDB0AAF8ih3+CWic5Ygwrl2HqAfYou4mOXSZGCom+S4O4BWZLbpJjEE6BVlmqzZWBdYIubDpQfsiZE3wJNleQAZ8omaEZhI+E7FJZva9w/bdzccxi+7z7On5IbHY0lsy1Tu/BXs6qXnAbDqv05f8z46oU+2FGcArfCkCYPpgIEHUlDJFBBQlk15fhlZUXenNJr8DeCf0JCPijg3mjFTvvvPh6MmtkSu8FdYypqASqHhiOGhNjeRztOoW984Ct8xi4BkreIkiAuZGGCxnVKetDN3pydpe7Hnf+z7RVF/5bOiTm/rLszoCjrnPp29H9e6gqCDk2NX1vLwrgrzYcrNLYESd/r4/RrVDl4sc/1v5Fys="
+
