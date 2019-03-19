@@ -1,5 +1,6 @@
 package life.qbic.portal.presenter;
 
+import java.io.InputStream;
 import life.qbic.portal.Styles;
 import life.qbic.portal.exceptions.DataNotFoundException;
 import life.qbic.portal.model.view.AModel;
@@ -41,7 +42,11 @@ public class MainPresenter {
 
     private final List<ATabPresenter> tabPresenterList = new ArrayList<>();
 
-    public MainPresenter(StatisticsPortlet mainView, String defaultInputFilename) {
+    /**
+     * @param mainView the view
+     * @param content the input stream containing the data.
+     */
+    public MainPresenter(StatisticsPortlet mainView, InputStream content) {
         this.mainView = mainView;
         this.mainConfig = new MainConfig();
 
@@ -59,8 +64,7 @@ public class MainPresenter {
         tabPresenterList.add(workflowUsagePresenter);
 
         FileLoadPresenter fileLoadPresenter = new FileLoadPresenter(this);
-        fileLoadPresenter.setChartsFromConfig(defaultInputFilename);
-
+        fileLoadPresenter.setChartsFromConfig(content);
     }
 
     void setMainConfig(MainConfig mainConfig) {
