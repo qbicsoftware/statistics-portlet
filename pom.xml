@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>life.qbic</groupId>
 	<artifactId>statistics-portlet</artifactId>
-	<version>1.2.0-SNAPSHOT</version>
+	<version>1.2.1-SNAPSHOT</version>
 	<name>Statistics Portlet</name>
 	<url>http://github.com/qbicsoftware/statistics-portlet</url>
 	<description>Portlet to visualize data on landing page</description>
@@ -66,7 +66,7 @@
 		<dependency>
 			<groupId>life.qbic</groupId>
 			<artifactId>portal-utils-lib</artifactId>
-			<version>1.4.0</version>
+			<version>1.4.1</version>
 		</dependency>
 
 		<dependency>

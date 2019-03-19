@@ -7,7 +7,12 @@ import com.vaadin.ui.Layout;
 
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import life.qbic.portal.presenter.MainPresenter;
+import life.qbic.portal.utils.ConfigurationManager;
+import life.qbic.portal.utils.ConfigurationManagerFactory;
 import life.qbic.portal.utils.PortalUtils;
 import life.qbic.portal.view.TabView;
 import org.apache.logging.log4j.LogManager;
@@ -43,8 +48,23 @@ public class StatisticsPortlet extends QBiCPortletUI {
         setContent(layout);
         layout.addComponent(tabSheet);
 
+        final InputStream statisticsContent;
+        // if the property is missing, load a dummy yaml
+        final String statisticsFilePath = ConfigurationManagerFactory.getInstance().getStatisticsFilePath();
+        if (statisticsFilePath == null) {
+            logger.warn("Could not find the statistics. Displaying a demo file (config.yaml)");
+            statisticsContent = StatisticsPortlet.class.getResourceAsStream("/config.yaml");
+        } else {
+            logger.info("Loading statistics from {}", statisticsFilePath);
+            try {
+                statisticsContent = new FileInputStream(statisticsFilePath);
+            } catch (IOException e) {
+                throw new RuntimeException("Could not load statistics data from path " + statisticsFilePath, e);
+            }
+        }
+
         try {
-            MainPresenter mainPresenter = new MainPresenter(this,  "/config.yaml" );
+            MainPresenter mainPresenter = new MainPresenter(this, statisticsContent);
 
         }catch(Exception e){
             logger.error("Portlet failed due to: " + e.toString());

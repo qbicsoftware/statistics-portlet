@@ -2,6 +2,7 @@ package life.qbic.portal.presenter;
 
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Upload;
+import java.io.InputStream;
 import life.qbic.portal.Styles;
 import life.qbic.portal.io.MyReceiver;
 import life.qbic.portal.io.YAMLParser;
@@ -44,7 +45,7 @@ class FileLoadPresenter {
 
         tabView.addComponents(upload, new Label("Please select a file to upload"));
         upload.addSucceededListener((Upload.SucceededListener) succeededEvent ->
-                setChartsFromConfig(receiver.getFile(), receiver.getFilename()));
+                setChartsFromConfig(receiver.getFile()));
     }
 
     private void showDummyChart(){
@@ -52,23 +53,25 @@ class FileLoadPresenter {
                 dummyChartPresenter.getModel()), "Dummy Chart");
     }
 
-    void setChartsFromConfig(String filename){
+    /**
+     * @param inputStream stream where the yaml file containing the data has been loaded into.
+     */
+    public void setChartsFromConfig(final InputStream inputStream) {
         try {
-            this.mainPresenter.setMainConfig(YAMLParser.parseConfig(filename));
+            this.mainPresenter.setMainConfig(YAMLParser.parseConfig(inputStream));
             logger.info("Finished parsing");
             mainPresenter.addChildPresenter();
-        }catch(Exception e) {
+        } catch (Exception e) {
             showDummyChart();
             Styles.notification("Error", e.toString(), Styles.NotificationType.ERROR);
             logger.error("Charts could not be displayed.", e);
         }
-
     }
 
-    private void setChartsFromConfig(File file, String inputFilename){
+    private void setChartsFromConfig(File file){
 
         try {
-            this.mainPresenter.setMainConfig(YAMLParser.parseConfig(new FileInputStream(file), inputFilename));
+            this.mainPresenter.setMainConfig(YAMLParser.parseConfig(new FileInputStream(file)));
             logger.info("Finished parsing.");
             mainPresenter.addChildPresenter();
             mainPresenter.addCharts();
