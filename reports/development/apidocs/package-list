@@ -1,0 +1,16 @@
+life.qbic.portal.exceptions
+life.qbic.portal.io
+life.qbic.portal.model.components
+life.qbic.portal.model.view
+life.qbic.portal.model.view.charts
+life.qbic.portal.portlet
+life.qbic.portal.presenter
+life.qbic.portal.presenter.tabs
+life.qbic.portal.presenter.tabs.organisms
+life.qbic.portal.presenter.tabs.projects
+life.qbic.portal.presenter.tabs.samples
+life.qbic.portal.presenter.tabs.workflows
+life.qbic.portal.presenter.utils
+life.qbic.portal.view
+life.qbic.portal.view.tabs
+life.qbic.portal.view.tabs.charts

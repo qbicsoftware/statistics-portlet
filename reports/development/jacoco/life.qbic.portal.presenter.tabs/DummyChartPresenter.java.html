@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DummyChartPresenter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Statistics Portlet</a> &gt; <a href="index.source.html" class="el_package">life.qbic.portal.presenter.tabs</a> &gt; <span class="el_source">DummyChartPresenter.java</span></div><h1>DummyChartPresenter.java</h1><pre class="source lang-java linenums">package life.qbic.portal.presenter.tabs;
+
+
+import com.vaadin.addon.charts.model.*;
+import life.qbic.portal.model.view.charts.PieChartModel;
+import life.qbic.portal.presenter.MainPresenter;
+import life.qbic.portal.view.TabView;
+import life.qbic.portal.view.tabs.charts.PieView;
+
+
+public class DummyChartPresenter extends ATabPresenter&lt;PieChartModel, PieView&gt; {
+
+<span class="nc" id="L13">    private final String mainTitle = &quot;Dummy Chart&quot;;</span>
+<span class="nc" id="L14">    private final String subTitle = &quot; &quot;;</span>
+    public DummyChartPresenter(MainPresenter mainPresenter){
+<span class="nc" id="L16">        super(mainPresenter, new PieView());</span>
+<span class="nc" id="L17">    }</span>
+
+
+    @Override
+    public void setUp(){
+<span class="nc" id="L22">        addChartSettings();</span>
+<span class="nc" id="L23">        addChartData();</span>
+<span class="nc" id="L24">    }</span>
+
+    @Override
+    protected void extractData(){
+
+<span class="nc" id="L29">    }</span>
+
+
+    @Override
+    protected void addChartSettings() {
+<span class="nc" id="L34">        PlotOptionsPie plot = new PlotOptionsPie();</span>
+
+<span class="nc" id="L36">        plot.setDataLabels(new DataLabels(true));</span>
+
+<span class="nc" id="L38">        Tooltip tooltip = new Tooltip();</span>
+<span class="nc" id="L39">        tooltip.setFormatter(&quot;this.point.name + ': &lt;b&gt;'+ this.y + '&lt;/b&gt; Samples'&quot;);</span>
+
+<span class="nc" id="L41">        Legend legend = new Legend();</span>
+<span class="nc" id="L42">        legend.setEnabled(false);</span>
+
+<span class="nc" id="L44">        this.setModel(new PieChartModel(this.getView().getConfiguration(), mainTitle, subTitle, mainTitle, tooltip,</span>
+                legend, plot));
+
+<span class="nc" id="L47">        logger.info(&quot;Settings were added to a chart of &quot;+ this.getClass() +&quot; with chart title: &quot; + this.getView().getConfiguration().getTitle().getText());</span>
+
+<span class="nc" id="L49">    }</span>
+
+    @Override
+    protected void addChartData() {
+
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        for (int i = 0; i &lt; 5; i++) {</span>
+<span class="nc" id="L55">            this.getModel().addData(new DataSeries(new DataSeriesItem(&quot;Genomes&quot;.concat(String.valueOf(i)), i)));</span>
+        }
+<span class="nc" id="L57">        logger.info(&quot;Data was added to a chart of  &quot; + this.getClass() + &quot;  with chart title: &quot; + this.getView().getConfiguration().getTitle().getText());</span>
+<span class="nc" id="L58">    }</span>
+
+    @Override
+    public void addChart(TabView tabView, String title) {
+        //Set new tab
+<span class="nc" id="L63">        super.setTabView(tabView);</span>
+<span class="nc" id="L64">        super.getTabView().addMainComponent();</span>
+<span class="nc" id="L65">        super.getMainPresenter().getMainView().addTabView(super.getTabView(), title);</span>
+
+<span class="nc" id="L67">        logger.info(&quot;Tab was added in &quot; + this.getClass() + &quot; for &quot; +  this.getView().getConfiguration().getTitle().getText() );</span>
+
+<span class="nc" id="L69">    }</span>
+
+    @Override
+<span class="nc" id="L72">    protected void addChartListener(){}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

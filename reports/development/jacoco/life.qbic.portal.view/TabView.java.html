@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TabView.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Statistics Portlet</a> &gt; <a href="index.source.html" class="el_package">life.qbic.portal.view</a> &gt; <span class="el_source">TabView.java</span></div><h1>TabView.java</h1><pre class="source lang-java linenums">package life.qbic.portal.view;
+
+
+import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.*;
+import com.vaadin.ui.themes.ValoTheme;
+
+import life.qbic.portal.model.view.AModel;
+import life.qbic.portal.model.view.charts.AChartModel;
+import life.qbic.portal.view.tabs.AView;
+import life.qbic.portal.view.tabs.charts.AChartView;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+/**
+ * @author fhanssen
+ */
+public class TabView extends VerticalLayout {
+
+<span class="nc" id="L21">    private static final Logger logger = LogManager.getLogger(TabView.class);</span>
+
+<span class="nc" id="L23">    private final Button returnButton = new Button(&quot;Back&quot;, FontAwesome.ANGLE_DOUBLE_LEFT);</span>
+    private final AView mainView;
+    private final AModel mainModel;
+    private final Label title;
+    private final Label subtitle;
+
+<span class="nc" id="L29">    private final Panel graphPanel = new Panel();</span>
+
+<span class="nc" id="L31">    public TabView(AView view, AModel model){</span>
+<span class="nc" id="L32">        this.mainView = view;</span>
+<span class="nc" id="L33">        this.mainModel = model;</span>
+
+<span class="nc" id="L35">        this.title = new Label(&quot;&quot;, ContentMode.HTML);</span>
+<span class="nc" id="L36">        title.setStyleName(ValoTheme.LABEL_NO_MARGIN);</span>
+<span class="nc" id="L37">        title.setStyleName(ValoTheme.LABEL_BOLD);</span>
+<span class="nc" id="L38">        title.addStyleName(ValoTheme.LABEL_COLORED);</span>
+<span class="nc" id="L39">        title.addStyleName(ValoTheme.LABEL_HUGE);</span>
+<span class="nc" id="L40">        title.addStyleName(ValoTheme.LABEL_H1);</span>
+<span class="nc" id="L41">        title.setWidth(null);</span>
+
+<span class="nc" id="L43">        this.subtitle = new Label(&quot;&quot;, ContentMode.HTML);</span>
+<span class="nc" id="L44">        subtitle.setStyleName(ValoTheme.LABEL_NO_MARGIN);</span>
+<span class="nc" id="L45">        subtitle.setStyleName(ValoTheme.LABEL_BOLD);</span>
+<span class="nc" id="L46">        subtitle.addStyleName(ValoTheme.LABEL_COLORED);</span>
+<span class="nc" id="L47">        subtitle.addStyleName(ValoTheme.LABEL_LARGE);</span>
+<span class="nc" id="L48">        subtitle.addStyleName(ValoTheme.LABEL_H1);</span>
+<span class="nc" id="L49">        subtitle.setWidth(null);</span>
+
+<span class="nc" id="L51">        setMargin(false);</span>
+<span class="nc" id="L52">        setSpacing(false);</span>
+
+<span class="nc" id="L54">        addComponent(title);</span>
+<span class="nc" id="L55">        addComponent(subtitle);</span>
+<span class="nc" id="L56">        setComponentAlignment(title, Alignment.MIDDLE_CENTER);</span>
+<span class="nc" id="L57">        setComponentAlignment(subtitle, Alignment.MIDDLE_CENTER);</span>
+
+<span class="nc" id="L59">        returnButton.addStyleName(ValoTheme.BUTTON_BORDERLESS_COLORED);</span>
+<span class="nc" id="L60">        returnButton.setWidth(10, Unit.PERCENTAGE);</span>
+<span class="nc" id="L61">        returnButton.setHeight(10, Unit.PERCENTAGE);</span>
+
+<span class="nc" id="L63">        graphPanel.setWidth(100, Unit.PERCENTAGE);</span>
+        //this.mainView.getComponent().setHeight(String.valueOf(this.mainView.getComponent().getHeight() + 50.0));
+
+<span class="nc" id="L66">    }</span>
+
+    public Button getReturnButton() {
+<span class="nc" id="L69">        return returnButton;</span>
+    }
+
+    public void addMainComponent(){
+
+<span class="nc" id="L74">        removeComponents();</span>
+
+<span class="nc bnc" id="L76" title="All 2 branches missed.">        if(mainView instanceof AChartView) {</span>
+<span class="nc" id="L77">            ((AChartView) mainView).draw((AChartModel) mainModel);</span>
+        }
+<span class="nc" id="L79">        graphPanel.setContent(mainView.getComponent());</span>
+
+<span class="nc" id="L81">        setTitle(mainModel.getTitle());</span>
+<span class="nc" id="L82">        setSubtitle(mainModel.getSubTitle());</span>
+
+<span class="nc" id="L84">        addComponents(this.title, this.subtitle, graphPanel);</span>
+
+<span class="nc" id="L86">        setComponentAlignment(this.title, Alignment.MIDDLE_CENTER);</span>
+<span class="nc" id="L87">        setComponentAlignment(this.subtitle, Alignment.MIDDLE_CENTER);</span>
+
+<span class="nc" id="L89">        logger.info(&quot;Main component was added.&quot;);</span>
+
+<span class="nc" id="L91">    }</span>
+
+    private void removeComponents() {
+<span class="nc" id="L94">        removeAllComponents();</span>
+<span class="nc" id="L95">        setTitle(&quot;&quot;);</span>
+<span class="nc" id="L96">        setSubtitle(&quot;&quot;);</span>
+<span class="nc" id="L97">        logger.info(&quot;All components were removed from tab.&quot;);</span>
+<span class="nc" id="L98">    }</span>
+
+    public void addSubComponent(AModel model, AView view){
+
+<span class="nc" id="L102">        removeComponents();</span>
+
+<span class="nc bnc" id="L104" title="All 2 branches missed.">        if(view instanceof AChartView) {</span>
+<span class="nc" id="L105">            ((AChartView)view).draw((AChartModel) model);</span>
+            //FIXME: Something is off with vaadin charts size (multiple open issues on GitHub).
+            //FIXME: Using this work-around for now. The labels are not accounted for in the height measure,
+            //FIXmE: so adding a padding manually.
+<span class="nc" id="L109">            view.getComponent().setHeight(Double.toString(view.getComponent().getHeight() + 50.0f));</span>
+        }
+<span class="nc" id="L111">        graphPanel.setContent(view.getComponent());</span>
+
+<span class="nc" id="L113">        setTitle(model.getTitle());</span>
+<span class="nc" id="L114">        setSubtitle(model.getSubTitle());</span>
+
+<span class="nc" id="L116">        addComponents(returnButton,this.title, this.subtitle, graphPanel);</span>
+
+<span class="nc" id="L118">        setComponentAlignment(this.title, Alignment.TOP_CENTER);</span>
+<span class="nc" id="L119">        setComponentAlignment(this.subtitle, Alignment.TOP_CENTER);</span>
+<span class="nc" id="L120">        setComponentAlignment(returnButton, Alignment.TOP_LEFT);</span>
+
+<span class="nc" id="L122">        logger.info(&quot;Sub-component and return button was added to tab.&quot;);</span>
+
+<span class="nc" id="L124">    }</span>
+
+    private void setTitle(String title) {
+<span class="nc" id="L127">        this.title.setValue(title);</span>
+<span class="nc" id="L128">    }</span>
+
+    private void setSubtitle(String subtitle){
+<span class="nc" id="L131">        this.subtitle.setValue(subtitle);</span>
+<span class="nc" id="L132">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

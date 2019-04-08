@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AChartView.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Statistics Portlet</a> &gt; <a href="index.source.html" class="el_package">life.qbic.portal.view.tabs.charts</a> &gt; <span class="el_source">AChartView.java</span></div><h1>AChartView.java</h1><pre class="source lang-java linenums">package life.qbic.portal.view.tabs.charts;
+
+import com.vaadin.addon.charts.Chart;
+import com.vaadin.addon.charts.model.ChartType;
+import com.vaadin.addon.charts.model.Configuration;
+import com.vaadin.ui.Component;
+import life.qbic.portal.model.view.charts.AChartModel;
+import life.qbic.portal.view.tabs.AView;
+
+/**
+ * @author fhanssen
+ * This abstract class holds the chart. When
+ * adding a new chart type (such as Scatter Plot or so) a new chart view needs be added. A comprehensive
+ * guide on Vaadin charts can be found here: https://demo.vaadin.com/charts/
+ */
+public abstract class AChartView extends AView {
+
+    private final Chart chart;
+
+    AChartView(ChartType type){
+<span class="nc" id="L21">        super();</span>
+<span class="nc" id="L22">        this.chart = new Chart(type);</span>
+<span class="nc" id="L23">    }</span>
+
+    public Configuration getConfiguration(){
+<span class="nc" id="L26">        return this.chart.getConfiguration();</span>
+    }
+
+    public void draw(AChartModel model){
+<span class="nc" id="L30">        chart.drawChart(model.getConfiguration());</span>
+<span class="nc" id="L31">    }</span>
+
+    @Override
+    public Component getComponent() {
+<span class="nc" id="L35">        return chart;</span>
+    }
+
+
+    //TODO 3: If your Chart TYPE does not exist extend this class
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

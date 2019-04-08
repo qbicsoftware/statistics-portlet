@@ -1,0 +1,614 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+<rss version="0.91">
+  <channel>
+    <title>Statistics Portlet - Checkstyle report</title>
+    <link>http://github.com/qbicsoftware/statistics-portlet</link>
+    <description>Statistics Portlet - Checkstyle report</description>
+    <language>en-us</language>
+    <copyright>&#169;2019</copyright>
+    <item>
+      <title>File: 40,
+             Errors: 0,
+             Warnings: 1876,
+             Infos: 0
+      </title>
+            <link>http://github.com/qbicsoftware/statistics-portlet/checkstyle.html</link>
+      <description>
+        <p>Click <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html">here</a> for the full Checkstyle report.</p>
+
+        <table summary="Files" boder="1">
+          <thead>
+            <tr>
+              <th>Files</th>
+              <th style="width:30px;"><abbr title="Info">I</abbr></th>
+              <th style="width:30px;"><abbr title="Warning">W</abbr></th>
+              <th style="width:30px;"><abbr title="Error">E</abbr></th>
+            </tr>
+          </thead>
+          <tbody>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.model.view.charts.LineModel.java">life/qbic/portal/model/view/charts/LineModel.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  38
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.presenter.FileLoadPresenter.java">life/qbic/portal/presenter/FileLoadPresenter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  84
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.model.view.charts.ColumnModel.java">life/qbic/portal/model/view/charts/ColumnModel.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  48
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.view.tabs.GridView.java">life/qbic/portal/view/tabs/GridView.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  32
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.presenter.utils.Colors.java">life/qbic/portal/presenter/utils/Colors.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  21
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.presenter.tabs.workflows.WorkflowTypePresenter.java">life/qbic/portal/presenter/tabs/workflows/WorkflowTypePresenter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  84
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.presenter.tabs.projects.MultiOmicsCountPresenter.java">life/qbic/portal/presenter/tabs/projects/MultiOmicsCountPresenter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  52
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.presenter.utils.CustomNotification.java">life/qbic/portal/presenter/utils/CustomNotification.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  7
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.presenter.tabs.projects.ProjectCountPresenter.java">life/qbic/portal/presenter/tabs/projects/ProjectCountPresenter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  112
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.portlet.StatisticsPortlet.java">life/qbic/portal/portlet/StatisticsPortlet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  67
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.presenter.MainPresenter.java">life/qbic/portal/presenter/MainPresenter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  101
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.presenter.tabs.samples.SampleTypeBarPresenter.java">life/qbic/portal/presenter/tabs/samples/SampleTypeBarPresenter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  120
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#WEB-INF.liferay-plugin-package.properties">WEB-INF/liferay-plugin-package.properties</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.presenter.tabs.organisms.SuperKingdomCountPresenter.java">life/qbic/portal/presenter/tabs/organisms/SuperKingdomCountPresenter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  145
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.io.YAMLParser.java">life/qbic/portal/io/YAMLParser.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  28
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.view.tabs.charts.ColumnView.java">life/qbic/portal/view/tabs/charts/ColumnView.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.view.tabs.charts.BarView.java">life/qbic/portal/view/tabs/charts/BarView.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.view.tabs.AView.java">life/qbic/portal/view/tabs/AView.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  8
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.presenter.tabs.workflows.WorkflowUsagePresenter.java">life/qbic/portal/presenter/tabs/workflows/WorkflowUsagePresenter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  105
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.view.tabs.charts.LineView.java">life/qbic/portal/view/tabs/charts/LineView.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.model.view.charts.AChartModel.java">life/qbic/portal/model/view/charts/AChartModel.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  39
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.model.view.charts.PieChartModel.java">life/qbic/portal/model/view/charts/PieChartModel.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  31
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.model.view.GridModel.java">life/qbic/portal/model/view/GridModel.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  30
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#portlet.properties">portlet.properties</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.model.view.AModel.java">life/qbic/portal/model/view/AModel.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.view.tabs.charts.PieView.java">life/qbic/portal/view/tabs/charts/PieView.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  3
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.exceptions.DataNotFoundException.java">life/qbic/portal/exceptions/DataNotFoundException.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  7
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.presenter.tabs.workflows.AvailableWorkflowPresenter.java">life/qbic/portal/presenter/tabs/workflows/AvailableWorkflowPresenter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  71
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.model.components.GitHubLabels.java">life/qbic/portal/model/components/GitHubLabels.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  26
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.presenter.tabs.DummyChartPresenter.java">life/qbic/portal/presenter/tabs/DummyChartPresenter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  44
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.view.TabView.java">life/qbic/portal/view/TabView.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  91
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.presenter.tabs.ATabPresenter.java">life/qbic/portal/presenter/tabs/ATabPresenter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  93
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.presenter.utils.DataSorter.java">life/qbic/portal/presenter/utils/DataSorter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  19
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.model.components.AComponent.java">life/qbic/portal/model/components/AComponent.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  3
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.view.tabs.charts.AChartView.java">life/qbic/portal/view/tabs/charts/AChartView.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  20
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.model.view.charts.BarModel.java">life/qbic/portal/model/view/charts/BarModel.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  48
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.presenter.utils.Sorter.java">life/qbic/portal/presenter/utils/Sorter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  13
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.presenter.tabs.organisms.GenusSpeciesCountPresenter.java">life/qbic/portal/presenter/tabs/organisms/GenusSpeciesCountPresenter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  164
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.io.MyReceiver.java">life/qbic/portal/io/MyReceiver.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  30
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/qbicsoftware/statistics-portlet/checkstyle.html#life.qbic.portal.presenter.utils.LabelFormatter.java">life/qbic/portal/presenter/utils/LabelFormatter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  74
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                      </tbody>
+        </table>
+        
+      </description>
+    </item>
+  </channel>
+</rss>
+

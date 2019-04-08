@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MainPresenter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Statistics Portlet</a> &gt; <a href="index.source.html" class="el_package">life.qbic.portal.presenter</a> &gt; <span class="el_source">MainPresenter.java</span></div><h1>MainPresenter.java</h1><pre class="source lang-java linenums">package life.qbic.portal.presenter;
+
+import java.io.InputStream;
+import life.qbic.portal.Styles;
+import life.qbic.portal.exceptions.DataNotFoundException;
+import life.qbic.portal.model.view.AModel;
+import life.qbic.portal.portlet.StatisticsPortlet;
+import life.qbic.portal.presenter.tabs.ATabPresenter;
+import life.qbic.portal.presenter.tabs.organisms.SuperKingdomCountPresenter;
+import life.qbic.portal.presenter.tabs.projects.ProjectCountPresenter;
+import life.qbic.portal.presenter.tabs.samples.SampleTypeBarPresenter;
+import life.qbic.portal.presenter.tabs.workflows.WorkflowUsagePresenter;
+import life.qbic.portal.presenter.utils.CustomNotification;
+import life.qbic.portal.utils.PortalUtils;
+import life.qbic.portal.view.TabView;
+import life.qbic.portal.view.tabs.AView;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import submodule.data.MainConfig;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+/**
+ * @author fhanssen
+ * Handles input config and adds charts serially.
+ * Handles button presses and listens to observabeLists in SubPresenters
+ */
+public class MainPresenter {
+
+<span class="nc" id="L32">    private static final Logger logger = LogManager.getLogger(MainPresenter.class);</span>
+
+    private final StatisticsPortlet mainView;
+
+    private MainConfig mainConfig;
+
+    private final ATabPresenter superKingdomCountPresenter;
+    private final ATabPresenter sampleTypePresenter;
+    private final ATabPresenter projectPresenter;
+    private final ATabPresenter workflowUsagePresenter;
+
+<span class="nc" id="L43">    private final List&lt;ATabPresenter&gt; tabPresenterList = new ArrayList&lt;&gt;();</span>
+
+    /**
+     * @param mainView the view
+     * @param content the input stream containing the data.
+     */
+<span class="nc" id="L49">    public MainPresenter(StatisticsPortlet mainView, InputStream content) {</span>
+<span class="nc" id="L50">        this.mainView = mainView;</span>
+<span class="nc" id="L51">        this.mainConfig = new MainConfig();</span>
+
+<span class="nc" id="L53">        superKingdomCountPresenter = new SuperKingdomCountPresenter(this);</span>
+<span class="nc" id="L54">        sampleTypePresenter = new SampleTypeBarPresenter(this);</span>
+<span class="nc" id="L55">        projectPresenter = new ProjectCountPresenter(this);</span>
+<span class="nc" id="L56">        workflowUsagePresenter = new WorkflowUsagePresenter(this);</span>
+
+        //This is necessary to allow try-loop to see wether no charts at all can be displayed and we have
+        // to use the Dummy chart
+        //Careful: Order matters! Determines in which order tabs are displayed
+<span class="nc" id="L61">        tabPresenterList.add(superKingdomCountPresenter);</span>
+<span class="nc" id="L62">        tabPresenterList.add(sampleTypePresenter);</span>
+<span class="nc" id="L63">        tabPresenterList.add(projectPresenter);</span>
+<span class="nc" id="L64">        tabPresenterList.add(workflowUsagePresenter);</span>
+
+<span class="nc" id="L66">        FileLoadPresenter fileLoadPresenter = new FileLoadPresenter(this);</span>
+<span class="nc" id="L67">        fileLoadPresenter.setChartsFromConfig(content);</span>
+<span class="nc" id="L68">    }</span>
+
+    void setMainConfig(MainConfig mainConfig) {
+<span class="nc" id="L71">        this.mainConfig = mainConfig;</span>
+<span class="nc" id="L72">    }</span>
+
+    public StatisticsPortlet getMainView() {
+<span class="nc" id="L75">        return mainView;</span>
+    }
+
+    public void clear() {
+<span class="nc" id="L79">        mainView.clearTabSheet();</span>
+<span class="nc" id="L80">    }</span>
+
+    boolean isAdmin() {
+
+        try {
+<span class="nc bnc" id="L85" title="All 2 branches missed.">            for (com.liferay.portal.model.Role r : PortalUtils.getUser().getRoles()) {</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">                if (r.getName().equals(&quot;Administrator&quot;)) {</span>
+<span class="nc" id="L87">                    return true;</span>
+                }
+<span class="nc" id="L89">            }</span>
+<span class="nc" id="L90">        } catch (Exception e) {</span>
+<span class="nc" id="L91">            logger.error(&quot;Could not determine whether logged in user is admin.&quot;);</span>
+<span class="nc" id="L92">            CustomNotification.error(&quot;Error&quot;, e.toString());</span>
+<span class="nc" id="L93">        }</span>
+
+<span class="nc" id="L95">        return false;</span>
+    }
+
+    public MainConfig getMainConfig() {
+<span class="nc" id="L99">        return mainConfig;</span>
+    }
+
+    void addChildPresenter() throws DataNotFoundException{
+<span class="nc" id="L103">        clear();</span>
+<span class="nc" id="L104">        int counter = 0;</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">        for(ATabPresenter presenter : tabPresenterList){</span>
+            try{
+<span class="nc" id="L107">                presenter.setUp();</span>
+<span class="nc" id="L108">                presenter.addChart(new TabView((AView) presenter.getView(),</span>
+<span class="nc" id="L109">                        (AModel) presenter.getModel()), ((AModel) presenter.getModel()).getTabTitle());</span>
+
+<span class="nc" id="L111">            }catch(DataNotFoundException e){</span>
+<span class="nc" id="L112">                logger.error(&quot;Mainchart could not be set up.&quot;, e);</span>
+<span class="nc" id="L113">                counter++;//count up whenever exception is thrown</span>
+                //Exception was also thrown on last presenter
+<span class="nc bnc" id="L115" title="All 2 branches missed.">                if(counter &gt; tabPresenterList.size() - 1){</span>
+<span class="nc" id="L116">                    Styles.notification(&quot;Data not found.&quot;,&quot;Chart cannot be displayed&quot;, Styles.NotificationType.ERROR);</span>
+<span class="nc" id="L117">                    throw new DataNotFoundException(e);</span>
+                }
+<span class="nc" id="L119">            }</span>
+<span class="nc" id="L120">        }</span>
+
+<span class="nc" id="L122">    }</span>
+
+    void addCharts() {
+<span class="nc" id="L125">        clear();</span>
+<span class="nc" id="L126">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

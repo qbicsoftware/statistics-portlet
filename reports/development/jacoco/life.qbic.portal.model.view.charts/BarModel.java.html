@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BarModel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Statistics Portlet</a> &gt; <a href="index.source.html" class="el_package">life.qbic.portal.model.view.charts</a> &gt; <span class="el_source">BarModel.java</span></div><h1>BarModel.java</h1><pre class="source lang-java linenums">package life.qbic.portal.model.view.charts;
+
+import com.vaadin.addon.charts.model.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * @author fhanssen
+ * Example: https://demo.vaadin.com/charts/#BasicBar
+ */
+public class BarModel extends AChartModel&lt;ListSeries&gt;{
+
+    private final List&lt;Series&gt; series;
+    private final XAxis xAxis;
+    private final YAxis yAxis;
+
+    public BarModel(Configuration configuration, String title, String subtitle, String tabTitle,
+                    Tooltip tooltip, Legend legend, AxisTitle xAxisTitle, AxisTitle yAxisTitle,PlotOptionsBar options){
+
+<span class="nc" id="L22">        super(configuration, title, subtitle, tabTitle, tooltip, legend, options);</span>
+
+<span class="nc" id="L24">        series = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L25">        super.configuration.setSeries(series);</span>
+<span class="nc" id="L26">        xAxis = super.configuration.getxAxis();</span>
+<span class="nc" id="L27">        yAxis = super.configuration.getyAxis();</span>
+<span class="nc" id="L28">        xAxis.setTitle(xAxisTitle);</span>
+<span class="nc" id="L29">        yAxis.setTitle(yAxisTitle);</span>
+
+<span class="nc" id="L31">        options.setAnimation(false);</span>
+
+<span class="nc" id="L33">    }</span>
+
+    public void addXCategories(String... cat){
+<span class="nc" id="L36">        xAxis.setCategories(cat);</span>
+<span class="nc" id="L37">    }</span>
+
+    public void setYMin(int yMin){
+<span class="nc" id="L40">        yAxis.setMin(yMin);</span>
+<span class="nc" id="L41">    }</span>
+
+    @Override
+    public void addData(ListSeries... listSeries){
+<span class="nc" id="L45">        series.addAll(Arrays.asList(listSeries));</span>
+<span class="nc" id="L46">    }</span>
+
+    public void addData(DataSeries... dataSeries){
+<span class="nc" id="L49">        series.addAll(Arrays.asList(dataSeries));</span>
+<span class="nc" id="L50">    }</span>
+
+    public void setXAxisType(AxisType type){
+<span class="nc" id="L53">        xAxis.setType(type);</span>
+<span class="nc" id="L54">    }</span>
+
+    public void clearData(){
+<span class="nc" id="L57">        series.clear();</span>
+<span class="nc" id="L58">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

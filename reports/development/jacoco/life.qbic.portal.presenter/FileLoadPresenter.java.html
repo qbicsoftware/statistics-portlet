@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FileLoadPresenter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Statistics Portlet</a> &gt; <a href="index.source.html" class="el_package">life.qbic.portal.presenter</a> &gt; <span class="el_source">FileLoadPresenter.java</span></div><h1>FileLoadPresenter.java</h1><pre class="source lang-java linenums">package life.qbic.portal.presenter;
+
+import com.vaadin.ui.Label;
+import com.vaadin.ui.Upload;
+import java.io.InputStream;
+import life.qbic.portal.Styles;
+import life.qbic.portal.io.MyReceiver;
+import life.qbic.portal.io.YAMLParser;
+import life.qbic.portal.presenter.tabs.DummyChartPresenter;
+import life.qbic.portal.utils.PortalUtils;
+import life.qbic.portal.view.TabView;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
+
+/**
+ * @author fhanssen
+ */
+
+class FileLoadPresenter {
+
+<span class="nc" id="L27">    private static final Logger logger = LogManager.getLogger(FileLoadPresenter.class);</span>
+
+    private final MainPresenter mainPresenter;
+<span class="nc" id="L30">    private final MyReceiver receiver = new MyReceiver();</span>
+<span class="nc" id="L31">    private final Upload upload = new Upload(&quot;Upload file&quot;, receiver);</span>
+    private final DummyChartPresenter dummyChartPresenter;
+
+<span class="nc" id="L34">    public FileLoadPresenter(MainPresenter mainPresenter){</span>
+
+<span class="nc" id="L36">        this.mainPresenter = mainPresenter;</span>
+<span class="nc" id="L37">        this.upload.setImmediate(true);</span>
+<span class="nc" id="L38">        this.dummyChartPresenter = new DummyChartPresenter(mainPresenter);</span>
+<span class="nc" id="L39">        this.dummyChartPresenter.setUp();</span>
+
+
+<span class="nc" id="L42">    }</span>
+
+    private void addUploadConfigFileOption(TabView tabView){
+
+<span class="nc" id="L46">        tabView.addComponents(upload, new Label(&quot;Please select a file to upload&quot;));</span>
+<span class="nc" id="L47">        upload.addSucceededListener((Upload.SucceededListener) succeededEvent -&gt;</span>
+<span class="nc" id="L48">                setChartsFromConfig(receiver.getFile()));</span>
+<span class="nc" id="L49">    }</span>
+
+    private void showDummyChart(){
+<span class="nc" id="L52">        dummyChartPresenter.addChart(new TabView(dummyChartPresenter.getView(),</span>
+<span class="nc" id="L53">                dummyChartPresenter.getModel()), &quot;Dummy Chart&quot;);</span>
+<span class="nc" id="L54">    }</span>
+
+    /**
+     * @param inputStream stream where the yaml file containing the data has been loaded into.
+     */
+    public void setChartsFromConfig(final InputStream inputStream) {
+        try {
+<span class="nc" id="L61">            this.mainPresenter.setMainConfig(YAMLParser.parseConfig(inputStream));</span>
+<span class="nc" id="L62">            logger.info(&quot;Finished parsing&quot;);</span>
+<span class="nc" id="L63">            mainPresenter.addChildPresenter();</span>
+<span class="nc" id="L64">        } catch (Exception e) {</span>
+<span class="nc" id="L65">            showDummyChart();</span>
+<span class="nc" id="L66">            Styles.notification(&quot;Error&quot;, e.toString(), Styles.NotificationType.ERROR);</span>
+<span class="nc" id="L67">            logger.error(&quot;Charts could not be displayed.&quot;, e);</span>
+<span class="nc" id="L68">        }</span>
+<span class="nc" id="L69">    }</span>
+
+    private void setChartsFromConfig(File file){
+
+        try {
+<span class="nc" id="L74">            this.mainPresenter.setMainConfig(YAMLParser.parseConfig(new FileInputStream(file)));</span>
+<span class="nc" id="L75">            logger.info(&quot;Finished parsing.&quot;);</span>
+<span class="nc" id="L76">            mainPresenter.addChildPresenter();</span>
+<span class="nc" id="L77">            mainPresenter.addCharts();</span>
+<span class="nc" id="L78">        }catch(FileNotFoundException  e){</span>
+<span class="nc" id="L79">            handleConfigParseError(e);</span>
+<span class="nc" id="L80">            logger.error(&quot;Charts could not be displayed.&quot;, e);</span>
+
+<span class="nc" id="L82">        }catch (Exception e){</span>
+<span class="nc" id="L83">            showDummyChart();</span>
+<span class="nc" id="L84">            Styles.notification(&quot;Error&quot;, e.toString(), Styles.NotificationType.ERROR);</span>
+<span class="nc" id="L85">            logger.error(&quot;Charts could not be displayed.&quot;, e);</span>
+
+<span class="nc" id="L87">        }</span>
+<span class="nc" id="L88">    }</span>
+
+    private void handleConfigParseError(Exception e){
+
+<span class="nc" id="L92">        logger.error(&quot;Parsing of YAML file failed: &quot; + e);</span>
+<span class="nc" id="L93">        Styles.notification(&quot;Error&quot;, e.toString(), Styles.NotificationType.ERROR);</span>
+
+<span class="nc" id="L95">        mainPresenter.clear();</span>
+<span class="nc" id="L96">        showDummyChart();</span>
+
+<span class="nc bnc" id="L98" title="All 4 branches missed.">        if(!PortalUtils.isLiferayPortlet() || mainPresenter.isAdmin()){</span>
+<span class="nc" id="L99">            addUploadConfigFileOption(dummyChartPresenter.getTabView());</span>
+        }
+<span class="nc" id="L101">    }</span>
+
+
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

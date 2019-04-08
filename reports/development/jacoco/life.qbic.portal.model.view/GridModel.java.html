@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GridModel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Statistics Portlet</a> &gt; <a href="index.source.html" class="el_package">life.qbic.portal.model.view</a> &gt; <span class="el_source">GridModel.java</span></div><h1>GridModel.java</h1><pre class="source lang-java linenums">package life.qbic.portal.model.view;
+
+
+import life.qbic.portal.model.components.AComponent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * @author fhanssen
+ */
+public class GridModel implements AModel&lt;AComponent&gt; {
+
+<span class="nc" id="L17">    private static final Logger logger = LogManager.getLogger(GridModel.class);</span>
+
+
+<span class="nc" id="L20">    private final List&lt;AComponent&gt; data = new ArrayList&lt;&gt;();</span>
+    private final String title;
+    private final String subtitle;
+    private final String tabTitle;
+
+<span class="nc" id="L25">    public GridModel(String title, String subtitle, String tabTitle){</span>
+<span class="nc" id="L26">        this.title = title;</span>
+<span class="nc" id="L27">        this.subtitle = subtitle;</span>
+<span class="nc" id="L28">        this.tabTitle = tabTitle;</span>
+
+<span class="nc" id="L30">        logger.info(&quot;New grid model for &quot; + title + &quot; was successfully created&quot;);</span>
+
+<span class="nc" id="L32">    }</span>
+
+
+
+    public List&lt;AComponent&gt; getData() {
+<span class="nc" id="L37">        return data;</span>
+    }
+
+    @Override
+    public String getTitle() {
+<span class="nc" id="L42">        return title;</span>
+    }
+
+    @Override
+    public String getSubTitle() {
+<span class="nc" id="L47">        return subtitle;</span>
+    }
+
+    @Override
+    public String getTabTitle(){
+<span class="nc" id="L52">        return tabTitle;</span>
+    }
+
+    @Override
+    public void addData(AComponent... dataItem) {
+<span class="nc" id="L57">        data.addAll(Arrays.asList(dataItem));</span>
+<span class="nc" id="L58">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

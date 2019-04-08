@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WorkflowTypePresenter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Statistics Portlet</a> &gt; <a href="index.source.html" class="el_package">life.qbic.portal.presenter.tabs.workflows</a> &gt; <span class="el_source">WorkflowTypePresenter.java</span></div><h1>WorkflowTypePresenter.java</h1><pre class="source lang-java linenums">package life.qbic.portal.presenter.tabs.workflows;
+
+
+import com.vaadin.ui.Accordion;
+import com.vaadin.ui.VerticalLayout;
+import life.qbic.portal.Styles;
+import life.qbic.portal.exceptions.DataNotFoundException;
+import life.qbic.portal.model.view.GridModel;
+import life.qbic.portal.presenter.MainPresenter;
+import life.qbic.portal.presenter.tabs.ATabPresenter;
+import life.qbic.portal.view.TabView;
+import life.qbic.portal.view.tabs.GridView;
+import submodule.lexica.ChartNames;
+import submodule.lexica.Translator;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @author fhanssen
+ */
+public class WorkflowTypePresenter extends ATabPresenter&lt;GridModel, GridView&gt; {
+
+    private final String workflowType;
+    private final List&lt;String&gt; subTypes;
+    private final List&lt;AvailableWorkflowPresenter&gt; availableWorkflowPresenters;
+
+    private final String title;
+    private final String subtitle;
+    private final String tabTitle;
+
+<span class="nc" id="L32">    private final Accordion accordion = new Accordion();</span>
+
+    WorkflowTypePresenter(MainPresenter mainPresenter, String workflowType, String title, String subtitle, String tabTitle) {
+<span class="nc" id="L35">        super(mainPresenter, new GridView(1, 2, true, true));</span>
+
+<span class="nc" id="L37">        this.title = title;</span>
+<span class="nc" id="L38">        this.subtitle = subtitle;</span>
+<span class="nc" id="L39">        this.tabTitle = tabTitle;</span>
+
+<span class="nc" id="L41">        this.workflowType = workflowType;</span>
+<span class="nc" id="L42">        this.subTypes = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L43">        this.availableWorkflowPresenters = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L45">    }</span>
+
+    @Override
+    protected void extractData() throws DataNotFoundException, NullPointerException{
+<span class="nc" id="L49">        String subType = Translator.getOriginal(workflowType);</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        if (subType.isEmpty()) {</span>
+<span class="nc" id="L51">            subType = workflowType;</span>
+
+        }
+
+<span class="nc" id="L55">        final String s = subType;</span>
+<span class="nc" id="L56">        getMainPresenter().getMainConfig().getCharts().keySet().forEach(n -&gt; {</span>
+<span class="nc bnc" id="L57" title="All 6 branches missed.">            if (n.contains(ChartNames.Available_Workflows_.toString()) &amp;&amp; (n.contains(s) || n.contains(workflowType))) {</span>
+<span class="nc" id="L58">                subTypes.add(n);</span>
+            }
+<span class="nc" id="L60">        });</span>
+
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        if(subTypes.size() == 0){</span>
+<span class="nc" id="L63">            throw new DataNotFoundException(&quot;No data on available workflows could be retrieved: &quot; + workflowType);</span>
+        }
+
+<span class="nc" id="L66">    }</span>
+
+    @Override
+    protected void addChartSettings() {
+<span class="nc" id="L70">        super.setModel(new GridModel(title, subtitle, tabTitle));</span>
+<span class="nc" id="L71">        logger.info(&quot;Settings were added to &quot; + this.getClass() + &quot; with chart title: &quot; + super.getModel().getTitle());</span>
+
+<span class="nc" id="L73">    }</span>
+
+    @Override
+    protected void addChartData(){
+<span class="nc bnc" id="L77" title="All 2 branches missed.">        for(String s : subTypes){</span>
+            try {
+<span class="nc" id="L79">                AvailableWorkflowPresenter ap = new AvailableWorkflowPresenter(getMainPresenter(), s);</span>
+<span class="nc" id="L80">                ap.setUp();</span>
+<span class="nc" id="L81">                availableWorkflowPresenters.add(ap);</span>
+<span class="nc" id="L82">            }catch(DataNotFoundException e){</span>
+<span class="nc" id="L83">                logger.error(&quot;Subchart could not be added&quot;, e);</span>
+<span class="nc" id="L84">                Styles.notification(&quot;Data not found.&quot;,&quot;Chart cannot be displayed&quot;, Styles.NotificationType.ERROR);</span>
+
+<span class="nc" id="L86">            }</span>
+
+<span class="nc" id="L88">        }</span>
+<span class="nc" id="L89">        logger.info(&quot;Data was added to a chart of &quot; + this.getClass());</span>
+
+<span class="nc" id="L91">    }</span>
+
+    @Override
+    public void addChart(TabView tabView, String title) {
+
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        for (AvailableWorkflowPresenter a : availableWorkflowPresenters) {</span>
+<span class="nc" id="L97">            a.addChart(tabView, &quot;&quot;);</span>
+<span class="nc" id="L98">            setGridItemLayout(a.getView(), a.getChartName());</span>
+<span class="nc" id="L99">        }</span>
+
+<span class="nc" id="L101">        super.getView().addGridComponents(accordion);</span>
+<span class="nc" id="L102">        tabView.addSubComponent(super.getModel(), super.getView());</span>
+<span class="nc" id="L103">        this.accordion.setSelectedTab(this.accordion.getComponentCount() - 1);</span>
+
+<span class="nc" id="L105">        addReturnButtonListener(tabView);</span>
+<span class="nc" id="L106">        logger.info(&quot;Tab was added in &quot; + this.getClass() + &quot; for &quot; + super.getModel().getTitle());</span>
+<span class="nc" id="L107">    }</span>
+
+    private void setGridItemLayout(GridView view, String chartName) {
+<span class="nc" id="L110">        final VerticalLayout layout = new VerticalLayout(view.getComponent());</span>
+<span class="nc" id="L111">        String title = chartName.split(&quot;_&quot;)[chartName.split(&quot;_&quot;).length - 1];</span>
+
+<span class="nc bnc" id="L113" title="All 2 branches missed.">        if (!Translator.getTranslation(title).isEmpty()) {</span>
+<span class="nc" id="L114">            title = Translator.getTranslation(title);</span>
+        }
+
+<span class="nc" id="L117">        accordion.addTab(layout, title);</span>
+
+<span class="nc" id="L119">    }</span>
+
+    @Override
+<span class="nc" id="L122">    protected void addChartListener(){}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

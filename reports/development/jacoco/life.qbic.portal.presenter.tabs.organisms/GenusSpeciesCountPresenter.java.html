@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GenusSpeciesCountPresenter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Statistics Portlet</a> &gt; <a href="index.source.html" class="el_package">life.qbic.portal.presenter.tabs.organisms</a> &gt; <span class="el_source">GenusSpeciesCountPresenter.java</span></div><h1>GenusSpeciesCountPresenter.java</h1><pre class="source lang-java linenums">package life.qbic.portal.presenter.tabs.organisms;
+
+
+import com.vaadin.addon.charts.model.*;
+import com.vaadin.addon.charts.model.style.SolidColor;
+import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Label;
+import life.qbic.portal.exceptions.DataNotFoundException;
+import life.qbic.portal.model.view.charts.PieChartModel;
+import life.qbic.portal.presenter.MainPresenter;
+import life.qbic.portal.presenter.tabs.ATabPresenter;
+import life.qbic.portal.presenter.utils.Colors;
+import life.qbic.portal.presenter.utils.DataSorter;
+import life.qbic.portal.presenter.utils.LabelFormatter;
+import life.qbic.portal.view.TabView;
+import life.qbic.portal.view.tabs.charts.PieView;
+import submodule.data.ChartConfig;
+import submodule.lexica.ChartNames;
+
+import java.util.*;
+
+/**
+ * @author fhanssen
+ */
+public class GenusSpeciesCountPresenter extends ATabPresenter&lt;PieChartModel, PieView&gt; {
+
+    private ChartConfig speciesConfig;
+    private Map&lt;String, List&lt;String&gt;&gt; genusSpeciesMap;
+    private ChartConfig genusConfig;
+    private PlotOptionsPie innerPieOptions;
+    private PlotOptionsPie outerPieOptions;
+    private final String kingdom;
+
+
+    public GenusSpeciesCountPresenter(MainPresenter mainPresenter, String kingdom) {
+<span class="nc" id="L36">        super(mainPresenter, new PieView());</span>
+<span class="nc" id="L37">        this.kingdom = kingdom;</span>
+<span class="nc" id="L38">    }</span>
+
+
+    @Override
+    protected void extractData() throws DataNotFoundException, NullPointerException {
+<span class="nc" id="L43">        speciesConfig = super.getChartConfig(kingdom.concat(&quot;_Species&quot;));</span>
+<span class="nc" id="L44">        genusConfig = super.getChartConfig(kingdom.concat(&quot;_Genus&quot;));</span>
+<span class="nc" id="L45">        genusSpeciesMap = generateGenusToSpeciesMap(super.getChartConfig(ChartNames.Species_Genus.toString()));</span>
+<span class="nc" id="L46">    }</span>
+
+    private Map&lt;String, List&lt;String&gt;&gt; generateGenusToSpeciesMap(ChartConfig speciesGenusConfig) {
+<span class="nc" id="L49">        Map&lt;String, List&lt;String&gt;&gt; result = new HashMap&lt;&gt;();</span>
+
+<span class="nc" id="L51">        Object[] objectArray = speciesGenusConfig.getData().keySet().toArray(new Object[0]);</span>
+<span class="nc" id="L52">        @SuppressWarnings(&quot;SuspiciousToArrayCall&quot;) String[] keySet = Arrays.asList(objectArray).toArray(new String[objectArray.length]);</span>
+
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        for (String aKeySet : keySet) {</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">            for (int i = 0; i &lt; speciesGenusConfig.getData().get(aKeySet).size(); i++) {</span>
+<span class="nc" id="L56">                List&lt;String&gt; list = new ArrayList&lt;&gt;();</span>
+                //noinspection SuspiciousMethodCalls
+<span class="nc bnc" id="L58" title="All 2 branches missed.">                if (result.containsKey(speciesGenusConfig.getData().get(aKeySet).get(i))) {</span>
+                    //noinspection SuspiciousMethodCalls
+<span class="nc" id="L60">                    list = result.get(speciesGenusConfig.getData().get(aKeySet).get(i));</span>
+                }
+<span class="nc" id="L62">                list.add((String) speciesGenusConfig.getSettings().getxCategories().get(i));</span>
+<span class="nc" id="L63">                result.put((String) speciesGenusConfig.getData().get(aKeySet).get(i), list);</span>
+            }
+        }
+
+<span class="nc" id="L67">        return result;</span>
+    }
+
+    @Override
+    protected void addChartSettings() {
+<span class="nc" id="L72">        innerPieOptions = new PlotOptionsPie();</span>
+<span class="nc" id="L73">        innerPieOptions.setSize(&quot;237px&quot;);</span>
+<span class="nc" id="L74">        innerPieOptions.setDataLabels(new DataLabels());</span>
+<span class="nc" id="L75">        innerPieOptions.getDataLabels().setFormatter(&quot;this.percentage &gt;  10 ? this.point.name : null&quot;);</span>
+<span class="nc" id="L76">        innerPieOptions.getDataLabels().setColor(new SolidColor(255, 255, 255));</span>
+<span class="nc" id="L77">        innerPieOptions.getDataLabels().setDistance(-30);</span>
+<span class="nc" id="L78">        innerPieOptions.setAnimation(false);</span>
+
+<span class="nc" id="L80">        outerPieOptions = new PlotOptionsPie();</span>
+<span class="nc" id="L81">        outerPieOptions.setInnerSize(&quot;237px&quot;);</span>
+<span class="nc" id="L82">        outerPieOptions.setSize(&quot;318px&quot;);</span>
+<span class="nc" id="L83">        outerPieOptions.setDataLabels(new DataLabels());</span>
+
+        //This formats the labels for the outer pie. Unfortunately line breaks cannot be inserted in the label
+        //itself, but have to be specified using javascript. Every 30 characters a line break is inserted, if a
+        // gap exists in the word. Additionally, the subspec are written in italic.
+<span class="nc" id="L88">        outerPieOptions.getDataLabels().setFormatter(&quot;function() {&quot; +</span>
+                &quot;var text = ''; &quot; +
+                &quot;for (i = 0; i &lt; 2; i++) {&quot; +
+                &quot; text += ' ' + this.point.name.split(' ')[i] &quot; +
+                &quot;} &quot; +
+                &quot;for (i = 2; i &lt; this.point.name.split(' ').length-1; i++) {&quot; +
+                &quot; text += ' ' + this.point.name.split(' ')[i].italics() + ' ' &quot; +
+                &quot;} &quot; +
+                &quot;for (i = this.point.name.split(' ').length-1; i &lt;  this.point.name.split(' ').length; i++) {&quot; +
+                &quot; text += ' ' + this.point.name.split(' ')[i] &quot; +
+                &quot;}&quot; +
+                &quot;let wordsArr = text.split(' '),&quot; +
+                &quot;wordsLen = wordsArr.length,&quot; +
+                &quot;finalMsg = '',&quot; +
+                &quot;linesArr = [''],&quot; +
+                &quot;currLine = 0;&quot; +
+                &quot;for(let i=0; i&lt; wordsLen; i++){&quot; +
+                &quot;if(linesArr[currLine].length + wordsArr[i].length &gt; 50){&quot; + //50 chars is the longest line we allow right now
+                &quot;currLine +=1;&quot; +
+                &quot;linesArr[currLine] = wordsArr[i] + ' ';&quot; +
+                &quot;} else {&quot; +
+                &quot;linesArr[currLine] += wordsArr[i] + ' ';&quot; +
+                &quot;}&quot; +
+                &quot;}&quot; +
+                &quot;let linesLen = linesArr.length;&quot; +
+                &quot;for(let i=0; i&lt;linesLen; i++){&quot; +
+                &quot;finalMsg += linesArr[i] + '&lt;br&gt;';&quot; +
+                &quot;}&quot; +
+                &quot;return finalMsg.trim();&quot; +
+                &quot;}&quot;);
+<span class="nc" id="L118">        outerPieOptions.setAnimation(false);</span>
+
+<span class="nc" id="L120">        Tooltip tooltip = new Tooltip();</span>
+<span class="nc" id="L121">        tooltip.setValueSuffix(&quot;&quot;);</span>
+
+<span class="nc" id="L123">        this.getView().getConfiguration().addyAxis(new YAxis());</span>
+
+<span class="nc" id="L125">        this.setModel(new PieChartModel(this.getView().getConfiguration(), genusConfig.getSettings().getTitle(),</span>
+<span class="nc" id="L126">                genusConfig.getSettings().getSubtitle(), genusConfig.getSettings().getSubtitle(), tooltip, null, new PlotOptionsPie()));</span>
+
+<span class="nc" id="L128">        logger.info(&quot;Settings were added to a chart of &quot; + this.getClass() + &quot; with chart title: &quot; + this.getView().getConfiguration().getTitle().getText());</span>
+<span class="nc" id="L129">    }</span>
+
+    @Override
+    protected void addChartData() {
+
+        //Add data for Genus
+<span class="nc" id="L135">        DataSeries innerSeries = new DataSeries(&quot;Samples&quot;);</span>
+<span class="nc" id="L136">        innerSeries.setPlotOptions(innerPieOptions);</span>
+
+<span class="nc" id="L138">        Object[] genusData = this.genusConfig.getData().keySet().toArray(new Object[0]);</span>
+
+<span class="nc" id="L140">        List&lt;DataSorter&gt; dataSorters = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L141" title="All 2 branches missed.">        for (Object dataCategory : genusData) {</span>
+<span class="nc bnc" id="L142" title="All 2 branches missed.">            for (int i = 0; i &lt; this.genusConfig.getData().get(dataCategory).size(); i++) {</span>
+<span class="nc" id="L143">                dataSorters.add(new DataSorter(LabelFormatter.firstUpperRestLowerCase((String) this.genusConfig.getSettings().getxCategories().get(i)),</span>
+<span class="nc" id="L144">                        (int) this.genusConfig.getData().get(dataCategory).get(i)));</span>
+            }
+        }
+
+<span class="nc" id="L148">        Collections.sort(dataSorters);</span>
+
+        //Necessary to get colors right
+<span class="nc" id="L151">        Number[] innerValues = new Number[dataSorters.size()];</span>
+<span class="nc" id="L152">        String[] innerNames = new String[dataSorters.size()];</span>
+<span class="nc bnc" id="L153" title="All 2 branches missed.">        for (int i = 0; i &lt; dataSorters.size(); i++) {</span>
+<span class="nc" id="L154">            innerNames[i] = dataSorters.get(i).getName();</span>
+<span class="nc" id="L155">            innerValues[i] = dataSorters.get(i).getCount();</span>
+        }
+<span class="nc" id="L157">        innerSeries.setData(innerNames, innerValues, Arrays.copyOf(Colors.getSolidColors(), dataSorters.size()));</span>
+
+        //Add data for Species
+<span class="nc" id="L160">        DataSeries outerSeries = new DataSeries(&quot;Samples&quot;);</span>
+<span class="nc" id="L161">        outerSeries.setPlotOptions(outerPieOptions);</span>
+
+<span class="nc" id="L163">        Object[] speciesData = speciesConfig.getData().keySet().toArray(new Object[0]);</span>
+
+<span class="nc" id="L165">        DataSeriesItem[] outerItems = new DataSeriesItem[0];</span>
+        //Actually adding of data
+<span class="nc bnc" id="L167" title="All 2 branches missed.">        for (Object dataCategory : speciesData) {</span>
+<span class="nc" id="L168">            outerItems = new DataSeriesItem[speciesConfig.getData().get(dataCategory).size()];</span>
+<span class="nc" id="L169">            int counter = 0;</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">            for (int i = 0; i &lt; innerNames.length; i++) {</span>
+<span class="nc" id="L171">                List&lt;DataSorter&gt; dataSorterList = new ArrayList&lt;&gt;();</span>
+
+                //Add outer Series sorted
+<span class="nc bnc" id="L174" title="All 2 branches missed.">                for (String s : genusSpeciesMap.get(innerNames[i])) {</span>
+<span class="nc" id="L175">                    dataSorterList.add(new DataSorter(LabelFormatter.firstUpperRestLowerCase(s)</span>
+<span class="nc" id="L176">                            .concat(&quot; [&quot;)</span>
+<span class="nc" id="L177">                            .concat(getSpeciesPercentage(s))</span>
+<span class="nc" id="L178">                            .concat(&quot;%]&quot;), getSpeciesCount(s, (String) dataCategory)));</span>
+<span class="nc" id="L179">                }</span>
+<span class="nc" id="L180">                Collections.sort(dataSorterList);</span>
+<span class="nc bnc" id="L181" title="All 2 branches missed.">                for (DataSorter d : dataSorterList) {</span>
+<span class="nc" id="L182">                    outerItems[counter] = new DataSeriesItem(d.getName(), d.getCount(), Colors.getRandomOpaque(Colors.getSolidColors()[i % Colors.getSolidColors().length]));</span>
+<span class="nc" id="L183">                    counter++;</span>
+<span class="nc" id="L184">                }</span>
+            }
+        }
+
+<span class="nc" id="L188">        outerSeries.setData(Arrays.asList(outerItems));</span>
+
+<span class="nc" id="L190">        this.getModel().addDonutPieData(innerSeries, outerSeries);</span>
+
+<span class="nc" id="L192">        logger.info(&quot;Data was added to a chart of &quot; + this.getClass() + &quot; with chart title: &quot; + this.getView().getConfiguration().getTitle().getText());</span>
+
+<span class="nc" id="L194">    }</span>
+
+    private int getSpeciesCount(String species, String dataKey) {
+<span class="nc" id="L197">        int value = 0;</span>
+<span class="nc bnc" id="L198" title="All 2 branches missed.">        for (int j = 0; j &lt; speciesConfig.getSettings().getxCategories().size(); j++) {</span>
+<span class="nc bnc" id="L199" title="All 2 branches missed.">            if (speciesConfig.getSettings().getxCategories().get(j).equals(species)) {</span>
+<span class="nc" id="L200">                value = (int) speciesConfig.getData().get(dataKey).get(j);</span>
+<span class="nc" id="L201">                break;</span>
+            }
+        }
+<span class="nc" id="L204">        return value;</span>
+    }
+
+    private String getSpeciesPercentage(String species) {
+<span class="nc" id="L208">        String percentage = &quot;&quot;;</span>
+<span class="nc bnc" id="L209" title="All 2 branches missed.">        for (int j = 0; j &lt; speciesConfig.getSettings().getxCategories().size(); j++) {</span>
+<span class="nc bnc" id="L210" title="All 2 branches missed.">            if (speciesConfig.getSettings().getxCategories().get(j).equals(species)) {</span>
+<span class="nc" id="L211">                percentage = String.valueOf(speciesConfig.getSettings().getyCategories().get(j));</span>
+<span class="nc" id="L212">                break;</span>
+            }
+        }
+<span class="nc" id="L215">        return percentage;</span>
+    }
+
+    @Override
+    public void addChart(TabView tabView, String title) {
+
+<span class="nc" id="L221">        tabView.addSubComponent(this.getModel(), this.getView());</span>
+<span class="nc" id="L222">        this.addReturnButtonListener(tabView);</span>
+
+<span class="nc" id="L224">        logger.info(&quot;View was added in &quot; + this.getClass() + &quot; for &quot; + this.getView().getConfiguration().getTitle().getText());</span>
+<span class="nc" id="L225">    }</span>
+
+    @Override
+<span class="nc" id="L228">    protected void addChartListener(){}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

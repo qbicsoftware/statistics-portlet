@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WorkflowUsagePresenter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Statistics Portlet</a> &gt; <a href="index.source.html" class="el_package">life.qbic.portal.presenter.tabs.workflows</a> &gt; <span class="el_source">WorkflowUsagePresenter.java</span></div><h1>WorkflowUsagePresenter.java</h1><pre class="source lang-java linenums">package life.qbic.portal.presenter.tabs.workflows;
+
+import com.vaadin.addon.charts.Chart;
+import com.vaadin.addon.charts.PointClickListener;
+import com.vaadin.addon.charts.model.*;
+import life.qbic.portal.exceptions.DataNotFoundException;
+import life.qbic.portal.model.view.charts.PieChartModel;
+import life.qbic.portal.presenter.MainPresenter;
+import life.qbic.portal.presenter.tabs.ATabPresenter;
+import life.qbic.portal.presenter.utils.DataSorter;
+import life.qbic.portal.presenter.utils.LabelFormatter;
+import life.qbic.portal.view.TabView;
+import life.qbic.portal.view.tabs.charts.PieView;
+import submodule.data.ChartConfig;
+import submodule.lexica.ChartNames;
+import submodule.lexica.CommonAbbr;
+import submodule.lexica.Translator;
+
+import java.util.*;
+
+/**
+ * @author fhanssen
+ */
+public class WorkflowUsagePresenter extends ATabPresenter&lt;PieChartModel, PieView&gt; {
+
+    private ChartConfig workflowUsageConfig;
+
+    public WorkflowUsagePresenter(MainPresenter mainPresenter){
+<span class="nc" id="L29">        super(mainPresenter, new PieView());</span>
+<span class="nc" id="L30">    }</span>
+
+    @Override
+    protected void extractData() throws DataNotFoundException, NullPointerException {
+<span class="nc" id="L34">        workflowUsageConfig = super.getChartConfig(ChartNames.Workflow_Execution_Counts.toString());</span>
+<span class="nc" id="L35">    }</span>
+
+    @Override
+    protected void addChartSettings() {
+
+<span class="nc" id="L40">        PlotOptionsPie plot = new PlotOptionsPie();</span>
+
+<span class="nc" id="L42">        plot.setDataLabels(new DataLabels(true));</span>
+<span class="nc" id="L43">        plot.getDataLabels().setFormatter(&quot;'&lt;span style=\&quot;color:CornflowerBlue;text-decoration:underline\&quot;&gt;' + this.point.name + '&lt;/span&gt;'&quot;);</span>
+<span class="nc" id="L44">        plot.setShowInLegend(true);</span>
+
+<span class="nc" id="L46">        Hover hover = new Hover();</span>
+<span class="nc" id="L47">        hover.setEnabled(true);</span>
+<span class="nc" id="L48">        plot.getStates().setHover(hover);</span>
+
+<span class="nc" id="L50">        Tooltip tooltip = new Tooltip();</span>
+<span class="nc" id="L51">        tooltip.setFormatter(&quot;this.point.name + ': &lt;b&gt;'+ this.y + '&lt;/b&gt; times executed &lt;br&gt; Click to show available workflows'&quot;);</span>
+
+<span class="nc" id="L53">        Legend legend = new Legend();</span>
+<span class="nc" id="L54">        legend.setLabelFormatter(&quot;function() {&quot; +</span>
+                &quot;var text = this.name.split('[')[0];&quot; +
+                &quot;text = text.substring(0, text.length - 1);&quot; +
+                &quot;return text + ': ' + this.y + ' Runs' &quot;+
+                &quot;}&quot;);
+<span class="nc" id="L59">        legend.setLayout(LayoutDirection.VERTICAL);</span>
+<span class="nc" id="L60">        legend.setVerticalAlign(VerticalAlign.BOTTOM);</span>
+<span class="nc" id="L61">        legend.setAlign(HorizontalAlign.RIGHT);</span>
+
+<span class="nc" id="L63">        super.setModel(new PieChartModel(super.getView().getConfiguration(), workflowUsageConfig.getSettings().getTitle(),</span>
+<span class="nc" id="L64">                workflowUsageConfig.getSettings().getSubtitle(),workflowUsageConfig.getSettings().getTabTitle(), tooltip, legend, plot));</span>
+<span class="nc" id="L65">        logger.info(&quot;Settings were added to &quot; + this.getClass() + &quot; with chart title: &quot; + super.getView().getConfiguration().getTitle().getText());</span>
+
+
+<span class="nc" id="L68">    }</span>
+
+    @Override
+    protected void addChartData() {
+
+        //This is necessary to get from Object to required String arrays
+<span class="nc" id="L74">        Object[] objectArray = workflowUsageConfig.getData().keySet().toArray(new Object[0]);</span>
+<span class="nc" id="L75">        @SuppressWarnings(&quot;SuspiciousToArrayCall&quot;) String[] keySet = Arrays.asList(objectArray).toArray(new String[objectArray.length]);</span>
+
+<span class="nc" id="L77">        List&lt;DataSorter&gt; dataSorters = new ArrayList&lt;&gt;();</span>
+
+        //Actually adding of data
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        for (String aKeySet : keySet) {</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">            for (int i = 0; i &lt; workflowUsageConfig.getData().get(aKeySet).size(); i++) {</span>
+<span class="nc" id="L82">                String label = (String) workflowUsageConfig.getSettings().getxCategories().get(i);</span>
+
+<span class="nc bnc" id="L84" title="All 2 branches missed.">                if(CommonAbbr.getList().contains(label)){</span>
+<span class="nc" id="L85">                    label = CommonAbbr.valueOf(label).toString();</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">                }else if(Translator.getList().contains(label)){</span>
+<span class="nc" id="L87">                    label = Translator.valueOf(label).getTranslation();</span>
+                }else{
+<span class="nc" id="L89">                    label = LabelFormatter.generateCamelCase(label);</span>
+                }
+
+<span class="nc" id="L92">                 label = label</span>
+<span class="nc" id="L93">                        .concat(&quot; [&quot;)</span>
+<span class="nc" id="L94">                        .concat(String.valueOf(workflowUsageConfig.getSettings().getyCategories().get(i)))</span>
+<span class="nc" id="L95">                        .concat(&quot;%]&quot;);</span>
+<span class="nc" id="L96">                dataSorters.add(new DataSorter(label,</span>
+<span class="nc" id="L97">                        (int) workflowUsageConfig.getData().get(aKeySet).get(i)));</span>
+            }
+        }
+
+<span class="nc" id="L101">        Collections.sort(dataSorters);</span>
+
+        //Add data
+<span class="nc" id="L104">        dataSorters.forEach(d -&gt; this.getModel().addData(new DataSeriesItem(d.getName(), d.getCount())));</span>
+
+<span class="nc" id="L106">        logger.info(&quot;Data was added to a chart of &quot; + this.getClass() + &quot; with chart title: &quot; + workflowUsageConfig.getSettings().getTitle());</span>
+
+<span class="nc" id="L108">    }</span>
+
+    @Override
+    public void addChart(TabView tabView, String title) {
+
+        //Set new tab
+<span class="nc" id="L114">        super.setTabView(tabView);</span>
+<span class="nc" id="L115">        super.getTabView().addMainComponent();</span>
+<span class="nc" id="L116">        super.getMainPresenter().getMainView().addTabView(super.getTabView(), title);</span>
+<span class="nc" id="L117">        logger.info(&quot;Tab was added in &quot; + this.getClass() + &quot; for &quot; + super.getView().getConfiguration().getTitle().getText());</span>
+
+
+<span class="nc" id="L120">    }</span>
+
+    @Override
+    protected void addChartListener() {
+<span class="nc" id="L124">        ((Chart) super.getView().getComponent()).addPointClickListener((PointClickListener) event -&gt; {</span>
+<span class="nc" id="L125">            logger.info(&quot;Chart of &quot; + this.getClass() + &quot; with chart title: &quot; + super.getView().getConfiguration().getTitle().getText() + &quot; was clicked at &quot; + super.getModel().getDataName(event));</span>
+
+<span class="nc" id="L127">            String title =  ChartNames.Available_Workflows_.toString().replace(&quot;_&quot;, &quot; &quot;).trim();</span>
+<span class="nc" id="L128">            String chartName = super.getModel().getDataName(event).replaceFirst(&quot;\\[[0-9]+.[0-9]+\\%\\]&quot;, &quot;&quot;).trim(); //remove percentage from name: NGS [3.6%] -&gt; NGS</span>
+            try {
+<span class="nc" id="L130">                ATabPresenter wfPresenter = new WorkflowTypePresenter(getMainPresenter(), chartName, title.concat(&quot; for &quot;).concat(chartName).concat(&quot; Data Analysis&quot;), &quot;&quot;, &quot;&quot;);</span>
+<span class="nc" id="L131">                addSubchart(wfPresenter);</span>
+<span class="nc" id="L132">            }catch(Exception e){</span>
+<span class="nc" id="L133">                logger.error(chartName.concat(&quot; workflows could not be displayed.&quot;), e.getMessage());</span>
+<span class="nc" id="L134">            }</span>
+<span class="nc" id="L135">        });</span>
+
+<span class="nc" id="L137">        ((Chart) getView().getComponent()).addLegendItemClickListener(legendItemClickEvent -&gt; {</span>
+            //do nothing, overwrites normal function: hide/show clicked legend item in chart
+<span class="nc" id="L139">        });</span>
+<span class="nc" id="L140">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

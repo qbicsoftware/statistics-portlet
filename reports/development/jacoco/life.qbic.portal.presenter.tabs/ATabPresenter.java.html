@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ATabPresenter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Statistics Portlet</a> &gt; <a href="index.source.html" class="el_package">life.qbic.portal.presenter.tabs</a> &gt; <span class="el_source">ATabPresenter.java</span></div><h1>ATabPresenter.java</h1><pre class="source lang-java linenums">package life.qbic.portal.presenter.tabs;
+
+
+import life.qbic.portal.Styles;
+import life.qbic.portal.exceptions.DataNotFoundException;
+import life.qbic.portal.presenter.MainPresenter;
+import life.qbic.portal.view.TabView;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import submodule.data.ChartConfig;
+
+/**
+ * @author fhanssen
+ * Abstract class holds fields and methods that a ChartPresenter generally needs. When extending it, just use your required
+ * model and view type.
+ */
+public abstract class ATabPresenter&lt;T, V&gt; {
+
+<span class="nc" id="L19">    protected static final Logger logger = LogManager.getLogger(ATabPresenter.class);</span>
+
+    private final V view;
+    private final MainPresenter mainPresenter;
+    private TabView tabView;
+    private T model;
+
+<span class="nc" id="L26">    public ATabPresenter(MainPresenter mainPresenter, V view){</span>
+<span class="nc" id="L27">        this.view = view;</span>
+<span class="nc" id="L28">        this.mainPresenter = mainPresenter;</span>
+<span class="nc" id="L29">    }</span>
+
+    public T getModel(){
+<span class="nc" id="L32">        return model;</span>
+    }
+
+    public V getView(){
+<span class="nc" id="L36">        return view;</span>
+    }
+
+    protected MainPresenter getMainPresenter() {
+<span class="nc" id="L40">        return mainPresenter;</span>
+    }
+
+    public void setModel(T model){
+<span class="nc" id="L44">        this.model = model;</span>
+<span class="nc" id="L45">    }</span>
+
+    protected void setTabView(TabView temp){
+<span class="nc" id="L48">        this.tabView = temp;</span>
+<span class="nc" id="L49">    }</span>
+
+    public TabView getTabView() {
+<span class="nc" id="L52">        return tabView;</span>
+    }
+
+    protected void addReturnButtonListener(TabView tabView){
+<span class="nc" id="L56">        tabView.getReturnButton().addClickListener(clickEvent -&gt; {</span>
+<span class="nc" id="L57">            logger.info(&quot;Return button was pressed&quot;);</span>
+<span class="nc" id="L58">            tabView.addMainComponent();</span>
+
+<span class="nc" id="L60">        });</span>
+<span class="nc" id="L61">    }</span>
+
+    protected void addSubchart(ATabPresenter p) {
+        try {
+<span class="nc" id="L65">            p.setUp();</span>
+<span class="nc" id="L66">            p.addChart(this.getTabView(), &quot;&quot;);</span>
+<span class="nc" id="L67">        } catch (DataNotFoundException e) {</span>
+<span class="nc" id="L68">            logger.error(&quot;Subcharts could not be created. &quot;, e);</span>
+<span class="nc" id="L69">            Styles.notification(&quot;Data not found.&quot;, &quot;Chart cannot be displayed&quot;, Styles.NotificationType.ERROR);</span>
+<span class="nc" id="L70">        }</span>
+<span class="nc" id="L71">    }</span>
+
+    protected ChartConfig getChartConfig(String name) throws DataNotFoundException, NullPointerException{
+
+<span class="nc bnc" id="L75" title="All 4 branches missed.">        if(mainPresenter.getMainConfig() == null || mainPresenter.getMainConfig().getCharts() == null){</span>
+<span class="nc" id="L76">            throw new NullPointerException(&quot;No charts exist.&quot;);</span>
+        }
+
+<span class="nc bnc" id="L79" title="All 2 branches missed.">        if(!mainPresenter.getMainConfig().getCharts().containsKey(name)){</span>
+<span class="nc" id="L80">            throw  new DataNotFoundException(&quot;Data for &quot; + name + &quot; was not found.&quot;);</span>
+        }
+<span class="nc" id="L82">        return mainPresenter.getMainConfig().getCharts().get(name);</span>
+    }
+
+    public void setUp() throws DataNotFoundException{
+        try {
+<span class="nc" id="L87">            extractData();</span>
+<span class="nc" id="L88">            addChartSettings();</span>
+<span class="nc" id="L89">            addChartData();</span>
+<span class="nc" id="L90">            addChartListener();</span>
+<span class="nc" id="L91">        } catch (DataNotFoundException | NullPointerException e) {</span>
+<span class="nc" id="L92">            throw e;</span>
+<span class="nc" id="L93">        }</span>
+<span class="nc" id="L94">    }</span>
+
+    abstract protected void extractData()throws DataNotFoundException;
+
+    abstract protected void addChartSettings();
+
+    abstract protected void addChartData() throws DataNotFoundException ;
+
+    abstract public void addChart(TabView tabView, String title);
+
+    abstract protected void addChartListener();
+
+
+        //TODO 4: Extend this class in order to create a new presenter. As examples you can look at the SuperKingdomCountPresenter or GenusSpeciesCountPresenter
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

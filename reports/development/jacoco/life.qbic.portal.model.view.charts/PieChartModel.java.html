@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PieChartModel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Statistics Portlet</a> &gt; <a href="index.source.html" class="el_package">life.qbic.portal.model.view.charts</a> &gt; <span class="el_source">PieChartModel.java</span></div><h1>PieChartModel.java</h1><pre class="source lang-java linenums">package life.qbic.portal.model.view.charts;
+
+
+import com.vaadin.addon.charts.model.*;
+import com.vaadin.addon.charts.PointClickEvent;
+
+import java.util.Arrays;
+
+
+/**
+ * @author fhanssen
+ * Example: https://demo.vaadin.com/charts/#PieChart , https://demo.vaadin.com/charts/#DonutChart
+ */
+public class PieChartModel extends AChartModel&lt;DataSeries&gt; {
+
+    private final DataSeries series;
+
+    public PieChartModel(Configuration configuration, String title, String subtitle, String tabTitle,
+                         Tooltip tooltip, Legend legend, PlotOptionsPie options) {
+<span class="nc" id="L20">        super(configuration, title,  subtitle, tabTitle, tooltip, legend,options);</span>
+
+<span class="nc" id="L22">        series = new DataSeries();</span>
+<span class="nc" id="L23">        super.configuration.setSeries(series);</span>
+
+<span class="nc" id="L25">        options.setAnimation(false);</span>
+
+<span class="nc" id="L27">    }</span>
+
+
+    public void addData(DataSeries... dataSeries){
+<span class="nc" id="L31">        Arrays.stream(dataSeries).forEach(dataSerie -&gt; dataSerie.getData().forEach(series::add));</span>
+<span class="nc" id="L32">    }</span>
+
+    public void addData(DataSeriesItem... item){
+<span class="nc" id="L35">        Arrays.stream(item).forEach(series::add);</span>
+<span class="nc" id="L36">    }</span>
+
+    public void addDonutPieData(DataSeries... dataSeries){
+<span class="nc" id="L39">        configuration.setSeries(dataSeries);</span>
+<span class="nc" id="L40">    }</span>
+
+    public void clearData(){
+<span class="nc" id="L43">        series.clear();</span>
+<span class="nc" id="L44">    }</span>
+
+    public String getDataName(PointClickEvent event){
+<span class="nc" id="L47">        return series.get(event.getPointIndex()).getName();</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

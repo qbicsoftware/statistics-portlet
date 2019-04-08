@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProjectCountPresenter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Statistics Portlet</a> &gt; <a href="index.source.html" class="el_package">life.qbic.portal.presenter.tabs.projects</a> &gt; <span class="el_source">ProjectCountPresenter.java</span></div><h1>ProjectCountPresenter.java</h1><pre class="source lang-java linenums">package life.qbic.portal.presenter.tabs.projects;
+
+import com.vaadin.addon.charts.Chart;
+import com.vaadin.addon.charts.LegendItemClickEvent;
+import com.vaadin.addon.charts.LegendItemClickListener;
+import com.vaadin.addon.charts.PointClickListener;
+import com.vaadin.addon.charts.model.*;
+import com.vaadin.event.Action;
+import com.vaadin.ui.Component;
+import life.qbic.portal.exceptions.DataNotFoundException;
+import life.qbic.portal.model.view.charts.PieChartModel;
+import life.qbic.portal.presenter.MainPresenter;
+import life.qbic.portal.presenter.tabs.ATabPresenter;
+import life.qbic.portal.presenter.utils.DataSorter;
+import life.qbic.portal.presenter.utils.LabelFormatter;
+import life.qbic.portal.view.TabView;
+import life.qbic.portal.view.tabs.charts.PieView;
+import submodule.data.ChartConfig;
+import submodule.lexica.ChartNames;
+import submodule.lexica.CommonAbbr;
+import submodule.lexica.Translator;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * @author fhanssen
+ */
+public class ProjectCountPresenter extends ATabPresenter&lt;PieChartModel, PieView&gt; {
+
+    private ChartConfig projectConfig;
+
+    public ProjectCountPresenter(MainPresenter mainPresenter){
+<span class="nc" id="L36">        super(mainPresenter, new PieView());</span>
+<span class="nc" id="L37">    }</span>
+
+    @Override
+    protected void extractData() throws DataNotFoundException, NullPointerException {
+<span class="nc" id="L41">        projectConfig = super.getChartConfig(ChartNames.Projects.toString());</span>
+<span class="nc" id="L42">    }</span>
+
+    @Override
+    protected void addChartSettings() {
+
+<span class="nc" id="L47">        PlotOptionsPie plot = new PlotOptionsPie();</span>
+<span class="nc" id="L48">        plot.setDataLabels(new DataLabels(true));</span>
+<span class="nc" id="L49">        plot.setShowInLegend(true);</span>
+
+<span class="nc" id="L51">        Hover hover = new Hover();</span>
+<span class="nc" id="L52">        hover.setEnabled(true);</span>
+<span class="nc" id="L53">        plot.getStates().setHover(hover);</span>
+
+        //Labels that point to a pie piece that can be clicked will be cornflower blue (Multi-omics)
+<span class="nc" id="L56">        plot.getDataLabels().setFormatter(&quot;function() { &quot; +</span>
+                &quot;var text = this.point.name; &quot; +
+                &quot;if (text.includes('Multi-omics')) &quot; +
+                &quot;{ &quot; +
+                &quot;       text = '&lt;span style=\&quot;color:CornflowerBlue;text-decoration:underline\&quot;&gt;' + text + '&lt;/span&gt;'; &quot; +
+                &quot;}&quot; +
+                &quot;return text; &quot; +
+                &quot;}&quot; );
+
+<span class="nc" id="L65">        Tooltip tooltip = new Tooltip();</span>
+<span class="nc" id="L66">        tooltip.setFormatter(&quot;function() { &quot; +</span>
+                &quot;var text = this.point.name + ': &lt;b&gt;'+ this.y + '&lt;/b&gt; Projects'; &quot; +
+                &quot;if (text.includes('Multi-omics')) &quot; +
+                &quot;{ &quot; +
+                &quot;       text = text + '&lt;br&gt; Click to show details' ; &quot; +
+                &quot;}&quot; +
+                &quot;return text; &quot; +
+                &quot;}&quot; );
+
+<span class="nc" id="L75">        Legend legend = new Legend();</span>
+<span class="nc" id="L76">        legend.setLabelFormatter(&quot;function() {&quot; +</span>
+                &quot;var text = this.name.split('[')[0];&quot; +
+                &quot;text = text.substring(0, text.length - 1);&quot; +
+                &quot;return text + ': ' + this.y + ' Projects' &quot;+
+                &quot;}&quot;);
+
+<span class="nc" id="L82">        legend.setLayout(LayoutDirection.VERTICAL);</span>
+<span class="nc" id="L83">        legend.setVerticalAlign(VerticalAlign.BOTTOM);</span>
+<span class="nc" id="L84">        legend.setAlign(HorizontalAlign.RIGHT);</span>
+
+<span class="nc" id="L86">        super.setModel(new PieChartModel(super.getView().getConfiguration(), projectConfig.getSettings().getTitle(),</span>
+<span class="nc" id="L87">                projectConfig.getSettings().getSubtitle(), projectConfig.getSettings().getTabTitle(), tooltip, legend, plot));</span>
+
+<span class="nc" id="L89">        logger.info(&quot;Settings were added to a chart of &quot;+ this.getClass() +&quot; with chart title: &quot; + super.getView().getConfiguration().getTitle().getText());</span>
+
+<span class="nc" id="L91">    }</span>
+
+    @Override
+    protected void addChartData() {
+
+        //This is necessary to get from Object to required String arrays
+<span class="nc" id="L97">        Object[] objectArray = projectConfig.getData().keySet().toArray(new Object[0]);</span>
+<span class="nc" id="L98">        String[] keySet = Arrays.asList(objectArray).toArray(new String[objectArray.length]);</span>
+
+<span class="nc" id="L100">        List&lt;DataSorter&gt; dataSorterList = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L102" title="All 2 branches missed.">        for (String aKeySet : keySet) {</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">            for (int i = 0; i &lt; projectConfig.getData().get(aKeySet).size(); i++) {</span>
+<span class="nc" id="L104">                String label = (String) projectConfig.getSettings().getxCategories().get(i);</span>
+
+<span class="nc bnc" id="L106" title="All 2 branches missed.">                if(CommonAbbr.getList().contains(label)){</span>
+<span class="nc" id="L107">                    label = CommonAbbr.valueOf(label).toString();</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">                }else if(Translator.getList().contains(label)) {</span>
+<span class="nc" id="L109">                    label = Translator.valueOf(label).getTranslation();</span>
+                }else{
+<span class="nc" id="L111">                    label = LabelFormatter.generateCamelCase(label);</span>
+                }
+
+<span class="nc" id="L114">                label = label</span>
+<span class="nc" id="L115">                        .concat(&quot; [&quot;)</span>
+<span class="nc" id="L116">                        .concat(String.valueOf(projectConfig.getSettings().getyCategories().get(i)))</span>
+<span class="nc" id="L117">                        .concat(&quot;%]&quot;);</span>
+<span class="nc" id="L118">                dataSorterList.add(new DataSorter(label,</span>
+<span class="nc" id="L119">                        (int)projectConfig.getData().get(aKeySet).get(i)));</span>
+
+            }
+        }
+<span class="nc" id="L123">        Collections.sort(dataSorterList);</span>
+<span class="nc" id="L124">        dataSorterList.forEach(d -&gt; {</span>
+<span class="nc" id="L125">            DataSeriesItem dataSeriesItem = new DataSeriesItem(d.getName(), d.getCount());</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">            if(!d.getName().contains(&quot;Multi&quot;)){</span>
+<span class="nc" id="L127">                dataSeriesItem.setSelected(true);</span>
+            }
+<span class="nc" id="L129">            this.getModel().addData(dataSeriesItem);</span>
+<span class="nc" id="L130">        });</span>
+
+<span class="nc" id="L132">        logger.info(&quot;Data was added to a chart of &quot; + this.getClass() + &quot; with chart title: &quot; + projectConfig.getSettings().getTitle());</span>
+
+
+<span class="nc" id="L135">    }</span>
+
+    @Override
+    public void addChart(TabView tabView, String title) {
+        //Set new tab
+<span class="nc" id="L140">        super.setTabView(tabView);</span>
+<span class="nc" id="L141">        super.getTabView().addMainComponent();</span>
+<span class="nc" id="L142">        super.getMainPresenter().getMainView().addTabView(super.getTabView(), title);</span>
+<span class="nc" id="L143">        logger.info(&quot;Tab was added in &quot; + this.getClass() + &quot; for &quot; +  super.getView().getConfiguration().getTitle().getText() );</span>
+
+<span class="nc" id="L145">    }</span>
+
+    @Override
+    protected void addChartListener() {
+<span class="nc" id="L149">        ((Chart) getView().getComponent()).addPointClickListener((PointClickListener) event -&gt; {</span>
+
+<span class="nc" id="L151">            logger.info(&quot;Chart of &quot; + this.getClass() + &quot; with chart title: &quot; +</span>
+<span class="nc" id="L152">                    this.getView().getConfiguration().getTitle().getText() +</span>
+<span class="nc" id="L153">                    &quot; was clicked at &quot; + this.getModel().getDataName(event));</span>
+
+<span class="nc bnc" id="L155" title="All 2 branches missed.">            if (super.getModel().getDataName(event).contains(Translator.Multi_omics.getTranslation())) {</span>
+<span class="nc" id="L156">                ATabPresenter p =</span>
+<span class="nc" id="L157">                        new MultiOmicsCountPresenter(super.getMainPresenter());</span>
+<span class="nc" id="L158">                addSubchart(p);</span>
+            }
+<span class="nc" id="L160">        });</span>
+
+<span class="nc" id="L162">        ((Chart) getView().getComponent()).addLegendItemClickListener(legendItemClickEvent -&gt; {</span>
+            //do nothing, overwrites normal function: hide/show clicked legend item in chart
+<span class="nc" id="L164">        });</span>
+<span class="nc" id="L165">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SuperKingdomCountPresenter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Statistics Portlet</a> &gt; <a href="index.source.html" class="el_package">life.qbic.portal.presenter.tabs.organisms</a> &gt; <span class="el_source">SuperKingdomCountPresenter.java</span></div><h1>SuperKingdomCountPresenter.java</h1><pre class="source lang-java linenums">package life.qbic.portal.presenter.tabs.organisms;
+
+
+import com.vaadin.addon.charts.Chart;
+import com.vaadin.addon.charts.PointSelectListener;
+import com.vaadin.addon.charts.model.*;
+import com.vaadin.addon.charts.PointClickListener;
+import com.vaadin.addon.charts.model.style.SolidColor;
+import com.vaadin.shared.ui.colorpicker.Color;
+import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Label;
+import life.qbic.portal.exceptions.DataNotFoundException;
+import life.qbic.portal.model.view.charts.PieChartModel;
+import life.qbic.portal.presenter.MainPresenter;
+import life.qbic.portal.presenter.tabs.ATabPresenter;
+import life.qbic.portal.presenter.utils.DataSorter;
+import life.qbic.portal.presenter.utils.LabelFormatter;
+import life.qbic.portal.view.TabView;
+import life.qbic.portal.view.tabs.charts.PieView;
+import submodule.data.ChartConfig;
+import submodule.lexica.ChartNames;
+import submodule.lexica.Kingdoms;
+
+import java.util.*;
+
+/**
+ * @author fhanssen
+ */
+public class SuperKingdomCountPresenter extends ATabPresenter&lt;PieChartModel, PieView&gt; {
+
+    private ChartConfig kingdomConfig;
+
+    public SuperKingdomCountPresenter(MainPresenter mainPresenter){
+<span class="nc" id="L34">        super(mainPresenter, new PieView());</span>
+<span class="nc" id="L35">    }</span>
+
+    @Override
+    protected void extractData() throws DataNotFoundException, NullPointerException{
+<span class="nc" id="L39">        kingdomConfig = super.getChartConfig(ChartNames.SuperKingdom.toString());</span>
+<span class="nc" id="L40">    }</span>
+
+    @Override
+    protected void addChartSettings() {
+
+<span class="nc" id="L45">        PlotOptionsPie plot = new PlotOptionsPie();</span>
+
+<span class="nc" id="L47">        plot.setDataLabels(new DataLabels(true));</span>
+<span class="nc" id="L48">        plot.setShowInLegend(true);</span>
+<span class="nc" id="L49">        plot.setCursor(Cursor.POINTER);</span>
+<span class="nc" id="L50">        plot.setEnableMouseTracking(true);</span>
+
+<span class="nc" id="L52">        Hover hover = new Hover();</span>
+<span class="nc" id="L53">        hover.setEnabled(true);</span>
+<span class="nc" id="L54">        plot.getStates().setHover(hover);</span>
+
+        //Labels that point to a pie piece that can be clicked will be cornflower blue (Other Eukaryota/Bacteria/...)
+<span class="nc" id="L57">        plot.getDataLabels().setFormatter(&quot;function() { &quot; +</span>
+                &quot;var text = this.point.name; &quot; +
+                &quot;var category = text.split(' ')[0]; &quot; +
+                &quot;var kingdoms = ['Eukaryota', 'Bacteria', 'Viruses', 'Archae', 'Viroids'];&quot; +
+                &quot;var isKingdom = false;&quot;+
+                &quot;for(var i =0;i &lt; kingdoms.length; i++){ &quot;+
+                //Either 'Kingdoms' or 'Other Kingdom' is clickable and thus blue underlined
+                &quot;   if(category.indexOf(kingdoms[i]) != -1 || text.split(' ')[1].indexOf(kingdoms[i]) != -1)&quot;+
+                &quot;       isKingdom = true;&quot;+
+                &quot;}&quot;+
+                &quot;if (isKingdom) &quot; +
+                &quot;{ &quot; +
+                &quot;       text = '&lt;span style=\&quot;color:CornflowerBlue;text-decoration:underline\&quot;&gt;' + text + '&lt;/span&gt;'; &quot; +
+                &quot;}&quot; +
+                &quot;return text; &quot; +
+                &quot;}&quot;);
+
+<span class="nc" id="L74">        Tooltip tooltip = new Tooltip();</span>
+<span class="nc" id="L75">        tooltip.setFormatter(  &quot;function() { &quot; +</span>
+                &quot;var text = this.point.name  + ': &lt;b&gt;'+ this.y + '&lt;/b&gt; Samples';&quot; +
+                        &quot;var category = text.split(' ')[0]; &quot; +
+                        &quot;var kingdoms = ['Eukaryota', 'Bacteria', 'Viruses', 'Archae', 'Viroids'];&quot; +
+                        &quot;var isKingdom = false;&quot;+
+                        &quot;for(var i =0;i &lt; kingdoms.length; i++){ &quot;+
+                       &quot;   if(category.indexOf(kingdoms[i]) != -1 || text.split(' ')[1].indexOf(kingdoms[i]) != -1)&quot;+
+                        &quot;       isKingdom = true;&quot;+
+                        &quot;}&quot;+
+                        &quot;if (isKingdom) &quot; +
+                        &quot;{ &quot; +
+                        &quot;       text = text + '&lt;br&gt; Click to show species';&quot; +
+                        &quot;}&quot; +
+                        &quot;return text; &quot; +
+                &quot;}&quot;
+        );
+
+<span class="nc" id="L92">        Legend legend = new Legend();</span>
+<span class="nc" id="L93">        legend.setLabelFormatter(&quot;function() {&quot; +</span>
+                &quot;var text = this.name.split('[')[0];&quot; +
+                &quot;text = text.substring(0, text.length - 1);&quot; +
+                &quot;return text + ': ' + this.y + ' Samples' &quot;+
+                &quot;}&quot;);
+
+<span class="nc" id="L99">        legend.setLayout(LayoutDirection.VERTICAL);</span>
+<span class="nc" id="L100">        legend.setVerticalAlign(VerticalAlign.BOTTOM);</span>
+<span class="nc" id="L101">        legend.setAlign(HorizontalAlign.RIGHT);</span>
+
+<span class="nc" id="L103">        this.setModel(new PieChartModel(this.getView().getConfiguration(), this.kingdomConfig.getSettings().getTitle(),</span>
+<span class="nc" id="L104">                this.kingdomConfig.getSettings().getSubtitle(), this.kingdomConfig.getSettings().getTabTitle(), tooltip, legend, plot));</span>
+
+<span class="nc" id="L106">        Credits credits = new Credits(&quot;If a species's ratio exceeds 50% in its respective domain, it is displayed and visualized on domain level.&quot;);</span>
+<span class="nc" id="L107">        credits.setPosition(new Position());</span>
+<span class="nc" id="L108">        credits.getPosition().setHorizontalAlign(HorizontalAlign.LEFT);</span>
+<span class="nc" id="L109">        credits.getPosition().setX(10);</span>
+<span class="nc" id="L110">        super.getModel().getConfiguration().setCredits(credits);</span>
+
+<span class="nc" id="L112">        logger.info(&quot;Settings were added to a chart of &quot; + this.getClass() + &quot; with chart title: &quot; + this.getView().getConfiguration().getTitle().getText());</span>
+
+<span class="nc" id="L114">    }</span>
+
+    @Override
+    protected void addChartData() {
+
+        //This is necessary to get from Object to required String arrays
+<span class="nc" id="L120">        Object[] objectArray = kingdomConfig.getData().keySet().toArray(new Object[0]);</span>
+<span class="nc" id="L121">        @SuppressWarnings(&quot;SuspiciousToArrayCall&quot;) String[] keySet = Arrays.asList(objectArray).toArray(new String[objectArray.length]);</span>
+
+<span class="nc" id="L123">        List&lt;DataSorter&gt; dataSorters = new ArrayList&lt;&gt;();</span>
+
+        //Retrieve and Sort data
+<span class="nc bnc" id="L126" title="All 2 branches missed.">        for (String aKeySet : keySet) {</span>
+<span class="nc bnc" id="L127" title="All 2 branches missed.">            for (int i = 0; i &lt; kingdomConfig.getData().get(aKeySet).size(); i++) {</span>
+<span class="nc" id="L128">                String label = LabelFormatter.generateCamelCase((String) kingdomConfig.getSettings().getxCategories().get(i))</span>
+<span class="nc" id="L129">                        .concat(&quot; [&quot;)</span>
+<span class="nc" id="L130">                        .concat(String.valueOf(kingdomConfig.getSettings().getyCategories().get(i)))</span>
+<span class="nc" id="L131">                        .concat(&quot;%]&quot;);</span>
+<span class="nc" id="L132">                dataSorters.add(new DataSorter(label,</span>
+<span class="nc" id="L133">                        (int) kingdomConfig.getData().get(aKeySet).get(i)));</span>
+
+            }
+        }
+
+<span class="nc" id="L138">        Collections.sort(dataSorters);</span>
+
+        //Add data
+
+
+<span class="nc" id="L143">        dataSorters.forEach(d -&gt; {</span>
+<span class="nc" id="L144">            DataSeriesItem dataSeriesItem = new DataSeriesItem(d.getName(), d.getCount());</span>
+            //Either 'Kingdoms' or 'Other Kingdom' is clickable and thus is selected on hover
+<span class="nc bnc" id="L146" title="All 2 branches missed.">            if(!isKingdom(d.getName())) {</span>
+<span class="nc" id="L147">                dataSeriesItem.setSelected(true);</span>
+            }
+<span class="nc" id="L149">            this.getModel().addData(dataSeriesItem);</span>
+<span class="nc" id="L150">        });</span>
+
+<span class="nc" id="L152">        logger.info(&quot;Data was added to a chart of  &quot; + this.getClass() + &quot;  with chart title: &quot; + this.getView().getConfiguration().getTitle().getText());</span>
+
+<span class="nc" id="L154">    }</span>
+
+    private boolean isKingdom(String name){
+        //returns true if name is of format &lt;kingdom&gt; [x%] or Other &lt;kingdom&gt; [x%]
+        //else returns false
+<span class="nc bnc" id="L159" title="All 4 branches missed.">        return Kingdoms.getList().contains(name.split(&quot; &quot;)[0]) || Kingdoms.getList().contains(name.split(&quot; &quot;)[1]);</span>
+    }
+
+    @Override
+    public void addChart(TabView tabView, String title) {
+        //Set new tab
+<span class="nc" id="L165">        super.setTabView(tabView);</span>
+<span class="nc" id="L166">        super.getTabView().addMainComponent();</span>
+<span class="nc" id="L167">        super.getMainPresenter().getMainView().addTabView(super.getTabView(), title);</span>
+
+<span class="nc" id="L169">        logger.info(&quot;Tab was added in &quot; + this.getClass() + &quot; for &quot; + this.getView().getConfiguration().getTitle().getText());</span>
+
+<span class="nc" id="L171">    }</span>
+
+    @Override
+    protected void addChartListener() {
+<span class="nc" id="L175">        ((Chart) getView().getComponent()).addPointClickListener((PointClickListener) event -&gt; {</span>
+
+<span class="nc" id="L177">            logger.info(&quot;Chart of &quot; + this.getClass() + &quot; with chart title: &quot; +</span>
+<span class="nc" id="L178">                    this.getView().getConfiguration().getTitle().getText() +</span>
+<span class="nc" id="L179">                    &quot; was clicked at &quot; + this.getModel().getDataName(event));</span>
+
+            //In case it is Other Bacteria etc.
+<span class="nc bnc" id="L182" title="All 2 branches missed.">            if (Kingdoms.getList().contains(this.getModel().getDataName(event).split(&quot; &quot;)[1])) {</span>
+<span class="nc" id="L183">                ATabPresenter p =</span>
+<span class="nc" id="L184">                        new GenusSpeciesCountPresenter(super.getMainPresenter(), this.getModel().getDataName(event).split(&quot; &quot;)[1]);</span>
+<span class="nc" id="L185">                addSubchart(p);</span>
+            }
+
+            //In case it is not Other, but plain 'Viruses' etc.
+<span class="nc bnc" id="L189" title="All 2 branches missed.">            if (Kingdoms.getList().contains(this.getModel().getDataName(event).split(&quot; &quot;)[0])) {</span>
+<span class="nc" id="L190">                ATabPresenter p =</span>
+<span class="nc" id="L191">                        new GenusSpeciesCountPresenter(super.getMainPresenter(), this.getModel().getDataName(event).split(&quot; &quot;)[0]);</span>
+
+<span class="nc" id="L193">                addSubchart(p);</span>
+            }
+
+<span class="nc" id="L196">        });</span>
+
+<span class="nc" id="L198">        ((Chart) getView().getComponent()).addLegendItemClickListener(legendItemClickEvent -&gt; {</span>
+            //do nothing, overwrites normal function: hide/show clicked legend item in chart
+<span class="nc" id="L200">        });</span>
+
+
+
+<span class="nc" id="L204">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
