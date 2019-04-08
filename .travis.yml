@@ -8,74 +8,72 @@ dist: xenial
 language: java
 jdk: openjdk8
 
+
 # speed up builds by caching maven local repository
+# we are also using python via conda/pip
 cache:
   directories:
   - "$HOME/.m2/repository"
+  - "$HOME/.cache/pip"
+  - "$HOME/miniconda3"
 
 # as agreed in our SOP
 branches:
   only:
   - master
   - development
+  # Travis treats pushed tags as branches
+  - /^[vV]?\d+\.\d+\.\d+$/ # matches e.g., v1.2.3, 1.2.3, V1.2.3
 
 # added to make logs look cleaner, crisper, certified fresh
 before_install: unset _JAVA_OPTIONS 
 
-# speed up builds by telling Travis that we don't need any special "installation"
-install: true
+# dependencies for report generation (use cache to speed up builds)
+install: 
+  - $HOME/miniconda3/bin/conda --version || ./.install-reports-dependencies.sh
 
 # check if we need to add a license file for Vaadin charts
 before_script: if [ "$VAADIN_CHARTS_LICENSE_CODE" != "" ]; then
                   echo "$VAADIN_CHARTS_LICENSE_CODE" > ~/.vaadin.charts.developer.license;
                fi;
 
-# as agreed in our SOP, build everything (don't deploy, just try to 'mvn install' locally, which covers all phases)
-script: mvn --quiet --activate-profiles !development-build,!release-build --settings .travis.settings.xml clean cobertura:cobertura install
+# as agreed in our SOP, build everything (don't deploy, just try to 'mvn package' locally, which covers unit tests)
+script: mvn --quiet --activate-profiles !development-build,!release-build --settings .travis.settings.xml clean cobertura:cobertura package
 # upload code coverage report, generate maven site (javadocs, documentation, static code analysis, etc.)
 after_success: 
 - bash <(curl -s https://codecov.io/bash)
-- mvn --quiet --activate-profiles !development-build,!release-build --settings .travis.settings.xml site
 
 # upload to maven
 deploy:
   # as agreed in our SOP, builds on development branch will deploy to our maven repository after validating
   # the artifact has a proper SNAPSHOT version
-  # artifact will be installed in our testing instance if it is a .war file
+  # make sure to skip integration tests! (using -DskipITs)
 - skip_cleanup: true
   provider: script
-  script: mvn --quiet --activate-profiles development-build,!release-build --settings .travis.settings.xml deploy
+  script: mvn --quiet --activate-profiles development-build,!release-build --settings .travis.settings.xml deploy -DskipITs
   on:
     branch: development
     condition: '"$TRAVIS_EVENT_TYPE" = "push"'
-  # as agreed in our SOP, tagging a commit on the master branch will upload to our maven repository
-  # after validating the artifact has a proper release version
-  # artifact will be installed in our testing instance if it is a .war file
+  # as agreed in our SOP, releases are performed by tagging commits,
+  # the version string and version of dependencies are validated (no snapshots allowed)
 - skip_cleanup: true
   provider: script
-  script: mvn --quiet --activate-profiles !development-build,release-build --settings .travis.settings.xml deploy
+  script: mvn --quiet --activate-profiles !development-build,release-build --settings .travis.settings.xml deploy -DskipITs
   on:
-    branch: master
     condition: '"$TRAVIS_EVENT_TYPE" = "push"'
+    tags: true
 
-# change according to your needs, but we recommend to deactivate email notifications
-# for now, we configured Travis to send a notification to the #travis-ci channel 
-notifications:
-  email:
-    on_success: never
-    on_failure: never
-  slack: 
-    on_success: never
-    on_failure: always
-    # edit the following section if you want to get slack notifications
-    rooms:
-      - secure: "***"
+# activate our conda environment, generate maven site and upload reports to gh-pages branch
+after_deploy:   
+  - echo ". $HOME/miniconda3/etc/profile.d/conda.sh" >> ~/.bashrc && source ~/.bashrc && conda activate qbic-docs-build
+  - mvn --quiet --activate-profiles !development-build,!release-build --settings .travis.settings.xml site 
+  - ./.generate-reports.py $TRAVIS_BRANCH $TRAVIS_REPO_SLUG "[skip travis] Updated gh-pages" "This commit was performed from travis-ci.com using a personal access key" "Build ID $TRAVIS_BUILD_ID" "Job ID TRAVIS_JOB_ID" "Branch $TRAVIS_BRANCH" "Log of this build found at $TRAVIS_JOB_WEB_URL"
 
-#
 # credentials
 env:
   global:
     - secure: "Blv9fXhjV4Kdx35SuuqF8sIbH0+az/zgS+CQ/fqqvhx3ue7FwTqYg8pL5uQm1yEZWRJLm76lM62xUZDULP0IpBsrGTW3ljBh32Ysr993ujC40Sf6rlvBHCW4czB7li9p0MhttrdWdo/5B9olbEHspFlo1VfJ+bMVk9MYySaFgwQebxAwIiDVSqQXxWrCZdpbuGlyZBkbKGvvUr7kzMorhOQ51B5fW4M/81jdqtAc6BsALkw7bl7CSFbvS2TIQ+sjBhd21t+cbJgtk8EgR6F7SSBQBkiJmRe8DX+qR5TzSQvzKl7a0j96by4EnsCbJEpOgP7mbwmYakkfBWzctZVWmZPxLKZC4m+/PEUcZyvrqDhhF3R6jkyRelRNgPsprQcz9/keTc19t5gMB4DObZ2sfWsMtezA/PH4zDM4puXR13WE3vHnqyF67if6bPORFMM4qWgEyzeHizveio7pY/wIGdKmMsddjDWDML/0DhF+hOSoQCQ2tpcoPrfgrRKe2JYuIX3g7QqhexCu6XDtHfhsYoqsjnGEBAhnLmqQ7JFXIvQ2Lz08sP7EY2Bf5/O5yoTpepF4T3tClx0bWoxPUh9HhprKrd0pyHF5XPUb1lc3dUeKIE+vCFAhwzVzTj1EFlEAfpo69Nv5ar074ODN3n4xi+WiNTnkmPBdL/Jr81aDwqU="  
     - secure: "Okk4mM+4G2LVdJQ/7y4FplCGo4Ro7GIKxyGSmpjRxcQoblC/eaufu/qUuBa9s2WPbSdfmMhyYDTdMn/vuegL+47Pb0W5K01osbLvtVeO/tCOkZhPqpRZZMskNcbuM3xEfBIowp1rUiXhWCRjmxnvyI8HxOZp9Xzq9JohDplxe14tKYZq1lWHU4S1ZFkqPDNjPwdm2yLN+FJyrMXg/BAJWlTc9GTNnLKdEVndJvvc9ekhw3UWbC0C3xq+CBWbJVoVji3q0BP8i+KiweWgvRxuxka/Tmin6HyZY5G1VC6Km6RcJn42jkq9oVMMIK95lv3E/l+udxVZ2H5VcQivL3/qNOErZdzMHaSSrlmxaMCs1rnBQ77DfzBKx51GY/yx+MUYFY91ebWYx1CIW/HUUvHP/sDkJ4ZOUtH8Z65fftfIOU1t1Y1t/oLJTWDCRl+Ury5Y6FHwZJFR8hpNSq8xuPEZ3zJ9p2dQvK3mxJ2FShMJn/REr1vS7J745MMgB4U7sZZbf9fPQTGcAnmTXFKopd3MhGZgQ5it3pCdIrIa74UHq/wUtdG+7R+Jb+odKoisjIWJcgC4i5wvAr026pU0sXR1/IUMeFngXTatlUUEUEHHXXutRqG1B6sTMgkdtUVlT8zd58hWhEJJ7kPCIZBrt1MFn8qR4izNKh3BuZNuSAel88Y="
     - secure: "YW1qTK02OZTHi5sKR7evwp7Fu+Icbo0tG6/gDHdJw8MI+bPUomYqMM5EJ1y/Boj5+ZVcSLDyAT4VHnyIRSy163jN9pAnZuqNEmZLdemJE4BadMb2Ae7k1VuvjZ7YbZJswcMC3i10ZGiBx2LTKR80vpv/+bE9GDesUtMo5TBaJBsXit2+J1HTkKHaSv8oGdtOy6nI3UAqKr12feDyLmiEPpyAButWQQc57jby1y2KtPxmooXcpiQCvglBM4FN2Z7IfTgoJSGFAc1MC2aSSX2gvyXqQdgxeUeYih1bSJBzOs9ACIpn624RorkQWmie3BI3qDB0AAF8ih3+CWic5Ygwrl2HqAfYou4mOXSZGCom+S4O4BWZLbpJjEE6BVlmqzZWBdYIubDpQfsiZE3wJNleQAZ8omaEZhI+E7FJZva9w/bdzccxi+7z7On5IbHY0lsy1Tu/BXs6qXnAbDqv05f8z46oU+2FGcArfCkCYPpgIEHUlDJFBBQlk15fhlZUXenNJr8DeCf0JCPijg3mjFTvvvPh6MmtkSu8FdYypqASqHhiOGhNjeRztOoW984Ct8xi4BkreIkiAuZGGCxnVKetDN3pydpe7Hnf+z7RVF/5bOiTm/rLszoCjrnPp29H9e6gqCDk2NX1vLwrgrzYcrNLYESd/r4/RrVDl4sc/1v5Fys="
+    - secure: "O0oiQw8Sop57diGnruBfVVLXfZ81qdEFz83qdKGbi2SHd+jWsaaoDp08q9/7Fia6RXKtt7gycfIXzvInIczvLYWIvjheJD3uFzbWR+Gh6s+LmvzxUE18KtxJ6TMmYiU3N6VJ9W8Y1dA2fkGqWg17838FJygsldbnWXUaLDJXiaXhThJRpNXJ5h3d/fIDdn6Y6dFieCZ72tCTvvRWIgN9GwXJR9m8HxGhwGSuV807IzZiSUVT3jPzqS4Ldl11CZnfOq9QLIiiScHxM30CscobzibcEs1kJS+4vL8cY5eyZ9GkW7FWe0/SNwy+UQ8DQykHyFxFiS6Qz1bcjSD1HnjLmexLHXDu5Fe2zw0O2/bxWLAX946ELWDu356+IP+i4yoKwiXMnVtpfxq5iaXQiAIF/6AZLNo1Eo4dCV6ilL+f21cI4XZyLIV9kLnw6OfOEX9+E4L4GmniZP/kfrAomBoG2PuRCxuWYRY5ky5U+6ngHnfKuoS1AQ64KYaD0BrI6suwmbb4vQPK//gGRrrQepVPJqFHcl0nVGEdnTGlTELilT28mewT4ryFWvxFIBnvqCkfbnLQHhx89teVDxjlKy4I7IIeIL+GftSzrrgK5cPSZHOtP15e3bit55lUqqt4igPH7moPyYfBGjF9r98WS7vLO/kAGeKYcZ+Z3dyKnZx5AUI="
 
