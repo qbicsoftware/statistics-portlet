@@ -10,12 +10,14 @@
 	</parent>
 	<groupId>life.qbic</groupId>
 	<artifactId>statistics-portlet</artifactId>
-	<version>1.1.1</version>
+	<version>1.1.2</version>
 	<name>Statistics Portlet</name>
 	<url>http://github.com/qbicsoftware/statistics-portlet</url>
 	<description>Portlet to visualize data on landing page</description>
 	<packaging>war</packaging>
 	<properties>
+		<vaadin.version>7.7.28</vaadin.version>
+		<vaadin.plugin.version>7.7.28</vaadin.plugin.version>
 		<log4j.version>2.15.0</log4j.version>
 	</properties>
 	<!-- we only need to tell maven where to find our parent pom and other QBiC dependencies -->
