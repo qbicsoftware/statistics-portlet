@@ -21,23 +21,6 @@
 	<!-- we only need to tell maven where to find our parent pom and other QBiC dependencies -->
 	<repositories>
 		<repository>
-			<id>vaadin-addons</id>
-			<url>https://maven.vaadin.com/vaadin-addons</url>
-		</repository>
-		<repository>
-			<releases>
-				<enabled>true</enabled>
-				<updatePolicy>always</updatePolicy>
-				<checksumPolicy>fail</checksumPolicy>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<id>maven-central</id>
-			<name>Maven central</name>
-			<url>https://repo.maven.apache.org/maven2</url>
-		</repository>
-		<repository>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
@@ -93,6 +76,23 @@
 			<id>Sonatype-public</id>
 			<name>SnakeYAML repository</name>
 			<url>http://oss.sonatype.org/content/groups/public/</url>
+		</repository>
+		<repository>
+			<id>vaadin-addons</id>
+			<url>https://maven.vaadin.com/vaadin-addons</url>
+		</repository>
+		<repository>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>fail</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>maven-central</id>
+			<name>Maven central</name>
+			<url>https://repo.maven.apache.org/maven2</url>
 		</repository>
 	</repositories>
 
