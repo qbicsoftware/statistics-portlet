@@ -1,5 +1,11 @@
 # Changelog
 
+## Hotfix 1.1.3
+
+* Fix CVE-2021-45046
+* Increase version `org.apache.logging.log4j:log4j-api:2.15.0 -> 2.16.0`
+* Increase version `org.apache.logging.log4j:log4j-core:2.15.0 -> 2.16.0`
+
 ## Hotfix 1.1.2
 
 * Fix CVE-2021-37714
