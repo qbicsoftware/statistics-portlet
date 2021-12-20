@@ -1,5 +1,13 @@
 # Changelog
 
+## Hotfix 1.1.4
+
+* Introduce CI/CD using GitHub Actions
+* Bump version `org.yaml:snakeyaml:1.20` -> `1.30`
+* Bump version `org.apache.logging.log4j:log4j-api:2.16.0 -> 2.17.0` (CVE-2021-45105)
+* Bump version `org.apache.logging.log4j:log4j-core:2.16.0 -> 2.17.0` (CVE-2021-45105)
+
+
 ## Hotfix 1.1.3
 
 * Fix CVE-2021-45046
