@@ -3,6 +3,7 @@
 ## Hotfix 1.1.4
 
 * Introduce CI/CD using GitHub Actions
+* Bump version `org.yaml:snakeyaml:1.20` -> `1.30`
 
 
 ## Hotfix 1.1.3
