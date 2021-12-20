@@ -1,5 +1,10 @@
 # Changelog
 
+## Hotfix 1.1.4
+
+* Introduce CI/CD using GitHub Actions
+
+
 ## Hotfix 1.1.3
 
 * Fix CVE-2021-45046
