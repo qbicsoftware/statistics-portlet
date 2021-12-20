@@ -21,5 +21,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
+      - name: Setup Vaadin Charts License
+        run: echo "$VAADIN_LICENSE" > ~/.vaadin.charts.developer.license
+        env:
+          VAADIN_LICENSE: ${{ secrets.VAADIN_CHART_LICENSE_4 }} # Secrets are encrypted by default, when set as environment secrets
+
+
       - name: Run tests
         run: mvn clean verify
