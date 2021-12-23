@@ -1,5 +1,7 @@
 # Changelog
 
+## 1.2.0-SNAPSHOT
+
 ## Hotfix 1.1.4
 
 * Introduce CI/CD using GitHub Actions
