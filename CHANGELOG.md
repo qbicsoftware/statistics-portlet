@@ -1,5 +1,11 @@
 # Changelog
 
+## Hotfix 1.1.5
+
+* Bump version `org.apache.logging.log4j:log4j-api:2.17.0 -> 2.17.1` (CVE-2021-44832)
+* Bump version `org.apache.logging.log4j:log4j-core:2.17.0 -> 2.17.1` (CVE-2021-44832)
+
+
 ## Hotfix 1.1.4
 
 * Introduce CI/CD using GitHub Actions
