@@ -18,7 +18,7 @@
 	<properties>
 		<vaadin.version>7.7.28</vaadin.version>
 		<vaadin.plugin.version>7.7.28</vaadin.plugin.version>
-		<log4j.version>2.17.0</log4j.version>
+		<log4j.version>2.17.1</log4j.version>
 	</properties>
 	<!-- we only need to tell maven where to find our parent pom and other QBiC dependencies -->
 	<repositories>
@@ -116,10 +116,10 @@
 			<version>1.30</version>
 		</dependency>
 
-		<dependency>
-			<groupId>com.vaadin.addon</groupId>
-			<artifactId>vaadin-charts</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>com.vaadin.addon</groupId>
+            <artifactId>vaadin-charts</artifactId>
+        </dependency>
 
 		<dependency>
 			<groupId>life.qbic</groupId>
